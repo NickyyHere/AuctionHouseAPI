@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AuctionHouseAPI</name>
+    </assembly>
+    <members>
+        <member name="M:AuctionHouseAPI.Controllers.AuctionController.CreateAuction(AuctionHouseAPI.Models.Auction)">
+            <summary>
+            Create new auction
+            </summary>
+            <param name="auction"></param>
+            <returns>Status code</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.AuctionController.EditAuction(AuctionHouseAPI.Models.Auction,System.Int32)">
+            <summary>
+            Edit auction by id and new values
+            </summary>
+            <param name="editedAuction"></param>
+            <param name="id"></param>
+            <returns>Status code</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.AuctionController.DeleteAuction(System.Int32)">
+            <summary>
+            Delete auction by its id
+            </summary>
+            <param name="id"></param>
+            <returns>Status code</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.AuctionController.GetAuctions">
+            <summary>
+            Get all auctions
+            </summary>
+            <returns>List of auctions</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.AuctionController.GetAuction(System.Int32)">
+            <summary>
+            Get auction by its id
+            </summary>
+            <param name="id"></param>
+            <returns>One auction</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.BidController.PlaceBid(System.Int32,System.Int32,System.Decimal)">
+            <summary>
+            Places bid on specific auction for a user
+            </summary>
+            <param name="aid"></param>
+            <param name="uid"></param>
+            <param name="amount"></param>
+            <returns>Status code</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.BidController.GetAuctionBids(System.Int32)">
+            <summary>
+            Get all bids for a specific auction
+            </summary>
+            <param name="aid"></param>
+            <returns>List of bids</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.BidController.GetUserBids(System.Int32)">
+            <summary>
+            Get all bids for a specific user
+            </summary>
+            <param name="uid"></param>
+            <returns>List of bids</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.BidController.GetUserAuctionBids(System.Int32,System.Int32)">
+            <summary>
+            Get all user bids for specific auction
+            </summary>
+            <param name="aid"></param>
+            <param name="uid"></param>
+            <returns>List of bids</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.BidController.WithdrawFromAuction(System.Int32,System.Int32)">
+            <summary>
+            Remove all user bids for specific auction
+            </summary>
+            <param name="aid"></param>
+            <param name="uid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.BidController.EditBid(System.Int32,System.Decimal)">
+            <summary>
+            Change bid amount
+            </summary>
+            <param name="id"></param>
+            <param name="amount"></param>
+            <returns>Status code</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.UserController.CreateUser(AuctionHouseAPI.Models.User)">
+            <summary>
+            Create new user
+            </summary>
+            <param name="user"></param>
+            <returns>Status code</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.UserController.GetUsers">
+            <summary>
+            Get all users
+            </summary>
+            <returns>List of users</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.UserController.GetUser(System.Int32)">
+            <summary>
+            Get user by id
+            </summary>
+            <param name="id"></param>
+            <returns>One user</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.UserController.EditUser(System.Int32,AuctionHouseAPI.Models.User)">
+            <summary>
+            Edit user by id
+            </summary>
+            <param name="id"></param>
+            <param name="editedUser"></param>
+            <returns>Status code</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.UserController.DeleteUser(System.Int32)">
+            <summary>
+            Delete user by id
+            </summary>
+            <param name="id"></param>
+            <returns>Status code</returns>
+        </member>
+    </members>
+</doc>

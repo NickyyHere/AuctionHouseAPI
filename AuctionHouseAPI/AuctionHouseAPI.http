@@ -1,0 +1,6 @@
+@AuctionHouseAPI_HostAddress = http://localhost:5244
+
+GET {{AuctionHouseAPI_HostAddress}}/
+Accept: application/json
+
+###

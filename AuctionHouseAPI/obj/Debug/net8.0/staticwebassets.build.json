@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "zphEDxKDxKy7bFEBscuV2r2ALDX7+sLmsabDCXxW6/A=",
+  "Source": "AuctionHouseAPI",
+  "BasePath": "_content/AuctionHouseAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
