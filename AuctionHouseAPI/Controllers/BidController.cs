@@ -3,11 +3,38 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionHouseAPI.Controllers
 {
+    [ApiController]
     [Route("/api/[controller]")]
     public class BidController : Controller
     {
         private List<Bid> Bids = new();
-        public BidController() { }
+        public BidController()
+        {
+            Bids.Add(new Bid
+            {
+                Id = 0,
+                Amount = 100.01M,
+                AuctionId = 0,
+                UserId = 0,
+                PlacedDateTime = DateTime.Now
+            });
+            Bids.Add(new Bid
+            {
+                Id = 1,
+                Amount = 121.99M,
+                AuctionId = 0,
+                UserId = 1,
+                PlacedDateTime = DateTime.Now.AddMinutes(1)
+            });
+            Bids.Add(new Bid
+            {
+                Id = 2,
+                Amount = 150M,
+                AuctionId = 0,
+                UserId = 0,
+                PlacedDateTime = DateTime.Now.AddMinutes(5)
+            });
+        }
         /// <summary>
         /// Places bid on specific auction for a user
         /// </summary>
@@ -34,7 +61,7 @@ namespace AuctionHouseAPI.Controllers
         /// </summary>
         /// <param name="aid"></param>
         /// <returns>List of bids</returns>
-        [HttpGet("/auction/{aid}")]
+        [HttpGet("auction/{aid}")]
         public ActionResult<List<Bid>> GetAuctionBids(int aid)
         {
             var bids = Bids.Where(b => b.AuctionId == aid).ToList();
@@ -72,7 +99,7 @@ namespace AuctionHouseAPI.Controllers
         [HttpDelete("auction/{aid}/user/{uid}")]
         public ActionResult WithdrawFromAuction(int aid, int uid)
         {
-            var bids = Bids.Where(b => b.UserId == uid && b.AuctionId == aid);
+            var bids = Bids.Where(b => b.UserId == uid && b.AuctionId == aid).ToList();
             foreach(var b in bids)
             {
                 Bids.Remove(b);

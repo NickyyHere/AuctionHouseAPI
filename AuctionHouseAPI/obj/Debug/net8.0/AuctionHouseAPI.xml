@@ -8,36 +8,165 @@
             <summary>
             Create new auction
             </summary>
+            <remarks>
+            This endpoint takes auction in a form of JSON and parses it to Auction object.
+            
+            Then saves the Auction object in the static list
+            
+            Then returns status code 201
+            </remarks>
             <param name="auction"></param>
             <returns>Status code</returns>
+            <response code="201">Successfuly created</response>
         </member>
-        <member name="M:AuctionHouseAPI.Controllers.AuctionController.EditAuction(AuctionHouseAPI.Models.Auction,System.Int32)">
+        <member name="M:AuctionHouseAPI.Controllers.AuctionController.EditAuction(System.Int32,AuctionHouseAPI.Models.Auction)">
             <summary>
             Edit auction by id and new values
             </summary>
+            <remarks>
+            This endpoint takes id from the route and JSON of auction and parses it to Auction object
+            
+            Then finds the auction in the list by the id
+            
+            Then checks if auction with such id exists
+            
+            Then replaces the existing object with the one parsed from JSON
+            </remarks>
             <param name="editedAuction"></param>
             <param name="id"></param>
             <returns>Status code</returns>
+            <response code="404">Auction not found</response>
+            <response code="204">Successfuly edited an auction</response>
         </member>
         <member name="M:AuctionHouseAPI.Controllers.AuctionController.DeleteAuction(System.Int32)">
             <summary>
             Delete auction by its id
             </summary>
+            <remarks>
+            This endpoint takes id from route
+            
+            Then finds the auction in the list by the id
+            
+            Then checks if auction with such id exists
+            
+            Then deletes the auction from the list
+            </remarks>
             <param name="id"></param>
             <returns>Status code</returns>
+            <response code="404">Auction not found</response>
+            <response code="204">Successfuly deleted an auction</response>
         </member>
         <member name="M:AuctionHouseAPI.Controllers.AuctionController.GetAuctions">
             <summary>
             Get all auctions
             </summary>
+            <remarks>
+            This endpoint returns the list of auctions in its body
+            </remarks>
             <returns>List of auctions</returns>
+            <response code="200">Successfuly fetched auctions</response>
         </member>
         <member name="M:AuctionHouseAPI.Controllers.AuctionController.GetAuction(System.Int32)">
             <summary>
             Get auction by its id
             </summary>
+            <remarks>
+            This endpoint takes id from route
+            
+            Then finds the auction in the list by the id
+            
+            Then checks if auction with such id exists
+            
+            Then returns the auction
+            </remarks>
             <param name="id"></param>
             <returns>One auction</returns>
+            <response code="404">Auction not found</response>
+            <response code="200">Successfuly fetched an auction</response>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.AuctionController.GetAuctionItems">
+            <summary>
+            Get all auction items
+            </summary>
+            <remarks>
+            This endpoint returns the list of all items ever auctioned
+            </remarks>
+            <returns>List of items</returns>
+            <response code="200">Successfuly fetched auction items</response>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.AuctionController.GetAuctionItem(System.Int32)">
+            <summary>
+            Get auction item by auction id
+            </summary>
+            <remarks>
+            This endpoint takes id from route
+            
+            Then finds the auction in the list by the id
+            
+            Then checks if auction with such id exists
+            
+            Then returns the auction item
+            </remarks>
+            <param name="id"></param>
+            <returns>One Auction item</returns>
+            <response code="404">Auction item not found</response>
+            <response code="200">Successfuly fetched an auction item</response>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.AuctionController.EditAuctionItem(System.Int32,AuctionHouseAPI.Models.AuctionItem)">
+            <summary>
+            Edit auction item
+            </summary>
+            <remarks>
+            This endpoint takes id from route and JSON of auction item and parses it to AuctionItem object
+            
+            Then finds the auction in the list by the id
+            
+            Then checks if auction witch such id exists
+            
+            Then replaces the AuctionItem of the Auction with parsed AuctionItem
+            </remarks>
+            <param name="id"></param>
+            <param name="editedAuctionItem"></param>
+            <returns>Status code</returns>
+            <response code="404">Auction not found</response>
+            <response code="200">Successfuly edited an auction item</response>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.AuctionController.GetAuctionOptions(System.Int32)">
+            <summary>
+            Get auction options by auction id
+            </summary>
+            <remarks>
+            This endpoint takes id from route
+            
+            Then finds options of an auction with id
+            
+            Then checks if auction with such id exists
+            
+            Then returns the AuctionOptions
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="404">Auction options not found</response>
+            <response code="200">Successfuly fetched auction options</response>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.AuctionController.EditAuctionOptions(System.Int32,AuctionHouseAPI.Models.AuctionOptions)">
+            <summary>
+            Edit auction options
+            </summary>
+            <remarks>
+            This endpoint takes id from route and JSON of AuctionOptions and parses it to AuctionOptions object
+            
+            Then finds auction in the list by the id
+            
+            Then checks if auction with such id exists
+            
+            Then replaces existing AuctionOptions object with parsed AuctionOptions
+            </remarks>
+            <param name="id"></param>
+            <param name="editedAuctionOptions"></param>
+            <returns>Status code</returns>
+            <response code="404">Auction not found</response>
+            <response code="204">Successfuly edited auction options</response>
         </member>
         <member name="M:AuctionHouseAPI.Controllers.BidController.PlaceBid(System.Int32,System.Int32,System.Decimal)">
             <summary>
@@ -84,6 +213,34 @@
             </summary>
             <param name="id"></param>
             <param name="amount"></param>
+            <returns>Status code</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.CategoryController.GetCategories">
+            <summary>
+            Get all categories
+            </summary>
+            <returns>List of categories</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.CategoryController.AddCategory(AuctionHouseAPI.Models.Category)">
+            <summary>
+            Add new category
+            </summary>
+            <param name="category"></param>
+            <returns>Status code</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.CategoryController.EditCategory(System.Int32,AuctionHouseAPI.Models.Category)">
+            <summary>
+            Edit category by id
+            </summary>
+            <param name="id"></param>
+            <param name="editedCategory"></param>
+            <returns>Status code</returns>
+        </member>
+        <member name="M:AuctionHouseAPI.Controllers.CategoryController.DeleteCategory(System.Int32)">
+            <summary>
+            Delete category by id
+            </summary>
+            <param name="id"></param>
             <returns>Status code</returns>
         </member>
         <member name="M:AuctionHouseAPI.Controllers.UserController.CreateUser(AuctionHouseAPI.Models.User)">

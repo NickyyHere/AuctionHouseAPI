@@ -4,11 +4,32 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace AuctionHouseAPI.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     public class UserController : Controller
     {
         private List<User> Users { get; set; } = new();
-        public UserController() { }
+        public UserController()
+        {
+            Users.Add(new User
+            {
+                Email = "my@email.com",
+                FirstName = "FName",
+                LastName = "LName",
+                Id = 0,
+                Password = "pass",
+                Username = "usr"
+            });
+            Users.Add(new User
+            {
+                Email = "you@email.com",
+                FirstName = "FName2",
+                LastName = "LName2",
+                Id = 1,
+                Password = "pass",
+                Username = "user"
+            });
+        }
         /// <summary>
         /// Create new user
         /// </summary>
@@ -69,7 +90,7 @@ namespace AuctionHouseAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Status code</returns>
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public ActionResult DeleteUser(int id)
         {
             var user = Users.FirstOrDefault(u => u.Id == id);

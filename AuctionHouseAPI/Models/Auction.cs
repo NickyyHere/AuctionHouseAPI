@@ -1,4 +1,6 @@
-﻿namespace AuctionHouseAPI.Models
+﻿using System.Text.Json.Serialization;
+
+namespace AuctionHouseAPI.Models
 {
     public class Auction
     {
@@ -6,6 +8,7 @@
         public AuctionItem Item { get; set; }
         public AuctionOptions Options { get; set; }
         public int OwnerId { get; set; }
-        public User Owner { get; set; }
+        [JsonIgnore]
+        public User? Owner { get; set; }
     }
 }

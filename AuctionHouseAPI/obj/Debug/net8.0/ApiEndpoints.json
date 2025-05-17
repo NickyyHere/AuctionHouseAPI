@@ -60,13 +60,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "editedAuction",
-        "Type": "AuctionHouseAPI.Models.Auction",
+        "Name": "id",
+        "Type": "System.Int32",
         "IsRequired": true
       },
       {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "editedAuction",
+        "Type": "AuctionHouseAPI.Models.Auction",
         "IsRequired": true
       }
     ],
@@ -89,6 +89,120 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "AuctionHouseAPI.Controllers.AuctionController",
+    "Method": "GetAuctionItem",
+    "RelativePath": "api/Auction/{id}/item",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "AuctionHouseAPI.Models.AuctionItem",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "AuctionHouseAPI.Controllers.AuctionController",
+    "Method": "EditAuctionItem",
+    "RelativePath": "api/Auction/{id}/item",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "editedAuctionItem",
+        "Type": "AuctionHouseAPI.Models.AuctionItem",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuctionHouseAPI.Controllers.AuctionController",
+    "Method": "GetAuctionOptions",
+    "RelativePath": "api/Auction/{id}/options",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "AuctionHouseAPI.Models.AuctionOptions",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "AuctionHouseAPI.Controllers.AuctionController",
+    "Method": "EditAuctionOptions",
+    "RelativePath": "api/Auction/{id}/options",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "editedAuctionOptions",
+        "Type": "AuctionHouseAPI.Models.AuctionOptions",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuctionHouseAPI.Controllers.AuctionController",
+    "Method": "GetAuctionItems",
+    "RelativePath": "api/Auction/item",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[AuctionHouseAPI.Models.AuctionItem, AuctionHouseAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "AuctionHouseAPI.Controllers.BidController",
     "Method": "EditBid",
     "RelativePath": "api/Bid/{id}",
@@ -108,6 +222,32 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuctionHouseAPI.Controllers.BidController",
+    "Method": "GetAuctionBids",
+    "RelativePath": "api/Bid/auction/{aid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "aid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[AuctionHouseAPI.Models.Bid, AuctionHouseAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "AuctionHouseAPI.Controllers.BidController",
@@ -214,6 +354,79 @@
     ]
   },
   {
+    "ContainingType": "AuctionHouseAPI.Controllers.CategoryController",
+    "Method": "GetCategories",
+    "RelativePath": "api/Category",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[AuctionHouseAPI.Models.Category, AuctionHouseAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "AuctionHouseAPI.Controllers.CategoryController",
+    "Method": "AddCategory",
+    "RelativePath": "api/Category",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "category",
+        "Type": "AuctionHouseAPI.Models.Category",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuctionHouseAPI.Controllers.CategoryController",
+    "Method": "EditCategory",
+    "RelativePath": "api/Category/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "editedCategory",
+        "Type": "AuctionHouseAPI.Models.Category",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuctionHouseAPI.Controllers.CategoryController",
+    "Method": "DeleteCategory",
+    "RelativePath": "api/Category/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "AuctionHouseAPI.Controllers.UserController",
     "Method": "CreateUser",
     "RelativePath": "api/User",
@@ -248,22 +461,6 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "AuctionHouseAPI.Controllers.UserController",
-    "Method": "DeleteUser",
-    "RelativePath": "api/User",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "AuctionHouseAPI.Controllers.UserController",
@@ -303,29 +500,19 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "AuctionHouseAPI.Controllers.BidController",
-    "Method": "GetAuctionBids",
-    "RelativePath": "auction/{aid}",
-    "HttpMethod": "GET",
+    "ContainingType": "AuctionHouseAPI.Controllers.UserController",
+    "Method": "DeleteUser",
+    "RelativePath": "api/User/{id}",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "aid",
+        "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.List\u00601[[AuctionHouseAPI.Models.Bid, AuctionHouseAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   }
 ]

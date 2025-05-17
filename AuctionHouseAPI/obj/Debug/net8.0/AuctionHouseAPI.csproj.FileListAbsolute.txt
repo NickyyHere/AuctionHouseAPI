@@ -36,3 +36,4 @@ C:\Users\Niki\Desktop\Uni\PZ\AuctionHouseAPI\AuctionHouseAPI\obj\Debug\net8.0\Au
 C:\Users\Niki\Desktop\Uni\PZ\AuctionHouseAPI\AuctionHouseAPI\obj\Debug\net8.0\ref\AuctionHouseAPI.dll
 C:\Users\Niki\Desktop\Uni\PZ\AuctionHouseAPI\AuctionHouseAPI\bin\Debug\net8.0\AuctionHouseAPI.xml
 C:\Users\Niki\Desktop\Uni\PZ\AuctionHouseAPI\AuctionHouseAPI\obj\Debug\net8.0\AuctionHouseAPI.xml
+C:\Users\Niki\Desktop\Uni\PZ\AuctionHouseAPI\AuctionHouseAPI\obj\Debug\net8.0\AuctionHouseAPI.sourcelink.json

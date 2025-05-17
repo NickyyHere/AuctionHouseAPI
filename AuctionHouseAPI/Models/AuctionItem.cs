@@ -1,6 +1,6 @@
-﻿using AuctionHouseAPI.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace AuctionHouseAPI.Models
 {
@@ -8,10 +8,13 @@ namespace AuctionHouseAPI.Models
     {
         [Key, ForeignKey("AuctionId")]
         public int AuctionId { get; set; }
-        public Auction Auction { get; set; }
+        [JsonIgnore]
+        public Auction? Auction { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public Category Category { get; set; }
+        public int CategoryId { get; set; }
+        [JsonIgnore]
+        public Category? Category { get; set; }
         public List<string> CustomTags { get; set; }
     }
 }

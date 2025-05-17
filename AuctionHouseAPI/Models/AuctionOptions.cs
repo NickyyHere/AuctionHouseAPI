@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace AuctionHouseAPI.Models
 {
@@ -7,7 +8,8 @@ namespace AuctionHouseAPI.Models
     {
         [Key, ForeignKey("AuctionId")]
         public int AuctionId { get; set; }
-        public Auction Auction { get; set; }
+        [JsonIgnore]
+        public Auction? Auction { get; set; }
         public decimal StartingPrice { get; set; }
         public DateTime StartDateTime { get; set; }
         public DateTime FinishDateTime { get; set; }
