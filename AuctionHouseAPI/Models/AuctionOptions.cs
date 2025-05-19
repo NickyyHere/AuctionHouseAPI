@@ -6,8 +6,9 @@ namespace AuctionHouseAPI.Models
 {
     public class AuctionOptions
     {
-        [Key, ForeignKey("Auction")]
+        [Key, ForeignKey("AuctionId")]
         public int AuctionId { get; set; }
+        [JsonIgnore]
         public Auction? Auction { get; set; }
         public decimal StartingPrice { get; set; }
         public DateTime StartDateTime { get; set; }

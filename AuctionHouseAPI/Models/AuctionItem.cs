@@ -1,26 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace AuctionHouseAPI.Models
 {
     public class AuctionItem
     {
-        [Key, ForeignKey("Auction")]
+        [Key, ForeignKey("AuctionId")]
         public int AuctionId { get; set; }
+        [JsonIgnore]
         public Auction? Auction { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int CategoryId { get; set; }
+        [JsonIgnore]
         public Category? Category { get; set; }
-        public ICollection<AuctionItemTag> Tags { get; set; }
-
-        public AuctionItem(int auctionId, string name, string description, int categoryId) 
-        {
-            AuctionId = auctionId;
-            Name = name;
-            Description = description;
-            CategoryId = categoryId;
-            Tags = new List<AuctionItemTag>();
-        }
+        public List<string> CustomTags { get; set; }
     }
 }

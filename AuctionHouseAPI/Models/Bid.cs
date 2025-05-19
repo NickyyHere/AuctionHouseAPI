@@ -6,8 +6,10 @@ namespace AuctionHouseAPI.Models
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        [JsonIgnore]
         public User? User { get; set; }
         public int AuctionId { get; set; }
+        [JsonIgnore]
         public Auction? Auction { get; set; }
         public decimal Amount { get; set; }
         public DateTime PlacedDateTime { get; set; }
