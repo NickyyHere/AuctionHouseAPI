@@ -1,4 +1,6 @@
 using AuctionHouseAPI;
+using AuctionHouseAPI.Repositories;
+using AuctionHouseAPI.Repositories.interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,13 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString)
 );
+
+builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
+builder.Services.AddScoped<IBidRepository, BidRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ITagRepository, TagRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {

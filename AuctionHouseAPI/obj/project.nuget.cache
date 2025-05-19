@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3wpc1GHEABM=",
+  "dgSpecHash": "p4xt1lIGDPk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Niki\\Desktop\\Uni\\PZ\\AuctionHouseAPI\\AuctionHouseAPI\\AuctionHouseAPI.csproj",
+  "projectFilePath": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\AuctionHouseAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Niki\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.1\\microsoft.entityframeworkcore.9.0.1.nupkg.sha512",
     "C:\\Users\\Niki\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.1\\microsoft.entityframeworkcore.abstractions.9.0.1.nupkg.sha512",

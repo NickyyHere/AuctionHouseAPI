@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Niki\\Desktop\\Uni\\PZ\\AuctionHouseAPI\\AuctionHouseAPI\\AuctionHouseAPI.csproj": {}
+    "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\AuctionHouseAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Niki\\Desktop\\Uni\\PZ\\AuctionHouseAPI\\AuctionHouseAPI\\AuctionHouseAPI.csproj": {
+    "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\AuctionHouseAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Niki\\Desktop\\Uni\\PZ\\AuctionHouseAPI\\AuctionHouseAPI\\AuctionHouseAPI.csproj",
+        "projectUniqueName": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\AuctionHouseAPI.csproj",
         "projectName": "AuctionHouseAPI",
-        "projectPath": "C:\\Users\\Niki\\Desktop\\Uni\\PZ\\AuctionHouseAPI\\AuctionHouseAPI\\AuctionHouseAPI.csproj",
+        "projectPath": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\AuctionHouseAPI.csproj",
         "packagesPath": "C:\\Users\\Niki\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Niki\\Desktop\\Uni\\PZ\\AuctionHouseAPI\\AuctionHouseAPI\\obj\\",
+        "outputPath": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

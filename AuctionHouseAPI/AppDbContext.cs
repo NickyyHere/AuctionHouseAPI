@@ -5,12 +5,14 @@ namespace AuctionHouseAPI
 {
     public class AppDbContext : DbContext
     {
-        DbSet<Auction> Auctions {  get; set; }
-        DbSet<AuctionItem> AuctionItems { get; set; }
-        DbSet<AuctionOptions> AuctionOptions { get; set; }
-        DbSet<User> Users { get; set; }
-        DbSet<Category> Categories { get; set; }
-        DbSet<Bid> Bids { get; set; }
+        public DbSet<Auction> Auctions {  get; set; }
+        public DbSet<AuctionItem> AuctionItems { get; set; }
+        public DbSet<AuctionOptions> AuctionOptions { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Bid> Bids { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<AuctionItemTag> ItemTags { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Auction>()
