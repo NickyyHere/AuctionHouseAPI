@@ -10,34 +10,48 @@
         "tags": [
           "Auction"
         ],
-        "summary": "Create new auction",
-        "description": "This endpoint takes auction in a form of JSON and parses it to Auction object.\r\n\r\nThen saves the Auction object in the static list\r\n\r\nThen returns status code 201",
         "requestBody": {
-          "description": "",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Auction"
+                "$ref": "#/components/schemas/CreateAuctionDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Auction"
+                "$ref": "#/components/schemas/CreateAuctionDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Auction"
+                "$ref": "#/components/schemas/CreateAuctionDTO"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
-          },
-          "201": {
-            "description": "Successfuly created"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
           }
         }
       },
@@ -45,13 +59,10 @@
         "tags": [
           "Auction"
         ],
-        "summary": "Delete auction by its id",
-        "description": "This endpoint takes id from route\r\n\r\nThen finds the auction in the list by the id\r\n\r\nThen checks if auction with such id exists\r\n\r\nThen deletes the auction from the list",
         "parameters": [
           {
             "name": "id",
             "in": "query",
-            "description": "",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -61,12 +72,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "404": {
-            "description": "Auction not found"
-          },
-          "204": {
-            "description": "Successfuly deleted an auction"
           }
         }
       },
@@ -74,17 +79,15 @@
         "tags": [
           "Auction"
         ],
-        "summary": "Get all auctions",
-        "description": "This endpoint returns the list of auctions in its body",
         "responses": {
           "200": {
-            "description": "Successfuly fetched auctions",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Auction"
+                    "$ref": "#/components/schemas/AuctionDTO"
                   }
                 }
               },
@@ -92,7 +95,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Auction"
+                    "$ref": "#/components/schemas/AuctionDTO"
                   }
                 }
               },
@@ -100,126 +103,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Auction"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Auction/{id}": {
-      "put": {
-        "tags": [
-          "Auction"
-        ],
-        "summary": "Edit auction by id and new values",
-        "description": "This endpoint takes id from the route and JSON of auction and parses it to Auction object\r\n\r\nThen finds the auction in the list by the id\r\n\r\nThen checks if auction with such id exists\r\n\r\nThen replaces the existing object with the one parsed from JSON",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Auction"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Auction"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Auction"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Auction not found"
-          },
-          "204": {
-            "description": "Successfuly edited an auction"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Auction"
-        ],
-        "summary": "Get auction by its id",
-        "description": "This endpoint takes id from route\r\n\r\nThen finds the auction in the list by the id\r\n\r\nThen checks if auction with such id exists\r\n\r\nThen returns the auction",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfuly fetched an auction"
-          },
-          "404": {
-            "description": "Auction not found"
-          }
-        }
-      }
-    },
-    "/api/Auction/item": {
-      "get": {
-        "tags": [
-          "Auction"
-        ],
-        "summary": "Get all auction items",
-        "description": "This endpoint returns the list of all items ever auctioned",
-        "responses": {
-          "200": {
-            "description": "Successfuly fetched auction items",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AuctionItem"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AuctionItem"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AuctionItem"
+                    "$ref": "#/components/schemas/AuctionDTO"
                   }
                 }
               }
@@ -229,61 +113,14 @@
       }
     },
     "/api/Auction/{id}/item": {
-      "get": {
-        "tags": [
-          "Auction"
-        ],
-        "summary": "Get auction item by auction id",
-        "description": "This endpoint takes id from route\r\n\r\nThen finds the auction in the list by the id\r\n\r\nThen checks if auction with such id exists\r\n\r\nThen returns the auction item",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfuly fetched an auction item",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuctionItem"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuctionItem"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuctionItem"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Auction item not found"
-          }
-        }
-      },
       "put": {
         "tags": [
           "Auction"
         ],
-        "summary": "Edit auction item",
-        "description": "This endpoint takes id from route and JSON of auction item and parses it to AuctionItem object\r\n\r\nThen finds the auction in the list by the id\r\n\r\nThen checks if auction witch such id exists\r\n\r\nThen replaces the AuctionItem of the Auction with parsed AuctionItem",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "",
             "required": true,
             "schema": {
               "type": "integer",
@@ -292,91 +129,78 @@
           }
         ],
         "requestBody": {
-          "description": "",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AuctionItem"
+                "$ref": "#/components/schemas/UpdateAuctionItemDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AuctionItem"
+                "$ref": "#/components/schemas/UpdateAuctionItemDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AuctionItem"
+                "$ref": "#/components/schemas/UpdateAuctionItemDTO"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Successfuly edited an auction item"
-          },
-          "404": {
-            "description": "Auction not found"
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Auction"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuctionItemDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuctionItemDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuctionItemDTO"
+                }
+              }
+            }
           }
         }
       }
     },
     "/api/Auction/{id}/options": {
-      "get": {
-        "tags": [
-          "Auction"
-        ],
-        "summary": "Get auction options by auction id",
-        "description": "This endpoint takes id from route\r\n\r\nThen finds options of an auction with id\r\n\r\nThen checks if auction with such id exists\r\n\r\nThen returns the AuctionOptions",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfuly fetched auction options",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuctionOptions"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuctionOptions"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuctionOptions"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Auction options not found"
-          }
-        }
-      },
       "put": {
         "tags": [
           "Auction"
         ],
-        "summary": "Edit auction options",
-        "description": "This endpoint takes id from route and JSON of AuctionOptions and parses it to AuctionOptions object\r\n\r\nThen finds auction in the list by the id\r\n\r\nThen checks if auction with such id exists\r\n\r\nThen replaces existing AuctionOptions object with parsed AuctionOptions",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "",
             "required": true,
             "schema": {
               "type": "integer",
@@ -385,21 +209,20 @@
           }
         ],
         "requestBody": {
-          "description": "",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AuctionOptions"
+                "$ref": "#/components/schemas/UpdateAuctionOptionsDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AuctionOptions"
+                "$ref": "#/components/schemas/UpdateAuctionOptionsDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AuctionOptions"
+                "$ref": "#/components/schemas/UpdateAuctionOptionsDTO"
               }
             }
           }
@@ -407,142 +230,387 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "404": {
-            "description": "Auction not found"
-          },
-          "204": {
-            "description": "Successfuly edited auction options"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Auction"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuctionOptionsDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuctionOptionsDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuctionOptionsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auction/{id}": {
+      "get": {
+        "tags": [
+          "Auction"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuctionDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuctionDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuctionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auction/user/{uid}": {
+      "get": {
+        "tags": [
+          "Auction"
+        ],
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuctionDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuctionDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuctionDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auction/category/{cid}": {
+      "get": {
+        "tags": [
+          "Auction"
+        ],
+        "parameters": [
+          {
+            "name": "cid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuctionDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuctionDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuctionDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auction/tags": {
+      "get": {
+        "tags": [
+          "Auction"
+        ],
+        "parameters": [
+          {
+            "name": "tags",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuctionDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuctionDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuctionDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auction/items": {
+      "get": {
+        "tags": [
+          "Auction"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuctionItemDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuctionItemDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuctionItemDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Bid": {
+      "post": {
+        "tags": [
+          "Bid"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBidDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBidDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBidDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Bid/{id}": {
+      "put": {
+        "tags": [
+          "Bid"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBidDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBidDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBidDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
     },
     "/api/Bid/auction/{aid}/user/{uid}": {
-      "post": {
-        "tags": [
-          "Bid"
-        ],
-        "summary": "Places bid on specific auction for a user",
-        "parameters": [
-          {
-            "name": "aid",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "uid",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "number",
-                "format": "double"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "type": "number",
-                "format": "double"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "type": "number",
-                "format": "double"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Bid"
-        ],
-        "summary": "Get all user bids for specific auction",
-        "parameters": [
-          {
-            "name": "aid",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "uid",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Bid"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Bid"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Bid"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
       "delete": {
         "tags": [
           "Bid"
         ],
-        "summary": "Remove all user bids for specific auction",
         "parameters": [
           {
             "name": "aid",
             "in": "path",
-            "description": "",
             "required": true,
             "schema": {
               "type": "integer",
@@ -552,7 +620,6 @@
           {
             "name": "uid",
             "in": "path",
-            "description": "",
             "required": true,
             "schema": {
               "type": "integer",
@@ -565,19 +632,24 @@
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/Bid/auction/{aid}": {
+      },
       "get": {
         "tags": [
           "Bid"
         ],
-        "summary": "Get all bids for a specific auction",
         "parameters": [
           {
             "name": "aid",
             "in": "path",
-            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "uid",
+            "in": "path",
             "required": true,
             "schema": {
               "type": "integer",
@@ -593,7 +665,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Bid"
+                    "$ref": "#/components/schemas/BidDTO"
                   }
                 }
               },
@@ -601,7 +673,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Bid"
+                    "$ref": "#/components/schemas/BidDTO"
                   }
                 }
               },
@@ -609,7 +681,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Bid"
+                    "$ref": "#/components/schemas/BidDTO"
                   }
                 }
               }
@@ -623,12 +695,10 @@
         "tags": [
           "Bid"
         ],
-        "summary": "Get all bids for a specific user",
         "parameters": [
           {
             "name": "uid",
             "in": "path",
-            "description": "",
             "required": true,
             "schema": {
               "type": "integer",
@@ -644,7 +714,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Bid"
+                    "$ref": "#/components/schemas/BidDTO"
                   }
                 }
               },
@@ -652,7 +722,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Bid"
+                    "$ref": "#/components/schemas/BidDTO"
                   }
                 }
               },
@@ -660,7 +730,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Bid"
+                    "$ref": "#/components/schemas/BidDTO"
                   }
                 }
               }
@@ -669,17 +739,15 @@
         }
       }
     },
-    "/api/Bid/{id}": {
-      "put": {
+    "/api/Bid/auction/{aid}": {
+      "get": {
         "tags": [
           "Bid"
         ],
-        "summary": "Change bid amount",
         "parameters": [
           {
-            "name": "id",
+            "name": "aid",
             "in": "path",
-            "description": "",
             "required": true,
             "schema": {
               "type": "integer",
@@ -687,42 +755,73 @@
             }
           }
         ],
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "number",
-                "format": "double"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "type": "number",
-                "format": "double"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "type": "number",
-                "format": "double"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BidDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BidDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BidDTO"
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
     "/api/Category": {
+      "post": {
+        "tags": [
+          "Category"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategoryDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategoryDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategoryDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "get": {
         "tags": [
           "Category"
         ],
-        "summary": "Get all categories",
         "responses": {
           "200": {
             "description": "OK",
@@ -731,7 +830,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Category"
+                    "$ref": "#/components/schemas/CategoryDTO"
                   }
                 }
               },
@@ -739,7 +838,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Category"
+                    "$ref": "#/components/schemas/CategoryDTO"
                   }
                 }
               },
@@ -747,42 +846,11 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Category"
+                    "$ref": "#/components/schemas/CategoryDTO"
                   }
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Category"
-        ],
-        "summary": "Add new category",
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Category"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Category"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Category"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -792,12 +860,10 @@
         "tags": [
           "Category"
         ],
-        "summary": "Edit category by id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "",
             "required": true,
             "schema": {
               "type": "integer",
@@ -806,21 +872,20 @@
           }
         ],
         "requestBody": {
-          "description": "",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Category"
+                "$ref": "#/components/schemas/UpdateCategoryDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Category"
+                "$ref": "#/components/schemas/UpdateCategoryDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Category"
+                "$ref": "#/components/schemas/UpdateCategoryDTO"
               }
             }
           }
@@ -835,12 +900,10 @@
         "tags": [
           "Category"
         ],
-        "summary": "Delete category by id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "",
             "required": true,
             "schema": {
               "type": "integer",
@@ -853,6 +916,44 @@
             "description": "OK"
           }
         }
+      },
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDTO"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/User": {
@@ -860,30 +961,48 @@
         "tags": [
           "User"
         ],
-        "summary": "Create new user",
         "requestBody": {
-          "description": "",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/CreateUserDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/CreateUserDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/CreateUserDTO"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
           }
         }
       },
@@ -891,7 +1010,6 @@
         "tags": [
           "User"
         ],
-        "summary": "Get all users",
         "responses": {
           "200": {
             "description": "OK",
@@ -926,39 +1044,14 @@
       }
     },
     "/api/User/{id}": {
-      "get": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Get user by id",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
       "put": {
         "tags": [
           "User"
         ],
-        "summary": "Edit user by id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "",
             "required": true,
             "schema": {
               "type": "integer",
@@ -967,21 +1060,20 @@
           }
         ],
         "requestBody": {
-          "description": "",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/UpdateUserDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/UpdateUserDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/UpdateUserDTO"
               }
             }
           }
@@ -996,12 +1088,31 @@
         "tags": [
           "User"
         ],
-        "summary": "Delete user by id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1035,6 +1146,40 @@
           "ownerId": {
             "type": "integer",
             "format": "int32"
+          },
+          "owner": {
+            "$ref": "#/components/schemas/User"
+          },
+          "bids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Bid"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AuctionDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ownerFirstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ownerLastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "item": {
+            "$ref": "#/components/schemas/AuctionItemDTO"
+          },
+          "options": {
+            "$ref": "#/components/schemas/AuctionOptionsDTO"
           }
         },
         "additionalProperties": false
@@ -1045,6 +1190,9 @@
           "auctionId": {
             "type": "integer",
             "format": "int32"
+          },
+          "auction": {
+            "$ref": "#/components/schemas/Auction"
           },
           "name": {
             "type": "string",
@@ -1058,7 +1206,39 @@
             "type": "integer",
             "format": "int32"
           },
-          "customTags": {
+          "category": {
+            "$ref": "#/components/schemas/Category"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuctionItemTag"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AuctionItemDTO": {
+        "type": "object",
+        "properties": {
+          "auctionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "categoryId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "tags": {
             "type": "array",
             "items": {
               "type": "string"
@@ -1068,7 +1248,73 @@
         },
         "additionalProperties": false
       },
+      "AuctionItemTag": {
+        "type": "object",
+        "properties": {
+          "auctionItemId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "auctionItem": {
+            "$ref": "#/components/schemas/AuctionItem"
+          },
+          "tagId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tag": {
+            "$ref": "#/components/schemas/Tag"
+          }
+        },
+        "additionalProperties": false
+      },
       "AuctionOptions": {
+        "type": "object",
+        "properties": {
+          "auctionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "auction": {
+            "$ref": "#/components/schemas/Auction"
+          },
+          "startingPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "startDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finishDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isIncreamentalOnLastMinuteBid": {
+            "type": "boolean"
+          },
+          "minutesToIncrement": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minimumOutbid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "allowBuyItNow": {
+            "type": "boolean"
+          },
+          "buyItNowPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AuctionOptionsDTO": {
         "type": "object",
         "properties": {
           "auctionId": {
@@ -1122,9 +1368,15 @@
             "type": "integer",
             "format": "int32"
           },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
           "auctionId": {
             "type": "integer",
             "format": "int32"
+          },
+          "auction": {
+            "$ref": "#/components/schemas/Auction"
           },
           "amount": {
             "type": "number",
@@ -1133,6 +1385,24 @@
           "placedDateTime": {
             "type": "string",
             "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BidDTO": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "auctionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
@@ -1149,6 +1419,369 @@
             "nullable": true
           },
           "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "auctionItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuctionItem"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CategoryDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateAuctionDTO": {
+        "required": [
+          "item",
+          "options",
+          "ownerId"
+        ],
+        "type": "object",
+        "properties": {
+          "ownerId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "item": {
+            "$ref": "#/components/schemas/CreateAuctionItemDTO"
+          },
+          "options": {
+            "$ref": "#/components/schemas/CreateAuctionOptionsDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateAuctionItemDTO": {
+        "required": [
+          "categoryId",
+          "description",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 3,
+            "type": "string"
+          },
+          "description": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "categoryId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "customTags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateAuctionOptionsDTO": {
+        "required": [
+          "minimumOutbid",
+          "startingPrice"
+        ],
+        "type": "object",
+        "properties": {
+          "startingPrice": {
+            "minimum": 1,
+            "type": "number",
+            "format": "double"
+          },
+          "startDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "finishDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isIncreamentalOnLastMinuteBid": {
+            "type": "boolean"
+          },
+          "minutesToIncrement": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "minimumOutbid": {
+            "minimum": 5,
+            "type": "integer",
+            "format": "int32"
+          },
+          "allowBuyItNow": {
+            "type": "boolean"
+          },
+          "buyItNowPrice": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateBidDTO": {
+        "required": [
+          "amount",
+          "auctionId",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "auctionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "amount": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateCategoryDTO": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 20,
+            "minLength": 2,
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateUserDTO": {
+        "required": [
+          "email",
+          "firstName",
+          "lastName",
+          "password",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "maxLength": 50,
+            "minLength": 8,
+            "type": "string"
+          },
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "maxLength": 100,
+            "minLength": 10,
+            "type": "string"
+          },
+          "firstName": {
+            "maxLength": 100,
+            "minLength": 2,
+            "type": "string"
+          },
+          "lastName": {
+            "maxLength": 100,
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginDTO": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Tag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "auctionItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuctionItemTag"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateAuctionItemDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 3,
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "categoryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "customTags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateAuctionOptionsDTO": {
+        "type": "object",
+        "properties": {
+          "startingPrice": {
+            "minimum": 1,
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "startDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "finishDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isIncreamentalOnLastMinuteBid": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "minutesToIncrement": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "minimumOutbid": {
+            "minimum": 5,
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "allowBuyItNow": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "buyItNowPrice": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateBidDTO": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateCategoryDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateUserDTO": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "nullable": true
+          },
+          "password": {
+            "maxLength": 100,
+            "minLength": 10,
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "maxLength": 100,
+            "minLength": 2,
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "maxLength": 100,
+            "minLength": 2,
             "type": "string",
             "nullable": true
           }
@@ -1186,10 +1819,37 @@
             "type": "string",
             "format": "date-time",
             "readOnly": true
+          },
+          "bids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Bid"
+            },
+            "nullable": true
+          },
+          "auctions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Auction"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "Enter JWT token like: Bearer {your token}",
+        "name": "Authorization",
+        "in": "header"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

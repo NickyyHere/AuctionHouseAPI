@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AuctionHouseAPI</name>
+    </assembly>
+    <members>
+        <member name="T:AuctionHouseAPI.CustomValidators.ValidDateTime">
+            <summary>
+            <para>Validates the date based on parameters.</para>
+            
+            <para>If the value is not of DateTime type, it will always return true.</para>
+            
+            <para>If overlay is positive, the value date has to be at at least today + overlay,
+            otherwise the value date has to be at least today - overlay.</para>
+            
+            <para>For example if DaysOverlay = 1
+            Today is 19.05.2025 14:00
+            Anything below 20.05.2025 14:00 will return false</para>
+            </summary>
+            <returns>True if valid; otherwise false</returns>
+        </member>
+        <member name="T:AuctionHouseAPI.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:AuctionHouseAPI.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:AuctionHouseAPI.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:AuctionHouseAPI.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

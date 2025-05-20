@@ -18,5 +18,19 @@ namespace AuctionHouseAPI.Models
         public bool AllowBuyItNow { get; set; }
         public decimal BuyItNowPrice { get; set; }
         public bool IsActive { get; set; }
+
+        public AuctionOptions() { }
+        public AuctionOptions(decimal startingPrice, DateTime startDateTime, DateTime finishDateTime, bool isIncreamentalOnLastMinuteBid, int minutesToIncrement, int minimumOutbid, bool allowBuyItNow, decimal buyItNowPrice, bool isActive)
+        {
+            StartingPrice = startingPrice;
+            StartDateTime = startDateTime;
+            FinishDateTime = finishDateTime;
+            IsIncreamentalOnLastMinuteBid = isIncreamentalOnLastMinuteBid;
+            MinutesToIncrement = minutesToIncrement;
+            MinimumOutbid = minimumOutbid;
+            AllowBuyItNow = allowBuyItNow;
+            BuyItNowPrice = buyItNowPrice;
+            IsActive = isActive;
+        }
     }
 }

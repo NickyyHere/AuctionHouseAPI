@@ -7,56 +7,100 @@
       "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\repositories\\auctionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\repositories\\auctionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\repositories\\interfaces\\icategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\repositories\\interfaces\\icategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\controllers\\bidcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\controllers\\bidcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\repositories\\interfaces\\ibidrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\repositories\\interfaces\\ibidrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\repositories\\interfaces\\iauctionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\repositories\\interfaces\\iauctionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\models\\bid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\models\\bid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\repositories\\tagrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\repositories\\tagrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\repositories\\interfaces\\itagrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\repositories\\interfaces\\itagrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\repositories\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\repositories\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\repositories\\bidrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\repositories\\bidrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\exceptions\\entitydoesnotexistexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\exceptions\\entitydoesnotexistexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\controllers\\auctioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\controllers\\auctioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\models\\tag.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\models\\tag.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\models\\bid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\models\\bid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\models\\auctionoptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\models\\auctionoptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\models\\auctionitemtag.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\models\\auctionitemtag.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\models\\auctionitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\models\\auctionitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\models\\auction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\models\\auction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\services\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\services\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\services\\interfaces\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\services\\interfaces\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\mappers\\usermapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\mappers\\usermapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\dtos\\read\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\dtos\\read\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\repositories\\interfaces\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\repositories\\interfaces\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|c:\\users\\niki\\desktop\\projects\\web\\auctionhouseapi\\auctionhouseapi\\dtos\\create\\createuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6F1CB1-DE7E-4F40-9C95-690282E8861A}|AuctionHouseAPI\\AuctionHouseAPI.csproj|solutionrelative:auctionhouseapi\\dtos\\create\\createuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -66,176 +110,111 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 13,
+          "SelectedChildIndex": 10,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "EntityDoesNotExistException.cs",
-              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Exceptions\\EntityDoesNotExistException.cs",
-              "RelativeDocumentMoniker": "AuctionHouseAPI\\Exceptions\\EntityDoesNotExistException.cs",
-              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Exceptions\\EntityDoesNotExistException.cs",
-              "RelativeToolTip": "AuctionHouseAPI\\Exceptions\\EntityDoesNotExistException.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T15:53:25.094Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Program.cs",
-              "RelativeDocumentMoniker": "AuctionHouseAPI\\Program.cs",
-              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Program.cs",
-              "RelativeToolTip": "AuctionHouseAPI\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T15:46:32.285Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "IUserRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\interfaces\\IUserRepository.cs",
-              "RelativeDocumentMoniker": "AuctionHouseAPI\\Repositories\\interfaces\\IUserRepository.cs",
-              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\interfaces\\IUserRepository.cs",
-              "RelativeToolTip": "AuctionHouseAPI\\Repositories\\interfaces\\IUserRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T15:38:21.708Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UserRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\UserRepository.cs",
-              "RelativeDocumentMoniker": "AuctionHouseAPI\\Repositories\\UserRepository.cs",
-              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\UserRepository.cs",
-              "RelativeToolTip": "AuctionHouseAPI\\Repositories\\UserRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T15:38:14.992Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Models\\User.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Models\\User.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T13:56:20.146Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Tag.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Models\\Tag.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Models\\Tag.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Models\\Tag.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Models\\Tag.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T13:56:04.153Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Category.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Models\\Category.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Models\\Category.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Models\\Category.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Models\\Category.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T13:55:38.563Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "Bid.cs",
               "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Models\\Bid.cs",
               "RelativeDocumentMoniker": "AuctionHouseAPI\\Models\\Bid.cs",
               "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Models\\Bid.cs",
               "RelativeToolTip": "AuctionHouseAPI\\Models\\Bid.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T15:30:40.552Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ITagRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\interfaces\\ITagRepository.cs",
-              "RelativeDocumentMoniker": "AuctionHouseAPI\\Repositories\\interfaces\\ITagRepository.cs",
-              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\interfaces\\ITagRepository.cs",
-              "RelativeToolTip": "AuctionHouseAPI\\Repositories\\interfaces\\ITagRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAzAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T15:26:11.88Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ICategoryRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\interfaces\\ICategoryRepository.cs",
-              "RelativeDocumentMoniker": "AuctionHouseAPI\\Repositories\\interfaces\\ICategoryRepository.cs",
-              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\interfaces\\ICategoryRepository.cs",
-              "RelativeToolTip": "AuctionHouseAPI\\Repositories\\interfaces\\ICategoryRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T15:26:04.637Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "IBidRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\interfaces\\IBidRepository.cs",
-              "RelativeDocumentMoniker": "AuctionHouseAPI\\Repositories\\interfaces\\IBidRepository.cs",
-              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\interfaces\\IBidRepository.cs",
-              "RelativeToolTip": "AuctionHouseAPI\\Repositories\\interfaces\\IBidRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA3AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T15:25:57.437Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "IAuctionRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\interfaces\\IAuctionRepository.cs",
-              "RelativeDocumentMoniker": "AuctionHouseAPI\\Repositories\\interfaces\\IAuctionRepository.cs",
-              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\interfaces\\IAuctionRepository.cs",
-              "RelativeToolTip": "AuctionHouseAPI\\Repositories\\interfaces\\IAuctionRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA9AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T15:24:42.618Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "TagRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\TagRepository.cs",
-              "RelativeDocumentMoniker": "AuctionHouseAPI\\Repositories\\TagRepository.cs",
-              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\TagRepository.cs",
-              "RelativeToolTip": "AuctionHouseAPI\\Repositories\\TagRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T15:24:24.894Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "CategoryRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\CategoryRepository.cs",
-              "RelativeDocumentMoniker": "AuctionHouseAPI\\Repositories\\CategoryRepository.cs",
-              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\CategoryRepository.cs",
-              "RelativeToolTip": "AuctionHouseAPI\\Repositories\\CategoryRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T15:24:15.126Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-20T13:55:30.704Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 10,
-              "Title": "BidRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\BidRepository.cs",
-              "RelativeDocumentMoniker": "AuctionHouseAPI\\Repositories\\BidRepository.cs",
-              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\BidRepository.cs",
-              "RelativeToolTip": "AuctionHouseAPI\\Repositories\\BidRepository.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAgwCEAAAAJAAAAAAAAAA==",
+              "Title": "AuctionOptions.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Models\\AuctionOptions.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Models\\AuctionOptions.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Models\\AuctionOptions.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Models\\AuctionOptions.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABwAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T15:24:07.72Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-20T13:55:09.663Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AuctionRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\AuctionRepository.cs",
-              "RelativeDocumentMoniker": "AuctionHouseAPI\\Repositories\\AuctionRepository.cs",
-              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\AuctionRepository.cs",
-              "RelativeToolTip": "AuctionHouseAPI\\Repositories\\AuctionRepository.cs",
-              "ViewState": "AgIAADgAAAAAAAAAAAAAwE0AAAAJAAAAAAAAAA==",
+              "DocumentIndex": 11,
+              "Title": "AuctionItemTag.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Models\\AuctionItemTag.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Models\\AuctionItemTag.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Models\\AuctionItemTag.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Models\\AuctionItemTag.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T15:23:52.003Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-20T13:55:02.61Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "AuctionItem.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Models\\AuctionItem.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Models\\AuctionItem.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Models\\AuctionItem.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Models\\AuctionItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T13:54:23.72Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Auction.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Models\\Auction.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Models\\Auction.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Models\\Auction.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Models\\Auction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T13:53:31.762Z"
             },
             {
               "$type": "Document",
@@ -245,18 +224,203 @@
               "RelativeDocumentMoniker": "AuctionHouseAPI\\AppDbContext.cs",
               "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\AppDbContext.cs",
               "RelativeToolTip": "AuctionHouseAPI\\AppDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABBAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAkwB4AAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T15:22:17.987Z",
+              "WhenOpened": "2025-05-20T13:52:36.193Z",
               "EditorCaption": ""
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T13:42:44.889Z"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Services\\AuthService.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Services\\AuthService.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Services\\AuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T13:32:33.834Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "IAuthService.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Services\\Interfaces\\IAuthService.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Services\\Interfaces\\IAuthService.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Services\\Interfaces\\IAuthService.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Services\\Interfaces\\IAuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T13:32:23.663Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "UserMapper.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Mappers\\UserMapper.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Mappers\\UserMapper.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Mappers\\UserMapper.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Mappers\\UserMapper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAABVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T13:20:54.146Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\appsettings.json",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\appsettings.json",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\appsettings.json",
+              "RelativeToolTip": "AuctionHouseAPI\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-20T13:17:32.771Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Program.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Program.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Program.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Program.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABwAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T13:12:03.965Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\UserRepository.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Repositories\\UserRepository.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\UserRepository.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Repositories\\UserRepository.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T10:55:16.514Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "IUserRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\interfaces\\IUserRepository.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Repositories\\interfaces\\IUserRepository.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Repositories\\interfaces\\IUserRepository.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Repositories\\interfaces\\IUserRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T10:55:05.348Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "IUserService.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Services\\Interfaces\\IUserService.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Services\\Interfaces\\IUserService.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Services\\Interfaces\\IUserService.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Services\\Interfaces\\IUserService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T10:54:39.819Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Services\\UserService.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Services\\UserService.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Services\\UserService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwB8AAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T10:51:26.738Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "LoginDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\DTOs\\Read\\LoginDTO.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\DTOs\\Read\\LoginDTO.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\DTOs\\Read\\LoginDTO.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\DTOs\\Read\\LoginDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T10:51:01.224Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "CreateUserDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\DTOs\\Create\\CreateUserDTO.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\DTOs\\Create\\CreateUserDTO.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\DTOs\\Create\\CreateUserDTO.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\DTOs\\Create\\CreateUserDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T10:50:47.229Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Controllers\\UserController.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Controllers\\UserController.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAqwDMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T10:26:50.701Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CategoryController.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Controllers\\CategoryController.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Controllers\\CategoryController.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Controllers\\CategoryController.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Controllers\\CategoryController.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwCsAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T10:26:50.043Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BidController.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Controllers\\BidController.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Controllers\\BidController.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Controllers\\BidController.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Controllers\\BidController.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAtwB0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T10:26:49.553Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AuctionController.cs",
+              "DocumentMoniker": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Controllers\\AuctionController.cs",
+              "RelativeDocumentMoniker": "AuctionHouseAPI\\Controllers\\AuctionController.cs",
+              "ToolTip": "C:\\Users\\Niki\\Desktop\\Projects\\Web\\AuctionHouseAPI\\AuctionHouseAPI\\Controllers\\AuctionController.cs",
+              "RelativeToolTip": "AuctionHouseAPI\\Controllers\\AuctionController.cs",
+              "ViewState": "AgIAADoAAAAAAAAAAAAQwFUAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T10:26:49.116Z"
             }
           ]
         }

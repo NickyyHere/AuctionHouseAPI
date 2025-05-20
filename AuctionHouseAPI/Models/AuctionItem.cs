@@ -12,15 +12,17 @@ namespace AuctionHouseAPI.Models
         public string Description { get; set; }
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
-        public ICollection<AuctionItemTag> Tags { get; set; }
-
-        public AuctionItem(int auctionId, string name, string description, int categoryId) 
+        public ICollection<AuctionItemTag> Tags { get; set; } = new List<AuctionItemTag>();
+        public AuctionItem() 
         {
-            AuctionId = auctionId;
+            Name = string.Empty;
+            Description = string.Empty;
+        }
+        public AuctionItem(string name, string description, int categoryId) 
+        {
             Name = name;
             Description = description;
             CategoryId = categoryId;
-            Tags = new List<AuctionItemTag>();
         }
     }
 }

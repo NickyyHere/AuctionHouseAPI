@@ -9,9 +9,18 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime JoinedDateTime { get; }
-        public ICollection<Bid> Bids { get; set; }
-        public ICollection<Auction> Auctions { get; set; }
+        public ICollection<Bid> Bids { get; set; } = new List<Bid>();
+        public ICollection<Auction> Auctions { get; set; } = new List<Auction>();
 
+        public User()
+        {
+            Username = string.Empty;
+            Email = string.Empty;
+            Password = string.Empty;
+            FirstName = string.Empty;
+            LastName = string.Empty;
+            JoinedDateTime = DateTime.Now;
+        }
         public User(string username, string email, string password, string firstName, string lastName)
         {
             Username = username;
@@ -20,8 +29,6 @@
             FirstName = firstName;
             LastName = lastName;
             JoinedDateTime = DateTime.Now;
-            Bids = new List<Bid>();
-            Auctions = new List<Auction>();
         }
     }
 }

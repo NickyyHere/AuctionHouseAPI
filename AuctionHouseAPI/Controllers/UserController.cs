@@ -1,105 +1,52 @@
-﻿using AuctionHouseAPI.Models;
+﻿using AuctionHouseAPI.DTOs.Create;
+using AuctionHouseAPI.DTOs.Read;
+using AuctionHouseAPI.DTOs.Update;
+using AuctionHouseAPI.Models;
+using AuctionHouseAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
+using System.Text.Unicode;
 
 namespace AuctionHouseAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
-        private List<User> Users { get; set; } = new();
-        public UserController()
+        private readonly IUserService _userService;
+        public UserController(IUserService userService)
         {
-            Users.Add(new User
-            {
-                Email = "my@email.com",
-                FirstName = "FName",
-                LastName = "LName",
-                Id = 0,
-                Password = "pass",
-                Username = "usr"
-            });
-            Users.Add(new User
-            {
-                Email = "you@email.com",
-                FirstName = "FName2",
-                LastName = "LName2",
-                Id = 1,
-                Password = "pass",
-                Username = "user"
-            });
+            _userService = userService;
         }
-        /// <summary>
-        /// Create new user
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns>Status code</returns>
         [HttpPost]
-        public ActionResult CreateUser([FromBody] User user)
+        public async Task<ActionResult<int>> CreateUser([FromBody] CreateUserDTO createUserDTO)
         {
-            Users.Add(user);
-            return Created();
+            var userId = await _userService.CreateUser(createUserDTO);
+            return Ok(userId);
         }
-        /// <summary>
-        /// Get all users
-        /// </summary>
-        /// <returns>List of users</returns>
-        [HttpGet]
-        public ActionResult<List<User>> GetUsers()
+        [HttpPut("{id}"), Authorize]
+        public async Task<ActionResult> EditUser(int id, [FromBody] UpdateUserDTO editedUser)
         {
-            return Ok(Users);
+            await _userService.UpdateUser(editedUser, id);
+            return NoContent();
         }
-        /// <summary>
-        /// Get user by id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>One user</returns>
+        [HttpDelete("{id}"), Authorize]
+        public async Task<ActionResult> DeleteUser(int id)
+        {
+            await _userService.DeleteUser(id);
+            return NoContent();
+        }
         [HttpGet("{id}")]
-        public ActionResult GetUser(int id) 
+        public ActionResult GetUser(int id)
         {
-            var user = Users.FirstOrDefault(u => u.Id == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+            var user = _userService.GetUserById(id);
             return Ok(user);
         }
-        /// <summary>
-        /// Edit user by id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="editedUser"></param>
-        /// <returns>Status code</returns>
-        [HttpPut("{id}")]
-        public ActionResult EditUser(int id, [FromBody] User editedUser)
+        [HttpGet]
+        public async Task<ActionResult<List<User>>> GetUsers()
         {
-            var user = Users.FirstOrDefault(u => u.Id == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            user.Email = editedUser.Email;
-            user.FirstName = editedUser.FirstName;
-            user.LastName = editedUser.LastName;
-            user.Password = editedUser.Password;
-            return NoContent();
-        }
-        /// <summary>
-        /// Delete user by id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>Status code</returns>
-        [HttpDelete("{id}")]
-        public ActionResult DeleteUser(int id)
-        {
-            var user = Users.FirstOrDefault(u => u.Id == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            Users.Remove(user);
-            return NoContent();
+            var users = await _userService.GetAllUsers();
+            return Ok(users);
         }
     }
 }

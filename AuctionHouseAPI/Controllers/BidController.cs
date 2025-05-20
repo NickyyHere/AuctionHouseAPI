@@ -1,127 +1,56 @@
-﻿using AuctionHouseAPI.Models;
+﻿using AuctionHouseAPI.DTOs.Create;
+using AuctionHouseAPI.DTOs.Read;
+using AuctionHouseAPI.DTOs.Update;
+using AuctionHouseAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionHouseAPI.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
-    public class BidController : Controller
+    public class BidController : ControllerBase
     {
-        private List<Bid> Bids = new();
-        public BidController()
+        private readonly IBidService _bidService;
+        public BidController(IBidService bidService)
         {
-            Bids.Add(new Bid
-            {
-                Id = 0,
-                Amount = 100.01M,
-                AuctionId = 0,
-                UserId = 0,
-                PlacedDateTime = DateTime.Now
-            });
-            Bids.Add(new Bid
-            {
-                Id = 1,
-                Amount = 121.99M,
-                AuctionId = 0,
-                UserId = 1,
-                PlacedDateTime = DateTime.Now.AddMinutes(1)
-            });
-            Bids.Add(new Bid
-            {
-                Id = 2,
-                Amount = 150M,
-                AuctionId = 0,
-                UserId = 0,
-                PlacedDateTime = DateTime.Now.AddMinutes(5)
-            });
+            _bidService = bidService;
         }
-        /// <summary>
-        /// Places bid on specific auction for a user
-        /// </summary>
-        /// <param name="aid"></param>
-        /// <param name="uid"></param>
-        /// <param name="amount"></param>
-        /// <returns>Status code</returns>
-        [HttpPost("auction/{aid}/user/{uid}")]
-        public ActionResult PlaceBid(int aid, int uid, [FromBody] decimal amount)
+        [HttpPost, Authorize]
+        public async Task<ActionResult> PlaceBid([FromBody] CreateBidDTO createBidDTO)
         {
-            // no database yet so no checking if user or auction exists
-            // not to mention authentication
-            Bid bid = new Bid
-            {
-                UserId = uid,
-                Amount = amount,
-                AuctionId = aid,
-                PlacedDateTime = DateTime.Now
-            };
+            await _bidService.CreateBid(createBidDTO);
             return Created();
         }
-        /// <summary>
-        /// Get all bids for a specific auction
-        /// </summary>
-        /// <param name="aid"></param>
-        /// <returns>List of bids</returns>
-        [HttpGet("auction/{aid}")]
-        public ActionResult<List<Bid>> GetAuctionBids(int aid)
+        [HttpPut("{id}"), Authorize]
+        public async Task<ActionResult> EditBid(int id, [FromBody] UpdateBidDTO updateBidDTO)
         {
-            var bids = Bids.Where(b => b.AuctionId == aid).ToList();
-            return Ok(bids);
+            await _bidService.UpdateBid(updateBidDTO, id);
+            return NoContent();
         }
-        /// <summary>
-        /// Get all bids for a specific user
-        /// </summary>
-        /// <param name="uid"></param>
-        /// <returns>List of bids</returns>
+        [HttpDelete("auction/{aid}/user/{uid}"), Authorize]
+        public async Task<ActionResult> WithdrawFromAuction(int aid)
+        {
+            await _bidService.WithdrawFromAuction(aid);
+            return NoContent();
+        }
         [HttpGet("user/{uid}")]
-        public ActionResult<List<Bid>> GetUserBids(int uid)
+        public async Task<ActionResult<List<BidDTO>>> GetUserBids(int uid)
         {
-            var bids = Bids.Where(b => b.UserId == uid).ToList();
+            var bids = await _bidService.GetUserBids(uid);
             return Ok(bids);
         }
-        /// <summary>
-        /// Get all user bids for specific auction
-        /// </summary>
-        /// <param name="aid"></param>
-        /// <param name="uid"></param>
-        /// <returns>List of bids</returns>
+        [HttpGet("auction/{aid}")]
+        public async Task<ActionResult<List<BidDTO>>> GetAuctionBids(int aid)
+        {
+            var bids = await _bidService.GetAuctionBids(aid);
+            return Ok(bids);
+        }
         [HttpGet("auction/{aid}/user/{uid}")]
-        public ActionResult<List<Bid>> GetUserAuctionBids(int aid, int uid)
+        public async Task<ActionResult<List<BidDTO>>> GetUserAuctionBids(int aid, int uid)
         {
-            var bids = Bids.Where(b => b.UserId == uid && b.AuctionId == aid);
+            var bids = await _bidService.GetUsersBidsByAuctionId(aid, uid);
             return Ok(bids);
-        }
-        /// <summary>
-        /// Remove all user bids for specific auction
-        /// </summary>
-        /// <param name="aid"></param>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        [HttpDelete("auction/{aid}/user/{uid}")]
-        public ActionResult WithdrawFromAuction(int aid, int uid)
-        {
-            var bids = Bids.Where(b => b.UserId == uid && b.AuctionId == aid).ToList();
-            foreach(var b in bids)
-            {
-                Bids.Remove(b);
-            }
-            return NoContent();
-        }
-        /// <summary>
-        /// Change bid amount
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="amount"></param>
-        /// <returns>Status code</returns>
-        [HttpPut("{id}")]
-        public ActionResult EditBid(int id, [FromBody] decimal amount)
-        {
-            var bid = Bids.FirstOrDefault(b => b.Id == id);
-            if(bid == null)
-            {
-                return NotFound();
-            }
-            bid.Amount = amount;
-            return NoContent();
-        }
+        } 
     }
 }

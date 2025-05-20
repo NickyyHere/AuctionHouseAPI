@@ -12,10 +12,11 @@ namespace AuctionHouseAPI.Repositories
         {
             _context = context;
         }
-        public async Task CreateTag(Tag tag)
+        public async Task<Tag> CreateTag(Tag tag)
         {
             await _context.Tags.AddAsync(tag);
             await _context.SaveChangesAsync();
+            return tag;
         }
 
         public async Task DeleteTag(Tag tag)

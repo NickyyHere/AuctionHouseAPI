@@ -1,93 +1,50 @@
-﻿using AuctionHouseAPI.Models;
+﻿using AuctionHouseAPI.DTOs.Create;
+using AuctionHouseAPI.DTOs.Read;
+using AuctionHouseAPI.DTOs.Update;
+using AuctionHouseAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionHouseAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CategoryController : Controller
+    public class CategoryController : ControllerBase
     {
-        private List<Category> Categories { get; set; } = new();
-        public CategoryController() 
+        private readonly ICategoryService _categoryService;
+        public CategoryController(ICategoryService categoryService)
         {
-            Categories.Add(new Category
-            {
-                Id = 0,
-                Name = "Name",
-                Description = "Description",
-            });
-            Categories.Add(new Category
-            {
-                Id = 1,
-                Name = "Name2",
-                Description = "Description",
-            });
-            Categories.Add(new Category
-            {
-                Id = 2,
-                Name = "Name3",
-                Description = "Description",
-            });
-            Categories.Add(new Category
-            {
-                Id = 3,
-                Name = "Name4",
-                Description = "Description",
-            });
+            _categoryService = categoryService;
         }
-        /// <summary>
-        /// Get all categories
-        /// </summary>
-        /// <returns>List of categories</returns>
-        [HttpGet]
-        public ActionResult<List<Category>> GetCategories()
+        [HttpPost, Authorize]
+        public async Task<ActionResult> AddCategory([FromBody] CreateCategoryDTO createCategoryDTO)
         {
-            return Ok(Categories);
-        }
-        /// <summary>
-        /// Add new category
-        /// </summary>
-        /// <param name="category"></param>
-        /// <returns>Status code</returns>
-        [HttpPost]
-        public ActionResult AddCategory([FromBody] Category category)
-        {
-            Categories.Add(category);
+            await _categoryService.CreateCategory(createCategoryDTO);
             return Created();
         }
-        /// <summary>
-        /// Edit category by id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="editedCategory"></param>
-        /// <returns>Status code</returns>
-        [HttpPut("{id}")]
-        public ActionResult EditCategory(int id, [FromBody] Category editedCategory)
+        [HttpPut("{id}"), Authorize]
+        public async Task<ActionResult> EditCategory(int id, [FromBody] UpdateCategoryDTO editedCategory)
         {
-            var category = Categories.FirstOrDefault(c => c.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-            category.Name = editedCategory.Name;
-            category.Description = editedCategory.Description;
+            await _categoryService.UpdateCategory(editedCategory, id);
             return NoContent();
         }
-        /// <summary>
-        /// Delete category by id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>Status code</returns>
-        [HttpDelete("{id}")]
-        public ActionResult DeleteCategory(int id) 
+        [HttpDelete("{id}"), Authorize]
+        public async Task<ActionResult> DeleteCategory(int id)
         {
-            var category = Categories.FirstOrDefault(c => c.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-            Categories.Remove(category);
+            await _categoryService.DeleteCategory(id);
             return NoContent();
         }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<CategoryDTO>> GetCategory(int id)
+        {
+            var category = await _categoryService.GetCategory(id);
+            return Ok(category);
+        }
+        [HttpGet]
+        public ActionResult<List<CategoryDTO>> GetCategories()
+        {
+            var categories = _categoryService.GetAllCategories();
+            return Ok(categories);
+        }    
     }
 }

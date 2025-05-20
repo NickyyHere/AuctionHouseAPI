@@ -13,6 +13,8 @@ namespace AuctionHouseAPI
         public DbSet<Bid> Bids { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<AuctionItemTag> ItemTags { get; set; }
+
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Auction>()
