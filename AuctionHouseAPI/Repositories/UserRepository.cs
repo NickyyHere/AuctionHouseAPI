@@ -32,7 +32,7 @@ namespace AuctionHouseAPI.Repositories
 
         public async Task<User> GetUserByUsername(string username)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Username == username) ?? throw new EntityDoesNotExistException($"User with given username ({username} does not exist in database)");
+            return await _context.Users.FirstOrDefaultAsync(u => u.Username == username) ?? throw new EntityDoesNotExistException($"User with given username ({username}) does not exist in database");
         }
         public async Task<List<User>> GetUsers()
         {

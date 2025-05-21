@@ -56,7 +56,9 @@ namespace AuctionHouseAPI.Mappers
                 create_dto.Options.BuyItNowPrice ?? 0,
                 create_dto.Options.StartDateTime > DateTime.Now ? false : true
                 );
-            return new Auction(auctionItem, auctionOptions);
+            var auction = new Auction(auctionItem, auctionOptions);
+            auction.Item.Tags = create_dto.Item.CustomTags.Select(t => new AuctionItemTag { Tag = new Tag(t)}).ToList();
+            return auction;
         }
     }
 }

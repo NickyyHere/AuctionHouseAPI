@@ -4,6 +4,18 @@
         <name>AuctionHouseAPI</name>
     </assembly>
     <members>
+        <member name="T:AuctionHouseAPI.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:AuctionHouseAPI.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:AuctionHouseAPI.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:AuctionHouseAPI.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="T:AuctionHouseAPI.CustomValidators.ValidDateTime">
             <summary>
             <para>Validates the date based on parameters.</para>
@@ -18,18 +30,6 @@
             Anything below 20.05.2025 14:00 will return false</para>
             </summary>
             <returns>True if valid; otherwise false</returns>
-        </member>
-        <member name="T:AuctionHouseAPI.Migrations.InitialCreate">
-            <inheritdoc />
-        </member>
-        <member name="M:AuctionHouseAPI.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:AuctionHouseAPI.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:AuctionHouseAPI.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
         </member>
     </members>
 </doc>

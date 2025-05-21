@@ -44,7 +44,7 @@ namespace AuctionHouseAPI.Services
                 expires: DateTime.Now.AddHours(1),
                 signingCredentials: creds
                 );
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return "Bearer " + new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

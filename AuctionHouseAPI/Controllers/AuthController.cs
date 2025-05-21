@@ -1,4 +1,5 @@
 ﻿using AuctionHouseAPI.DTOs.Read;
+using AuctionHouseAPI.Exceptions;
 using AuctionHouseAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,15 @@ namespace AuctionHouseAPI.Controllers
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] LoginDTO loginDTO)
         {
-            var token = await _authService.GetUserAuthenticationToken(loginDTO);
+            string token;
+            try
+            {
+                token = await _authService.GetUserAuthenticationToken(loginDTO);
+            }
+            catch (EntityDoesNotExistException e)
+            {
+                return NotFound("Invalid username or password");
+            }
             return Ok(token);
         }
     }

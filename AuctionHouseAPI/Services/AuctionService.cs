@@ -131,7 +131,6 @@ namespace AuctionHouseAPI.Services
                     catch (EntityDoesNotExistException)
                     {
                         var newTag = await _tagRepository.CreateTag(new Tag(tag));
-                        await _tagRepository.CreateTag(newTag);
                         customTags.Add(newTag);
                     }
                 }
