@@ -42,7 +42,7 @@ namespace AuctionHouseAPI.Repositories
         public async Task<List<Auction>> GetAuctionsByCategoryId(int categoryId)
         {
             return await GetAllAuctionsWithDetails()
-                .Where(a => a.Item.CategoryId == categoryId)
+                .Where(a => a.Item!.CategoryId == categoryId)
                 .ToListAsync();
         }
 
@@ -72,7 +72,8 @@ namespace AuctionHouseAPI.Repositories
                 .Include(a => a.Item)
                     .ThenInclude(i => i.Tags)
                         .ThenInclude(ait => ait.Tag)
-                .Include(a => a.Options);
+                .Include(a => a.Options)
+                .Include(a => a.Owner);
         }
     }
 }

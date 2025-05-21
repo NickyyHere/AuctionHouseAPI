@@ -11,11 +11,10 @@ namespace AuctionHouseAPI.Models
         public User? Owner { get; set; }
         public ICollection<Bid> Bids { get; set; } = new List<Bid>();
         public Auction() {}
-        public Auction(AuctionItem item, AuctionOptions options, int ownerId)
+        public Auction(AuctionItem item, AuctionOptions options)
         {
             Item = item;
             Options = options;
-            OwnerId = ownerId;
         }
     }
 }

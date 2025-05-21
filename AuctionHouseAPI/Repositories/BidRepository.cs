@@ -43,10 +43,5 @@ namespace AuctionHouseAPI.Repositories
                 .Where(b => b.UserId == userId)
                 .ToListAsync();
         }
-
-        public async Task UpdateBid()
-        {
-            await _context.SaveChangesAsync();
-        }
     }
 }

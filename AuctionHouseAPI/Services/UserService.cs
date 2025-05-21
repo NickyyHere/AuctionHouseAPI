@@ -1,6 +1,7 @@
 ﻿using AuctionHouseAPI.DTOs.Create;
 using AuctionHouseAPI.DTOs.Read;
 using AuctionHouseAPI.DTOs.Update;
+using AuctionHouseAPI.Exceptions;
 using AuctionHouseAPI.Mappers;
 using AuctionHouseAPI.Models;
 using AuctionHouseAPI.Repositories.interfaces;
@@ -24,14 +25,18 @@ namespace AuctionHouseAPI.Services
 
         public async Task<int> CreateUser(CreateUserDTO createUserDTO)
         {
+            if(await _userRepository.GetUserByUsername(createUserDTO.Username) != null)
+            {
+                throw new DuplicateEntityException($"Username is already in use");
+            }
             var user = _mapper.ToEntity(createUserDTO);
             var id = await _userRepository.CreateUser(user);
             return id;
         }
 
-        public async Task DeleteUser(int id)
+        public async Task DeleteUser(int userId)
         {
-            var user = await _userRepository.GetUserById(id);
+            var user = await _userRepository.GetUserById(userId);
             await _userRepository.DeleteUser(user);
         }
 
@@ -47,9 +52,9 @@ namespace AuctionHouseAPI.Services
             return user;
         }
 
-        public async Task UpdateUser(UpdateUserDTO updateUserDTO, int id)
+        public async Task UpdateUser(UpdateUserDTO updateUserDTO, int userId)
         {
-            var user = await _userRepository.GetUserById(id);
+            var user = await _userRepository.GetUserById(userId);
             if(!string.IsNullOrWhiteSpace(updateUserDTO.FirstName))
                 user.FirstName = updateUserDTO.FirstName;
             if(!string.IsNullOrWhiteSpace(updateUserDTO.Email))

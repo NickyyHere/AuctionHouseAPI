@@ -23,7 +23,7 @@ namespace AuctionHouseAPI.Mappers
 
         public Bid ToEntity(CreateBidDTO create_dto)
         {
-            return new Bid(create_dto.UserId, create_dto.AuctionId, create_dto.Amount);
+            return new Bid(create_dto.AuctionId, create_dto.Amount);
         }
     }
 }

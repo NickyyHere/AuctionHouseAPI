@@ -4,6 +4,7 @@ using AuctionHouseAPI.DTOs.Update;
 using AuctionHouseAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace AuctionHouseAPI.Controllers
 {
@@ -16,24 +17,14 @@ namespace AuctionHouseAPI.Controllers
         {
             _categoryService = categoryService;
         }
+        // POST
         [HttpPost, Authorize]
         public async Task<ActionResult> AddCategory([FromBody] CreateCategoryDTO createCategoryDTO)
         {
             await _categoryService.CreateCategory(createCategoryDTO);
             return Created();
         }
-        [HttpPut("{id}"), Authorize]
-        public async Task<ActionResult> EditCategory(int id, [FromBody] UpdateCategoryDTO editedCategory)
-        {
-            await _categoryService.UpdateCategory(editedCategory, id);
-            return NoContent();
-        }
-        [HttpDelete("{id}"), Authorize]
-        public async Task<ActionResult> DeleteCategory(int id)
-        {
-            await _categoryService.DeleteCategory(id);
-            return NoContent();
-        }
+        // GET
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryDTO>> GetCategory(int id)
         {
@@ -41,10 +32,24 @@ namespace AuctionHouseAPI.Controllers
             return Ok(category);
         }
         [HttpGet]
-        public ActionResult<List<CategoryDTO>> GetCategories()
+        public async Task<ActionResult<List<CategoryDTO>>> GetCategories()
         {
-            var categories = _categoryService.GetAllCategories();
+            var categories = await _categoryService.GetAllCategories();
             return Ok(categories);
-        }    
+        }
+        // DELETE
+        [HttpDelete("{id}"), Authorize]
+        public async Task<ActionResult> DeleteCategory(int id)
+        {
+            await _categoryService.DeleteCategory(id);
+            return NoContent();
+        }
+        // PUT
+        [HttpPut("{id}"), Authorize]
+        public async Task<ActionResult> EditCategory(int id, [FromBody] UpdateCategoryDTO editedCategory)
+        {
+            await _categoryService.UpdateCategory(editedCategory, id);
+            return NoContent();
+        }  
     }
 }

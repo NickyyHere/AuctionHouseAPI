@@ -8,7 +8,7 @@ namespace AuctionHouseAPI.Mappers
     {
         public AuctionDTO ToDTO(Auction entity)
         {
-#pragma warning disable CS8602 // disable possible null reference (i like clean console)
+            #pragma warning disable CS8602 // disable possible null reference (i like clean console)
             var tags = entity.Item.Tags.Select(t => t.Tag.Name).ToList();
             var auctionItemDTO = new AuctionItemDTO(
                 entity.Id, 
@@ -56,7 +56,7 @@ namespace AuctionHouseAPI.Mappers
                 create_dto.Options.BuyItNowPrice ?? 0,
                 create_dto.Options.StartDateTime > DateTime.Now ? false : true
                 );
-            return new Auction(auctionItem, auctionOptions, create_dto.OwnerId);
+            return new Auction(auctionItem, auctionOptions);
         }
     }
 }

@@ -52,6 +52,14 @@ namespace AuctionHouseAPI
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Username)
+                .IsUnique();
+
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+
             modelBuilder.Entity<AuctionItem>()
                 .HasOne(ai => ai.Category)
                 .WithMany(c => c.AuctionItems)

@@ -1,9 +1,10 @@
 ﻿using AuctionHouseAPI.DTOs.Create;
 using AuctionHouseAPI.DTOs.Read;
-using AuctionHouseAPI.DTOs.Update;
+using AuctionHouseAPI.Exceptions;
 using AuctionHouseAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AuctionHouseAPI.Controllers
 {
@@ -16,41 +17,69 @@ namespace AuctionHouseAPI.Controllers
         {
             _bidService = bidService;
         }
+        // POST
         [HttpPost, Authorize]
         public async Task<ActionResult> PlaceBid([FromBody] CreateBidDTO createBidDTO)
         {
-            await _bidService.CreateBid(createBidDTO);
+            if (!int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out var userId))
+            {
+                return Problem();
+            }
+            try
+            {
+                await _bidService.CreateBid(createBidDTO, userId);
+            }
+            catch (EntityDoesNotExistException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception e) when (e is MinimumOutbidException || e is InactiveAuctionException)
+            {
+                return BadRequest(e.Message);
+            }
             return Created();
         }
-        [HttpPut("{id}"), Authorize]
-        public async Task<ActionResult> EditBid(int id, [FromBody] UpdateBidDTO updateBidDTO)
-        {
-            await _bidService.UpdateBid(updateBidDTO, id);
-            return NoContent();
-        }
-        [HttpDelete("auction/{aid}/user/{uid}"), Authorize]
-        public async Task<ActionResult> WithdrawFromAuction(int aid)
-        {
-            await _bidService.WithdrawFromAuction(aid);
-            return NoContent();
-        }
-        [HttpGet("user/{uid}")]
+        // GET
+        [HttpGet("by/user/{uid}")]
         public async Task<ActionResult<List<BidDTO>>> GetUserBids(int uid)
         {
             var bids = await _bidService.GetUserBids(uid);
             return Ok(bids);
         }
-        [HttpGet("auction/{aid}")]
+        [HttpGet("by/auction/{aid}")]
         public async Task<ActionResult<List<BidDTO>>> GetAuctionBids(int aid)
         {
             var bids = await _bidService.GetAuctionBids(aid);
             return Ok(bids);
         }
-        [HttpGet("auction/{aid}/user/{uid}")]
+        [HttpGet("by/auction/{aid}/user/{uid}")]
         public async Task<ActionResult<List<BidDTO>>> GetUserAuctionBids(int aid, int uid)
         {
             var bids = await _bidService.GetUsersBidsByAuctionId(aid, uid);
             return Ok(bids);
-        } 
+        }
+        // DELETE
+        [HttpDelete("auction/{aid}"), Authorize]
+        public async Task<ActionResult> WithdrawFromAuction(int aid)
+        {
+            if (!int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out var userId))
+            {
+                return Problem();
+            }
+            try
+            {
+                await _bidService.WithdrawFromAuction(aid, userId);
+            }
+            catch (EntityDoesNotExistException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (FinishedAuctionException e)
+            {
+                return BadRequest(e.Message);
+            }
+            return NoContent();
+        }
+        // PUT
     }
 }

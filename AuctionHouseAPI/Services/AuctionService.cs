@@ -22,16 +22,25 @@ namespace AuctionHouseAPI.Services
             _mapper = mapper;
         }
 
-        public async Task<int> CreateAuction(CreateAuctionDTO createAuctionDTO)
+        public async Task<int> CreateAuction(CreateAuctionDTO createAuctionDTO, int userId)
         {
             var auction = _mapper.ToEntity(createAuctionDTO);
+            auction.OwnerId = userId;
             var id = await _auctionRepository.CreateAuction(auction);
             return id;
         }
 
-        public async Task DeleteAuction(int id)
+        public async Task DeleteAuction(int id, int userId)
         {
             var auction = await _auctionRepository.GetAuctionById(id);
+            if(auction.Options!.IsActive)
+            {
+                throw new ActiveAuctionException("Can't delete active auction");
+            }
+            if(auction.OwnerId != userId)
+            {
+                throw new UnauthorizedAccessException("Access denied! Only auction owner can delete the auction.");
+            }
             await _auctionRepository.DeleteAuction(auction);
         }
 
@@ -94,13 +103,21 @@ namespace AuctionHouseAPI.Services
             return auctions;
         }
 
-        public async Task UpdateAuctionItem(UpdateAuctionItemDTO updateAuctionItemDTO, int auctionId)
+        public async Task UpdateAuctionItem(UpdateAuctionItemDTO updateAuctionItemDTO, int auctionId, int userId)
         {
             var auction = await _auctionRepository.GetAuctionById(auctionId);
+            if (auction.OwnerId != userId)
+            {
+                throw new UnauthorizedAccessException("Access denied! Only auction owner can edit auction item.");
+            }
+            if (auction.Options!.IsActive)
+            {
+                throw new ActiveAuctionException("Can't edit active auction");
+            }
             if(!string.IsNullOrWhiteSpace(updateAuctionItemDTO.Name)) 
-                auction.Item.Name = updateAuctionItemDTO.Name;
+                auction.Item!.Name = updateAuctionItemDTO.Name;
             if(!string.IsNullOrWhiteSpace(updateAuctionItemDTO.Description))
-                auction.Item.Description = updateAuctionItemDTO.Description;
+                auction.Item!.Description = updateAuctionItemDTO.Description;
             if(updateAuctionItemDTO.CustomTags.Count > 0)
             {
                 var customTags = new List<Tag>();
@@ -114,35 +131,44 @@ namespace AuctionHouseAPI.Services
                     catch (EntityDoesNotExistException)
                     {
                         var newTag = await _tagRepository.CreateTag(new Tag(tag));
+                        await _tagRepository.CreateTag(newTag);
                         customTags.Add(newTag);
                     }
                 }
-                auction.Item.Tags = customTags.Select(t => new AuctionItemTag { TagId = t.Id, AuctionItemId = auction.Id }).ToList();
+                auction.Item!.Tags = customTags.Select(t => new AuctionItemTag { TagId = t.Id, AuctionItemId = auction.Id }).ToList();
             }
             if (updateAuctionItemDTO.CategoryId != null)
-                auction.Item.CategoryId = (int)updateAuctionItemDTO.CategoryId;
+                auction.Item!.CategoryId = (int)updateAuctionItemDTO.CategoryId;
             await _auctionRepository.UpdateAuction();
         }
 
-        public async Task UpdateAuctionOptions(UpdateAuctionOptionsDTO updateAuctionOptionsDTO, int auctionId)
+        public async Task UpdateAuctionOptions(UpdateAuctionOptionsDTO updateAuctionOptionsDTO, int auctionId, int userId)
         {
             var auction = await _auctionRepository.GetAuctionById(auctionId);
+            if (auction.OwnerId != userId)
+            {
+                throw new UnauthorizedAccessException("Access denied! Only auction owner can edit auction options.");
+            }
+            if (auction.Options!.IsActive)
+            {
+                throw new ActiveAuctionException("Can't edit active auction");
+            }
             if (updateAuctionOptionsDTO.IsIncreamentalOnLastMinuteBid != null)
-                auction.Options.IsIncreamentalOnLastMinuteBid = (bool)updateAuctionOptionsDTO.IsIncreamentalOnLastMinuteBid;
+                auction.Options!.IsIncreamentalOnLastMinuteBid = (bool)updateAuctionOptionsDTO.IsIncreamentalOnLastMinuteBid;
             if (updateAuctionOptionsDTO.AllowBuyItNow != null)
-                auction.Options.AllowBuyItNow = (bool)updateAuctionOptionsDTO.AllowBuyItNow;
+                auction.Options!.AllowBuyItNow = (bool)updateAuctionOptionsDTO.AllowBuyItNow;
             if (updateAuctionOptionsDTO.BuyItNowPrice != null)
-                auction.Options.BuyItNowPrice = (decimal)updateAuctionOptionsDTO.BuyItNowPrice;
+                auction.Options!.BuyItNowPrice = (decimal)updateAuctionOptionsDTO.BuyItNowPrice;
             if (updateAuctionOptionsDTO.StartingPrice != null)
-                auction.Options.StartingPrice = (decimal)updateAuctionOptionsDTO.StartingPrice;
-            if(updateAuctionOptionsDTO.FinishDateTime != null)
-                auction.Options.FinishDateTime = (DateTime)updateAuctionOptionsDTO.FinishDateTime;
+                auction.Options!.StartingPrice = (decimal)updateAuctionOptionsDTO.StartingPrice;
+            if (updateAuctionOptionsDTO.FinishDateTime != null)
+                auction.Options!.FinishDateTime = (DateTime)updateAuctionOptionsDTO.FinishDateTime;
             if (updateAuctionOptionsDTO.MinimumOutbid != null)
-                auction.Options.MinimumOutbid = (int)updateAuctionOptionsDTO.MinimumOutbid;
+                auction.Options!.MinimumOutbid = (int)updateAuctionOptionsDTO.MinimumOutbid;
             if (updateAuctionOptionsDTO.MinutesToIncrement != null)
-                auction.Options.MinutesToIncrement = (int)updateAuctionOptionsDTO.MinutesToIncrement;
+                auction.Options!.MinutesToIncrement = (int)updateAuctionOptionsDTO.MinutesToIncrement;
             if (updateAuctionOptionsDTO.StartDateTime != null)
-                auction.Options.StartDateTime = (DateTime)updateAuctionOptionsDTO.StartDateTime;
+                auction.Options!.StartDateTime = (DateTime)updateAuctionOptionsDTO.StartDateTime;
             await _auctionRepository.UpdateAuction();
         }
     }

@@ -5,7 +5,6 @@ namespace AuctionHouseAPI.Repositories.interfaces
     public interface IBidRepository
     {
         public Task CreateBid(Bid bid);
-        public Task UpdateBid();
         public Task DeleteBid(Bid bid);
         public Task<List<Bid>> GetUserBids(int userId);
         public Task<List<Bid>> GetAuctionBids(int auctionId);
