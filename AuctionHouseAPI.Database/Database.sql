@@ -19,12 +19,12 @@ CREATE TABLE "AuctionOptions" (
 );
 
 CREATE TABLE "Auctions" (
-  "Id" integer PRIMARY KEY NOT NULL,
+  "Id" integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY NOT NULL,
   "OwnerId" integer NOT NULL
 );
 
 CREATE TABLE "Bids" (
-  "Id" integer PRIMARY KEY NOT NULL,
+  "Id" integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY NOT NULL,
   "UserId" integer NOT NULL,
   "AuctionId" integer NOT NULL,
   "Amount" numeric NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE "Bids" (
 );
 
 CREATE TABLE "Categories" (
-  "Id" integer PRIMARY KEY NOT NULL,
+  "Id" integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY NOT NULL,
   "Name" text NOT NULL,
   "Description" text NOT NULL
 );
@@ -44,12 +44,12 @@ CREATE TABLE "ItemTags" (
 );
 
 CREATE TABLE "Tags" (
-  "Id" integer PRIMARY KEY NOT NULL,
+  "Id" integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY NOT NULL,
   "Name" text NOT NULL
 );
 
 CREATE TABLE "Users" (
-  "Id" integer PRIMARY KEY NOT NULL,
+  "Id" integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY NOT NULL,
   "Username" text NOT NULL UNIQUE,
   "Email" text NOT NULL UNIQUE,
   "Password" text NOT NULL,

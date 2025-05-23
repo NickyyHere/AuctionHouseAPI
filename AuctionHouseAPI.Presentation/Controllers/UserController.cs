@@ -6,6 +6,7 @@ using AuctionHouseAPI.Shared.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace AuctionHouseAPI.Presentation.Controllers
 {
@@ -35,9 +36,9 @@ namespace AuctionHouseAPI.Presentation.Controllers
         }
         // GET
         [HttpGet("{id}")]
-        public ActionResult GetUser(int id)
+        public async Task<ActionResult> GetUser(int id)
         {
-            var user = _userService.GetUserById(id);
+            var user = await _userService.GetUserById(id);
             return Ok(user);
         }
         [HttpGet]

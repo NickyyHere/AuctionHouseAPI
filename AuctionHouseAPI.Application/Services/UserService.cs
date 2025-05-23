@@ -6,6 +6,7 @@ using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using AuctionHouseAPI.Domain.Repositories.interfaces;
 using AuctionHouseAPI.Shared.Exceptions;
+using System.Linq.Expressions;
 
 namespace AuctionHouseAPI.Application.Services
 {
@@ -21,13 +22,17 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task<int> CreateUser(CreateUserDTO createUserDTO)
         {
-            if(await _userRepository.GetUserByUsername(createUserDTO.Username) != null)
+            try
             {
-                throw new DuplicateEntityException($"Username is already in use");
+                await _userRepository.GetUserByUsername(createUserDTO.Username);
             }
-            var user = _mapper.ToEntity(createUserDTO);
-            var id = await _userRepository.CreateUser(user);
-            return id;
+            catch (EntityDoesNotExistException)
+            {
+                var user = _mapper.ToEntity(createUserDTO);
+                var id = await _userRepository.CreateUser(user);
+                return id;
+            }
+            throw new DuplicateEntityException("Username is already taken");
         }
 
         public async Task DeleteUser(int userId)
