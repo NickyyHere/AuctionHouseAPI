@@ -1,0 +1,13 @@
+﻿.vs
+.vs
+AuctionHouseAPI/obj
+AuctionHouseAPI.Shared/bin
+AuctionHouseAPI.Shared/obj
+AuctionHouseAPI.Presentation/bin
+AuctionHouseAPI.Presentation/obj
+AuctionHouseAPI.Domain/obj
+AuctionHouseAPI.Domain/bin
+AuctionHouseAPI.Application/bin
+AuctionHouseAPI.Application/obj
+AuctionHouseAPI.Database/bin
+AuctionHouseAPI.Database/obj
