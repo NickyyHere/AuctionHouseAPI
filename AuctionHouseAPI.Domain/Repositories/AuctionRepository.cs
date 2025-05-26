@@ -5,24 +5,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AuctionHouseAPI.Domain.Repositories
 {
-    public class AuctionRepository : IAuctionRepository
+    public class AuctionRepository : BaseRepository, IAuctionRepository
     {
-        private readonly AppDbContext _context;
-        public AuctionRepository(AppDbContext context)
-        {
-            _context = context;
-        }
-        public async Task<int> CreateAuction(Auction auction)
+        public AuctionRepository(AppDbContext context) : base(context) {}
+        public async Task CreateAuction(Auction auction)
         {
             await _context.Auctions.AddAsync(auction);
-            await _context.SaveChangesAsync();
-            return auction.Id;
         }
 
-        public async Task DeleteAuction(Auction auction)
+        public void DeleteAuction(Auction auction)
         {
             _context.Auctions.Remove(auction);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<Auction> GetAuctionById(int id)
@@ -59,11 +52,6 @@ namespace AuctionHouseAPI.Domain.Repositories
             return await GetAllAuctionsWithDetails()
                 .Where(a => a.OwnerId == userId)
                 .ToListAsync();
-        }
-
-        public async Task UpdateAuction()
-        {
-            await _context.SaveChangesAsync();
         }
 
         private IQueryable<Auction> GetAllAuctionsWithDetails()

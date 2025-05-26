@@ -10,10 +10,10 @@ namespace AuctionHouseAPI.Presentation.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
-    public class BidController : ControllerBase
+    public class BidsController : ControllerBase
     {
         private readonly IBidService _bidService;
-        public BidController(IBidService bidService)
+        public BidsController(IBidService bidService)
         {
             _bidService = bidService;
         }
@@ -40,19 +40,19 @@ namespace AuctionHouseAPI.Presentation.Controllers
             return Created();
         }
         // GET
-        [HttpGet("by/user/{uid}")]
+        [HttpGet("user/{uid}")]
         public async Task<ActionResult<List<BidDTO>>> GetUserBids(int uid)
         {
             var bids = await _bidService.GetUserBids(uid);
             return Ok(bids);
         }
-        [HttpGet("by/auction/{aid}")]
+        [HttpGet("auction/{aid}")]
         public async Task<ActionResult<List<BidDTO>>> GetAuctionBids(int aid)
         {
             var bids = await _bidService.GetAuctionBids(aid);
             return Ok(bids);
         }
-        [HttpGet("by/auction/{aid}/user/{uid}")]
+        [HttpGet("auction/{aid}/user/{uid}")]
         public async Task<ActionResult<List<BidDTO>>> GetUserAuctionBids(int aid, int uid)
         {
             var bids = await _bidService.GetUsersBidsByAuctionId(aid, uid);

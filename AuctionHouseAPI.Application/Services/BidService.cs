@@ -22,31 +22,41 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task CreateBid(CreateBidDTO createBidDTO, int userId)
         {
-            var auctionOptions = await _auctionService.GetAuctionOptions(createBidDTO.AuctionId);
-            if(!auctionOptions.IsActive)
+            await _bidRepository.BeginTransactionAsync();
+            try
             {
-                throw new InactiveAuctionException($"Can't place bid on inactive auction");
-            }
-            if(auctionOptions.AllowBuyItNow && createBidDTO.Amount >= auctionOptions.BuyItNowPrice)
-            {
-                auctionOptions.IsActive = false;
-                auctionOptions.FinishDateTime = DateTime.Now;
-            }
-            else
-            { 
-                var auctionBids = await _bidRepository.GetAuctionBids(createBidDTO.AuctionId);
-                var minimumRequired = auctionBids.Any() 
-                    ? auctionBids.Max(b => b.Amount) + auctionOptions.MinimumOutbid 
-                    : auctionOptions.StartingPrice;
-
-                if(createBidDTO.Amount < minimumRequired)
+                var auctionOptions = await _auctionService.GetAuctionOptions(createBidDTO.AuctionId);
+                if (!auctionOptions.IsActive)
                 {
-                    throw new MinimumOutbidException($"Minimum outbid is {auctionOptions.MinimumOutbid}, {minimumRequired} to reach the minimum.");
+                    throw new InactiveAuctionException($"Can't place bid on inactive auction");
                 }
+                if (auctionOptions.AllowBuyItNow && createBidDTO.Amount >= auctionOptions.BuyItNowPrice)
+                {
+                    auctionOptions.IsActive = false;
+                    auctionOptions.FinishDateTime = DateTime.Now;
+                }
+                else
+                {
+                    var auctionBids = await _bidRepository.GetAuctionBids(createBidDTO.AuctionId);
+                    var minimumRequired = auctionBids.Any()
+                        ? auctionBids.Max(b => b.Amount) + auctionOptions.MinimumOutbid
+                        : auctionOptions.StartingPrice;
+
+                    if (createBidDTO.Amount < minimumRequired)
+                    {
+                        throw new MinimumOutbidException($"Minimum outbid is {auctionOptions.MinimumOutbid}, {minimumRequired} to reach the minimum.");
+                    }
+                }
+                var bid = _mapper.ToEntity(createBidDTO);
+                bid.UserId = userId;
+                await _bidRepository.CreateBid(bid);
+                await _bidRepository.CommitTransactionAsync();
             }
-            var bid = _mapper.ToEntity(createBidDTO);
-            bid.UserId = userId;
-            await _bidRepository.CreateBid(bid);
+            catch
+            {
+                await _bidRepository.RollbackTransactionAsync();
+                throw;
+            }
         }
 
         public async Task<List<BidDTO>> GetAuctionBids(int auctionId)
@@ -69,15 +79,25 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task WithdrawFromAuction(int auctionId, int userId)
         {
-            var auction = await _auctionService.GetAuctionById(auctionId);
-            if (auction.Options.FinishDateTime < DateTime.Now)
+            await _bidRepository.BeginTransactionAsync();
+            try
             {
-                throw new FinishedAuctionException();
+                var auction = await _auctionService.GetAuctionById(auctionId);
+                if (auction.Options.FinishDateTime < DateTime.Now)
+                {
+                    throw new FinishedAuctionException();
+                }
+                var userAuctionBids = await _bidRepository.GetAuctionUserBids(userId, auctionId);
+                foreach (var bid in userAuctionBids)
+                {
+                    _bidRepository.DeleteBid(bid);
+                }
+                await _bidRepository.CommitTransactionAsync();
             }
-            var userAuctionBids = await _bidRepository.GetAuctionUserBids(userId, auctionId);
-            foreach(var bid in userAuctionBids)
+            catch
             {
-                await _bidRepository.DeleteBid(bid);
+                await _bidRepository.RollbackTransactionAsync();
+                throw;
             }
         }
     }

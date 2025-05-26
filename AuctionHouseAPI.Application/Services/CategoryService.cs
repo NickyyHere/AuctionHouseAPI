@@ -18,16 +18,37 @@ namespace AuctionHouseAPI.Application.Services
             _mapper = mapper;
         }
 
-        public async Task CreateCategory(CreateCategoryDTO categoryDTO)
+        public async Task<int> CreateCategory(CreateCategoryDTO categoryDTO)
         {
-            var category = _mapper.ToEntity(categoryDTO);
-            await _categoryRepository.CreateCategory(category);
+            await _categoryRepository.BeginTransactionAsync();
+            try
+            {
+                var category = _mapper.ToEntity(categoryDTO);
+                await _categoryRepository.CreateCategory(category);
+                await _categoryRepository.CommitTransactionAsync();
+                return category.Id;
+            }
+            catch
+            {
+                await _categoryRepository.RollbackTransactionAsync();
+                throw;
+            }
         }
 
         public async Task DeleteCategory(int id)
         {
-            var category = await _categoryRepository.GetCategoryById(id);
-            await _categoryRepository.DeleteCategory(category);
+            await _categoryRepository.BeginTransactionAsync();
+            try
+            {
+                var category = await _categoryRepository.GetCategoryById(id);
+                _categoryRepository.DeleteCategory(category);
+                await _categoryRepository.CommitTransactionAsync();
+            }
+            catch
+            {
+                await _categoryRepository.RollbackTransactionAsync();
+                throw;
+            }
         }
 
         public async Task<List<CategoryDTO>> GetAllCategories()
@@ -44,12 +65,21 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task UpdateCategory(UpdateCategoryDTO categoryDTO, int id)
         {
-            var category = await _categoryRepository.GetCategoryById(id);
-            if(!string.IsNullOrWhiteSpace(categoryDTO.Name))
-                category.Name = categoryDTO.Name;
-            if(!string.IsNullOrWhiteSpace(categoryDTO.Description))
-                category.Description = categoryDTO.Description;
-            await _categoryRepository.UpdateCategory();
+            await _categoryRepository.BeginTransactionAsync();
+            try
+            {
+                var category = await _categoryRepository.GetCategoryById(id);
+                if (!string.IsNullOrWhiteSpace(categoryDTO.Name))
+                    category.Name = categoryDTO.Name;
+                if (!string.IsNullOrWhiteSpace(categoryDTO.Description))
+                    category.Description = categoryDTO.Description;
+                await _categoryRepository.CommitTransactionAsync();
+            }
+            catch
+            {
+                await _categoryRepository.RollbackTransactionAsync();
+                throw;
+            }
         }
     }
 }

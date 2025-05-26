@@ -4,23 +4,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AuctionHouseAPI.Domain.Repositories
 {
-    public class BidRepository : IBidRepository
+    public class BidRepository : BaseRepository, IBidRepository
     {
-        private readonly AppDbContext _context;
-        public BidRepository(AppDbContext context)
-        {
-            _context = context;
-        }
+        public BidRepository(AppDbContext context) : base(context) { }
         public async Task CreateBid(Bid bid)
         {
             await _context.Bids.AddAsync(bid);
-            await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteBid(Bid bid)
+        public void DeleteBid(Bid bid)
         {
             _context.Bids.Remove(bid);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Bid>> GetAuctionBids(int auctionId)

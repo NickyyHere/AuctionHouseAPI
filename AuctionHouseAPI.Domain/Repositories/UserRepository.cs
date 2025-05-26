@@ -5,24 +5,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AuctionHouseAPI.Domain.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : BaseRepository, IUserRepository
     {
-        private readonly AppDbContext _context;
-        public UserRepository(AppDbContext context)
-        {
-            _context = context;
-        }
-        public async Task<int> CreateUser(User user)
+        public UserRepository(AppDbContext context) : base(context) { }
+        public async Task CreateUser(User user)
         {
             await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
-            return user.Id;
         }
 
-        public async Task DeleteUser(User user)
+        public void DeleteUser(User user)
         {
             _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<User> GetUserById(int id)
@@ -37,11 +30,6 @@ namespace AuctionHouseAPI.Domain.Repositories
         public async Task<List<User>> GetUsers()
         {
             return await _context.Users.ToListAsync();
-        }
-
-        public async Task UpdateUser()
-        {
-            await _context.SaveChangesAsync();
         }
     }
 }

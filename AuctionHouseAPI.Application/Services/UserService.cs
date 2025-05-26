@@ -6,7 +6,6 @@ using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using AuctionHouseAPI.Domain.Repositories.interfaces;
 using AuctionHouseAPI.Shared.Exceptions;
-using System.Linq.Expressions;
 
 namespace AuctionHouseAPI.Application.Services
 {
@@ -28,17 +27,37 @@ namespace AuctionHouseAPI.Application.Services
             }
             catch (EntityDoesNotExistException)
             {
-                var user = _mapper.ToEntity(createUserDTO);
-                var id = await _userRepository.CreateUser(user);
-                return id;
+                await _userRepository.BeginTransactionAsync();
+                try
+                {
+                    var user = _mapper.ToEntity(createUserDTO);
+                    await _userRepository.CreateUser(user);
+                    await _userRepository.CommitTransactionAsync();
+                    return user.Id;
+                }
+                catch
+                {
+                    await _userRepository.RollbackTransactionAsync();
+                    throw;
+                }
             }
             throw new DuplicateEntityException("Username is already taken");
         }
 
         public async Task DeleteUser(int userId)
         {
-            var user = await _userRepository.GetUserById(userId);
-            await _userRepository.DeleteUser(user);
+            await _userRepository.BeginTransactionAsync();
+            try
+            {
+                var user = await _userRepository.GetUserById(userId);
+                _userRepository.DeleteUser(user);
+                await _userRepository.CommitTransactionAsync();
+            }
+            catch
+            {
+                await _userRepository.RollbackTransactionAsync();
+                throw;
+            }
         }
 
         public async Task<List<UserDTO>> GetAllUsers()
@@ -55,16 +74,25 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task UpdateUser(UpdateUserDTO updateUserDTO, int userId)
         {
-            var user = await _userRepository.GetUserById(userId);
-            if(!string.IsNullOrWhiteSpace(updateUserDTO.FirstName))
-                user.FirstName = updateUserDTO.FirstName;
-            if(!string.IsNullOrWhiteSpace(updateUserDTO.Email))
-                user.Email = updateUserDTO.Email;
-            if(!string.IsNullOrWhiteSpace(updateUserDTO.LastName))
-                user.LastName = updateUserDTO.LastName;
-            if(!string.IsNullOrWhiteSpace(updateUserDTO.Password))
-                user.Password = updateUserDTO.Password;
-            await _userRepository.UpdateUser();
+            await _userRepository.BeginTransactionAsync();
+            try
+            {
+                var user = await _userRepository.GetUserById(userId);
+                if (!string.IsNullOrWhiteSpace(updateUserDTO.FirstName))
+                    user.FirstName = updateUserDTO.FirstName;
+                if (!string.IsNullOrWhiteSpace(updateUserDTO.Email))
+                    user.Email = updateUserDTO.Email;
+                if (!string.IsNullOrWhiteSpace(updateUserDTO.LastName))
+                    user.LastName = updateUserDTO.LastName;
+                if (!string.IsNullOrWhiteSpace(updateUserDTO.Password))
+                    user.Password = BCrypt.Net.BCrypt.HashPassword(updateUserDTO.Password);
+                await _userRepository.CommitTransactionAsync();
+            }
+            catch
+            {
+                await _userRepository.RollbackTransactionAsync();
+                throw;
+            }
         }
     }
 }

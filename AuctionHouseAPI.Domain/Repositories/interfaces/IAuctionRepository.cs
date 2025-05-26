@@ -2,11 +2,10 @@
 
 namespace AuctionHouseAPI.Domain.Repositories.interfaces
 {
-    public interface IAuctionRepository
+    public interface IAuctionRepository : IBaseRepository
     {
-        public Task<int> CreateAuction(Auction auction);
-        public Task UpdateAuction();
-        public Task DeleteAuction(Auction auction);
+        public Task CreateAuction(Auction auction);
+        public void DeleteAuction(Auction auction);
         public Task<Auction> GetAuctionById(int id);
         public Task<List<Auction>> GetAuctions();
         public Task<List<Auction>> GetUserAuctions(int userId);

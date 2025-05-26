@@ -5,24 +5,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AuctionHouseAPI.Domain.Repositories
 {
-    public class TagRepository : ITagRepository
+    public class TagRepository : BaseRepository, ITagRepository
     {
-        private readonly AppDbContext _context;
-        public TagRepository(AppDbContext context)
-        {
-            _context = context;
-        }
-        public async Task<Tag> CreateTag(Tag tag)
+        public TagRepository(AppDbContext context) : base(context) { }
+        public async Task CreateTag(Tag tag)
         {
             await _context.Tags.AddAsync(tag);
-            await _context.SaveChangesAsync();
-            return tag;
         }
 
-        public async Task DeleteTag(Tag tag)
+        public void DeleteTag(Tag tag)
         {
             _context.Tags.Remove(tag);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<Tag> GetTagByName(string name)

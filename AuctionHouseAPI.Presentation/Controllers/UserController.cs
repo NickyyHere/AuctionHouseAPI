@@ -1,12 +1,11 @@
 ﻿using AuctionHouseAPI.Application.DTOs.Create;
+using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.DTOs.Update;
 using AuctionHouseAPI.Application.Services.Interfaces;
-using AuctionHouseAPI.Domain.Models;
 using AuctionHouseAPI.Shared.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace AuctionHouseAPI.Presentation.Controllers
 {
@@ -42,7 +41,7 @@ namespace AuctionHouseAPI.Presentation.Controllers
             return Ok(user);
         }
         [HttpGet]
-        public async Task<ActionResult<List<User>>> GetUsers()
+        public async Task<ActionResult<List<UserDTO>>> GetUsers()
         {
             var users = await _userService.GetAllUsers();
             return Ok(users);

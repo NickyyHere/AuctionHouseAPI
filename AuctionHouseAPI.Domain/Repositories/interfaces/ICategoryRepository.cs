@@ -2,11 +2,10 @@
 
 namespace AuctionHouseAPI.Domain.Repositories.interfaces
 {
-    public interface ICategoryRepository
+    public interface ICategoryRepository : IBaseRepository
     {
         public Task CreateCategory(Category category);
-        public Task UpdateCategory();
-        public Task DeleteCategory(Category category);
+        public void DeleteCategory(Category category);
         public Task<Category> GetCategoryById(int id);
         public Task<List<Category>> GetCategories();
     }
