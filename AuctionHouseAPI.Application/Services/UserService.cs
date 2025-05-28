@@ -3,17 +3,17 @@ using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.DTOs.Update;
 using AuctionHouseAPI.Application.Mappers;
 using AuctionHouseAPI.Application.Services.Interfaces;
+using AuctionHouseAPI.Domain.EFCore.Repositories.Interfaces;
 using AuctionHouseAPI.Domain.Models;
-using AuctionHouseAPI.Domain.Repositories.interfaces;
 using AuctionHouseAPI.Shared.Exceptions;
 
 namespace AuctionHouseAPI.Application.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IEFUserRepository _userRepository;
         private readonly IMapper<UserDTO, CreateUserDTO, User> _mapper;
-        public UserService(IUserRepository userRepository, IMapper<UserDTO, CreateUserDTO, User> mapper)
+        public UserService(IEFUserRepository userRepository, IMapper<UserDTO, CreateUserDTO, User> mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -21,36 +21,31 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task<int> CreateUser(CreateUserDTO createUserDTO)
         {
+            if(await _userRepository.GetByUsernameAsync(createUserDTO.Username) != null)
+                throw new DuplicateEntityException("Username is already taken");
+
+            await _userRepository.BeginTransactionAsync();
             try
             {
-                await _userRepository.GetUserByUsername(createUserDTO.Username);
+                var user = _mapper.ToEntity(createUserDTO);
+                await _userRepository.CreateAsync(user);
+                await _userRepository.CommitTransactionAsync();
+                return user.Id;
             }
-            catch (EntityDoesNotExistException)
+            catch
             {
-                await _userRepository.BeginTransactionAsync();
-                try
-                {
-                    var user = _mapper.ToEntity(createUserDTO);
-                    await _userRepository.CreateUser(user);
-                    await _userRepository.CommitTransactionAsync();
-                    return user.Id;
-                }
-                catch
-                {
-                    await _userRepository.RollbackTransactionAsync();
-                    throw;
-                }
+                await _userRepository.RollbackTransactionAsync();
+                throw;
             }
-            throw new DuplicateEntityException("Username is already taken");
         }
 
         public async Task DeleteUser(int userId)
         {
+            var user = await _userRepository.GetByIdAsync(userId) ?? throw new EntityDoesNotExistException($"User with given id ({userId}) does not exist");
             await _userRepository.BeginTransactionAsync();
             try
             {
-                var user = await _userRepository.GetUserById(userId);
-                _userRepository.DeleteUser(user);
+                await _userRepository.DeleteAsync(user);
                 await _userRepository.CommitTransactionAsync();
             }
             catch
@@ -62,22 +57,22 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task<List<UserDTO>> GetAllUsers()
         {
-            var users = _mapper.ToDTO(await _userRepository.GetUsers());
+            var users = _mapper.ToDTO((List<User>)await _userRepository.GetAllAsync());
             return users;
         }
 
         public async Task<UserDTO> GetUserById(int id)
         {
-            var user = _mapper.ToDTO(await _userRepository.GetUserById(id));
+            var user = _mapper.ToDTO(await _userRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"User with given id ({id}) does not exist"));
             return user;
         }
 
         public async Task UpdateUser(UpdateUserDTO updateUserDTO, int userId)
         {
+            var user = await _userRepository.GetByIdAsync(userId) ?? throw new EntityDoesNotExistException($"User with given id ({userId}) does not exist");
             await _userRepository.BeginTransactionAsync();
             try
             {
-                var user = await _userRepository.GetUserById(userId);
                 if (!string.IsNullOrWhiteSpace(updateUserDTO.FirstName))
                     user.FirstName = updateUserDTO.FirstName;
                 if (!string.IsNullOrWhiteSpace(updateUserDTO.Email))

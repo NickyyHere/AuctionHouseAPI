@@ -3,18 +3,18 @@ using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.DTOs.Update;
 using AuctionHouseAPI.Application.Mappers;
 using AuctionHouseAPI.Application.Services.Interfaces;
+using AuctionHouseAPI.Domain.EFCore.Repositories.Interfaces;
 using AuctionHouseAPI.Domain.Models;
-using AuctionHouseAPI.Domain.Repositories.interfaces;
 using AuctionHouseAPI.Shared.Exceptions;
 
 namespace AuctionHouseAPI.Application.Services
 {
     public class AuctionService : IAuctionService
     {
-        private readonly IAuctionRepository _auctionRepository;
+        private readonly IEFAuctionRepository _auctionRepository;
         private readonly ITagService _tagService;
         private readonly IMapper<AuctionDTO, CreateAuctionDTO, Auction> _mapper;
-        public AuctionService(IAuctionRepository auctionRepository, ITagService tagService, IMapper<AuctionDTO, CreateAuctionDTO, Auction> mapper)
+        public AuctionService(IEFAuctionRepository auctionRepository, ITagService tagService, IMapper<AuctionDTO, CreateAuctionDTO, Auction> mapper)
         {
             _auctionRepository = auctionRepository;
             _tagService = tagService;
@@ -28,7 +28,7 @@ namespace AuctionHouseAPI.Application.Services
             {
                 var auction = _mapper.ToEntity(createAuctionDTO);
                 auction.OwnerId = userId;
-                await _auctionRepository.CreateAuction(auction);
+                await _auctionRepository.CreateAsync(auction);
                 await _auctionRepository.SaveChangesAsync();
                 await AddTagsToAuctionItem(createAuctionDTO.Item.CustomTags, auction.Item!);
                 await _auctionRepository.CommitTransactionAsync();
@@ -43,10 +43,10 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task DeleteAuction(int id, int userId)
         {
+            var auction = await _auctionRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"Auction with given id ({id}) does not exist");
             await _auctionRepository.BeginTransactionAsync();
             try
             {
-                var auction = await _auctionRepository.GetAuctionById(id);
                 if (auction.Options!.IsActive)
                 {
                     throw new ActiveAuctionException("Can't delete active auction");
@@ -55,7 +55,7 @@ namespace AuctionHouseAPI.Application.Services
                 {
                     throw new UnauthorizedAccessException("Access denied! Only auction owner can delete the auction.");
                 }
-                _auctionRepository.DeleteAuction(auction);
+                await _auctionRepository.DeleteAsync(auction);
                 await _auctionRepository.CommitTransactionAsync();
             }
             catch
@@ -67,44 +67,44 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task<List<AuctionItemDTO>> GetAllAuctionItems()
         {
-            var auctions = _mapper.ToDTO(await _auctionRepository.GetAuctions());
+            var auctions = _mapper.ToDTO((List<Auction>)await _auctionRepository.GetAllAsync());
             var items = auctions.Select(t => t.Item).ToList();
             return items;
         }
 
         public async Task<List<AuctionDTO>> GetAllAuctions()
         {
-            var auctions = _mapper.ToDTO(await _auctionRepository.GetAuctions());
+            var auctions = _mapper.ToDTO((List<Auction>)await _auctionRepository.GetAllAsync());
             return auctions;
         }
 
         public async Task<AuctionDTO> GetAuctionById(int id)
         {
-            var auction = _mapper.ToDTO(await _auctionRepository.GetAuctionById(id));
+            var auction = _mapper.ToDTO(await _auctionRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"Auction with given id ({id}) does not exist"));
             return auction;
         }
 
         public async Task<AuctionItemDTO> GetAuctionItem(int auctionId)
         {
-            var auction = _mapper.ToDTO(await _auctionRepository.GetAuctionById(auctionId));
+            var auction = _mapper.ToDTO(await _auctionRepository.GetByIdAsync(auctionId) ?? throw new EntityDoesNotExistException($"Auction with given id ({auctionId}) does not exist"));
             return auction.Item;
         }
 
         public async Task<AuctionOptionsDTO> GetAuctionOptions(int auctionId)
         {
-            var auction = _mapper.ToDTO(await _auctionRepository.GetAuctionById(auctionId));
+            var auction = _mapper.ToDTO(await _auctionRepository.GetByIdAsync(auctionId) ?? throw new EntityDoesNotExistException($"Auction with given id ({auctionId}) does not exist"));
             return auction.Options;
         }
 
         public async Task<List<AuctionDTO>> GetAuctionsByCategory(int categoryId)
         {
-            var auctions = _mapper.ToDTO(await _auctionRepository.GetAuctionsByCategoryId(categoryId));
+            var auctions = _mapper.ToDTO((List<Auction>)await _auctionRepository.GetByCategoryIdAsync(categoryId));
             return auctions;
         }
 
         public async Task<List<AuctionDTO>> GetAuctionsByTags(string[] tags)
         {
-            var tasks = tags.Select(t => _auctionRepository.GetAuctionsByTag(t)).ToList();
+            var tasks = tags.Select(t => _auctionRepository.GetByTagsAsync(t)).ToList();
             var results = await Task.WhenAll(tasks);
 
             var auctions = new HashSet<AuctionDTO>();
@@ -120,16 +120,16 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task<List<AuctionDTO>> GetAuctionsByUser(int userId)
         {
-            var auctions = _mapper.ToDTO(await _auctionRepository.GetUserAuctions(userId));
+            var auctions = _mapper.ToDTO((List<Auction>)await _auctionRepository.GetByUserAsync(userId));
             return auctions;
         }
 
         public async Task UpdateAuctionItem(UpdateAuctionItemDTO updateAuctionItemDTO, int auctionId, int userId)
         {
+            var auction = await _auctionRepository.GetByIdAsync(auctionId) ?? throw new EntityDoesNotExistException($"Auction with given id ({auctionId}) does not exist");
             await _auctionRepository.BeginTransactionAsync();
             try
             {
-                var auction = await _auctionRepository.GetAuctionById(auctionId);
                 if (auction.OwnerId != userId)
                 {
                     throw new UnauthorizedAccessException("Access denied! Only auction owner can edit auction item.");
@@ -156,10 +156,10 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task UpdateAuctionOptions(UpdateAuctionOptionsDTO updateAuctionOptionsDTO, int auctionId, int userId)
         {
+            var auction = await _auctionRepository.GetByIdAsync(auctionId) ?? throw new EntityDoesNotExistException($"Auction with given id ({auctionId}) does not exist");
             await _auctionRepository.BeginTransactionAsync();
             try
             {
-                var auction = await _auctionRepository.GetAuctionById(auctionId);
                 if (auction.OwnerId != userId)
                 {
                     throw new UnauthorizedAccessException("Access denied! Only auction owner can edit auction options.");

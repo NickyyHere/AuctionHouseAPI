@@ -3,10 +3,10 @@ using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.Mappers;
 using AuctionHouseAPI.Application.Services;
 using AuctionHouseAPI.Application.Services.Interfaces;
-using AuctionHouseAPI.Domain;
+using AuctionHouseAPI.Domain.EFCore;
+using AuctionHouseAPI.Domain.EFCore.Repositories;
+using AuctionHouseAPI.Domain.EFCore.Repositories.Interfaces;
 using AuctionHouseAPI.Domain.Models;
-using AuctionHouseAPI.Domain.Repositories;
-using AuctionHouseAPI.Domain.Repositories.interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -63,11 +63,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddAuthorization();
 
-builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
-builder.Services.AddScoped<IBidRepository, BidRepository>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<ITagRepository, TagRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IEFAuctionRepository, EFAuctionRepository>();
+builder.Services.AddScoped<IEFBidRepository, EFBidRepository>();
+builder.Services.AddScoped<IEFCategoryRepository, EFCategoryRepository>();
+builder.Services.AddScoped<IEFTagRepository, EFTagRepository>();
+builder.Services.AddScoped<IEFUserRepository, EFUserRepository>();
 
 builder.Services.AddSingleton<IMapper<UserDTO, CreateUserDTO, User>, UserMapper>();
 builder.Services.AddSingleton<IMapper<AuctionDTO, CreateAuctionDTO, Auction>, AuctionMapper>();

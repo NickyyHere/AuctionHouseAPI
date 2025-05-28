@@ -1,11 +1,12 @@
 ﻿using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.Services.Interfaces;
-using AuctionHouseAPI.Domain.Repositories.interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AuctionHouseAPI.Shared.Exceptions;
+using AuctionHouseAPI.Domain.EFCore.Repositories.Interfaces;
 
 namespace AuctionHouseAPI.Application.Services
 {
@@ -14,8 +15,8 @@ namespace AuctionHouseAPI.Application.Services
         private readonly string _key;
         private readonly string _issuer;
         private readonly string _audience;
-        private readonly IUserRepository _userRepository;
-        public AuthService(IConfiguration configuration, IUserRepository userRepository)
+        private readonly IEFUserRepository _userRepository;
+        public AuthService(IConfiguration configuration, IEFUserRepository userRepository)
         {
             _key = configuration["JwtSettings:Key"]!;
             _issuer = configuration["JwtSettings:Issuer"]!;
@@ -25,7 +26,7 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task<string> GetUserAuthenticationToken(LoginDTO loginDTO)
         {
-            var user = await _userRepository.GetUserByUsername(loginDTO.Username);
+            var user = await _userRepository.GetByUsernameAsync(loginDTO.Username) ?? throw new EntityDoesNotExistException($"User with given username ({loginDTO.Username}) does not exist");
             if (!BCrypt.Net.BCrypt.Verify(loginDTO.Password, user.Password))
                 throw new UnauthorizedAccessException();
 

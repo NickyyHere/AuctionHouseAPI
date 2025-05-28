@@ -2,18 +2,18 @@
 using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.Mappers;
 using AuctionHouseAPI.Application.Services.Interfaces;
+using AuctionHouseAPI.Domain.EFCore.Repositories.Interfaces;
 using AuctionHouseAPI.Domain.Models;
-using AuctionHouseAPI.Domain.Repositories.interfaces;
 using AuctionHouseAPI.Shared.Exceptions;
 
 namespace AuctionHouseAPI.Application.Services
 {
     public class BidService : IBidService
     {
-        private readonly IBidRepository _bidRepository;
+        private readonly IEFBidRepository _bidRepository;
         private readonly IMapper<BidDTO, CreateBidDTO, Bid> _mapper;
         private readonly IAuctionService _auctionService;
-        public BidService(IBidRepository bidRepository, IMapper<BidDTO, CreateBidDTO, Bid> mapper, IAuctionService auctionService)
+        public BidService(IEFBidRepository bidRepository, IMapper<BidDTO, CreateBidDTO, Bid> mapper, IAuctionService auctionService)
         {
             _bidRepository = bidRepository;
             _mapper = mapper;
@@ -22,10 +22,10 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task CreateBid(CreateBidDTO createBidDTO, int userId)
         {
+            var auctionOptions = await _auctionService.GetAuctionOptions(createBidDTO.AuctionId);
             await _bidRepository.BeginTransactionAsync();
             try
             {
-                var auctionOptions = await _auctionService.GetAuctionOptions(createBidDTO.AuctionId);
                 if (!auctionOptions.IsActive)
                 {
                     throw new InactiveAuctionException($"Can't place bid on inactive auction");
@@ -37,7 +37,7 @@ namespace AuctionHouseAPI.Application.Services
                 }
                 else
                 {
-                    var auctionBids = await _bidRepository.GetAuctionBids(createBidDTO.AuctionId);
+                    var auctionBids = await _bidRepository.GetByAuctionAsync(createBidDTO.AuctionId);
                     var minimumRequired = auctionBids.Any()
                         ? auctionBids.Max(b => b.Amount) + auctionOptions.MinimumOutbid
                         : auctionOptions.StartingPrice;
@@ -49,7 +49,7 @@ namespace AuctionHouseAPI.Application.Services
                 }
                 var bid = _mapper.ToEntity(createBidDTO);
                 bid.UserId = userId;
-                await _bidRepository.CreateBid(bid);
+                await _bidRepository.CreateAsync(bid);
                 await _bidRepository.CommitTransactionAsync();
             }
             catch
@@ -61,19 +61,19 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task<List<BidDTO>> GetAuctionBids(int auctionId)
         {
-            var bids = _mapper.ToDTO(await _bidRepository.GetAuctionBids(auctionId));
+            var bids = _mapper.ToDTO((List<Bid>)await _bidRepository.GetByAuctionAsync(auctionId));
             return bids;
         }
 
         public async Task<List<BidDTO>> GetUserBids(int userId)
         {
-            var bids = _mapper.ToDTO(await _bidRepository.GetUserBids(userId));
+            var bids = _mapper.ToDTO((List<Bid>)await _bidRepository.GetByUserAsync(userId));
             return bids;
         }
 
         public async Task<List<BidDTO>> GetUsersBidsByAuctionId(int userId, int auctionId)
         {
-            var bids = _mapper.ToDTO(await _bidRepository.GetAuctionUserBids(userId, auctionId));
+            var bids = _mapper.ToDTO((List<Bid>)await _bidRepository.GetByUserAndAuctionAsync(userId, auctionId));
             return bids;
         }
 
@@ -87,10 +87,10 @@ namespace AuctionHouseAPI.Application.Services
                 {
                     throw new FinishedAuctionException();
                 }
-                var userAuctionBids = await _bidRepository.GetAuctionUserBids(userId, auctionId);
+                var userAuctionBids = await _bidRepository.GetByUserAndAuctionAsync(userId, auctionId);
                 foreach (var bid in userAuctionBids)
                 {
-                    _bidRepository.DeleteBid(bid);
+                    await _bidRepository.DeleteAsync(bid);
                 }
                 await _bidRepository.CommitTransactionAsync();
             }
