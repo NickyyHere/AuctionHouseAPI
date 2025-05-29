@@ -4,7 +4,8 @@ namespace AuctionHouseAPI.Application.Services.Interfaces
 {
     public interface ITagService
     {
-        public Task CreateTag(Tag tag);
+        public Task<int> CreateTag(Tag tag);
+        public Task<Tag?> GetTagById(int id);
         public Task<Tag> GetTagByName(string name);
     }
 }

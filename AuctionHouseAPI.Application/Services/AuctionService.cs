@@ -28,8 +28,8 @@ namespace AuctionHouseAPI.Application.Services
             {
                 var auction = _mapper.ToEntity(createAuctionDTO);
                 auction.OwnerId = userId;
-                var newId = await _auctionRepository.CreateAsync(auction);
                 await AddTagsToAuctionItem(createAuctionDTO.Item.CustomTags, auction.Item!);
+                var newId = await _auctionRepository.CreateAsync(auction);
                 await _auctionRepository.CommitTransactionAsync();
                 return newId;
             }
@@ -209,8 +209,8 @@ namespace AuctionHouseAPI.Application.Services
                     catch (EntityDoesNotExistException)
                     {
                         var newTag = new Tag(tag);
-                        await _tagService.CreateTag(newTag);
-                        customTags.Add(newTag);
+                        var newTagId = await _tagService.CreateTag(newTag);
+                        customTags.Add(await _tagService.GetTagById(newTagId) ?? throw new EntityDoesNotExistException("Tag does not exist"));
                     }
                 }
                 auctionItem.Tags = customTags.Select(t => new AuctionItemTag { TagId = t.Id, AuctionItemId = auctionItem.AuctionId }).ToList();

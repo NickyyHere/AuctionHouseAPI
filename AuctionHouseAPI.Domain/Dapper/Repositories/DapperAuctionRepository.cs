@@ -70,7 +70,7 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
             }, _currentTransaction);
             await CloseConnection();
             return auctionId;
-            }
+        }
 
         public override async Task DeleteAsync(Auction entity)
         {

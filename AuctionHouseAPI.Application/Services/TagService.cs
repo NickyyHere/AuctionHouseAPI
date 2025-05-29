@@ -14,9 +14,25 @@ namespace AuctionHouseAPI.Application.Services
             _tagRepository = tagRepository;
         }
 
-        public async Task CreateTag(Tag tag)
+        public async Task<int> CreateTag(Tag tag)
         {
-            await _tagRepository.CreateAsync(tag);
+            await _tagRepository.BeginTransactionAsync();
+            try
+            {
+                var tagId = await _tagRepository.CreateAsync(tag);
+                await _tagRepository.CommitTransactionAsync();
+                return tagId;
+            }
+            catch
+            {
+                await _tagRepository.RollbackTransactionAsync();
+                throw;
+            }
+        }
+
+        public async Task<Tag?> GetTagById(int id)
+        {
+            return await _tagRepository.GetByIdAsync(id);
         }
 
         public async Task<Tag> GetTagByName(string name)
