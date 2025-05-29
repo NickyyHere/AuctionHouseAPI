@@ -1,19 +1,19 @@
 ﻿using AuctionHouseAPI.Application.DTOs.Create;
 using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.DTOs.Update;
-using AuctionHouseAPI.Application.Mappers;
 using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using AuctionHouseAPI.Shared.Exceptions;
+using AutoMapper;
 
 namespace AuctionHouseAPI.Application.Services
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IMapper<UserDTO, CreateUserDTO, User> _mapper;
-        public UserService(IUserRepository userRepository, IMapper<UserDTO, CreateUserDTO, User> mapper)
+        private readonly IMapper _mapper;
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -27,7 +27,7 @@ namespace AuctionHouseAPI.Application.Services
             await _userRepository.BeginTransactionAsync();
             try
             {
-                var user = _mapper.ToEntity(createUserDTO);
+                var user = _mapper.Map<User>(createUserDTO);
                 var newId = await _userRepository.CreateAsync(user);
                 await _userRepository.CommitTransactionAsync();
                 return newId;
@@ -57,13 +57,13 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task<List<UserDTO>> GetAllUsers()
         {
-            var users = _mapper.ToDTO((List<User>)await _userRepository.GetAllAsync());
+            var users = _mapper.Map<List<UserDTO>>(await _userRepository.GetAllAsync());
             return users;
         }
 
         public async Task<UserDTO> GetUserById(int id)
         {
-            var user = _mapper.ToDTO(await _userRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"User with given id ({id}) does not exist"));
+            var user = _mapper.Map<UserDTO>(await _userRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"User with given id ({id}) does not exist"));
             return user;
         }
 

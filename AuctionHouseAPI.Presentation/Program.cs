@@ -1,6 +1,6 @@
 using AuctionHouseAPI.Application.DTOs.Create;
 using AuctionHouseAPI.Application.DTOs.Read;
-using AuctionHouseAPI.Application.Mappers;
+using AuctionHouseAPI.Application.MappingProfiles;
 using AuctionHouseAPI.Application.Services;
 using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Domain.Dapper;
@@ -87,11 +87,11 @@ switch (repositoryType)
         builder.Services.AddScoped<IUserRepository, EFUserRepository>();
         break;
 }
-    
-builder.Services.AddSingleton<IMapper<UserDTO, CreateUserDTO, User>, UserMapper>();
-builder.Services.AddSingleton<IMapper<AuctionDTO, CreateAuctionDTO, Auction>, AuctionMapper>();
-builder.Services.AddSingleton<IMapper<CategoryDTO, CreateCategoryDTO, Category>, CategoryMapper>();
-builder.Services.AddSingleton<IMapper<BidDTO, CreateBidDTO, Bid>, BidMapper>();
+
+builder.Services.AddAutoMapper(typeof(AuctionMappingProfile));
+builder.Services.AddAutoMapper(typeof(UserMappingProfile));
+builder.Services.AddAutoMapper(typeof(CategoryMappingProfile));
+builder.Services.AddAutoMapper(typeof(BidMappingProfile));
 
 builder.Services.AddScoped<IAuctionService, AuctionService>();
 builder.Services.AddScoped<IBidService, BidService>();

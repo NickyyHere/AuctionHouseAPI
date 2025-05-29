@@ -1,19 +1,19 @@
 ﻿using AuctionHouseAPI.Application.DTOs.Create;
 using AuctionHouseAPI.Application.DTOs.Read;
-using AuctionHouseAPI.Application.Mappers;
 using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using AuctionHouseAPI.Shared.Exceptions;
+using AutoMapper;
 
 namespace AuctionHouseAPI.Application.Services
 {
     public class BidService : IBidService
     {
         private readonly IBidRepository _bidRepository;
-        private readonly IMapper<BidDTO, CreateBidDTO, Bid> _mapper;
+        private readonly IMapper _mapper;
         private readonly IAuctionService _auctionService;
-        public BidService(IBidRepository bidRepository, IMapper<BidDTO, CreateBidDTO, Bid> mapper, IAuctionService auctionService)
+        public BidService(IBidRepository bidRepository, IMapper mapper, IAuctionService auctionService)
         {
             _bidRepository = bidRepository;
             _mapper = mapper;
@@ -30,11 +30,6 @@ namespace AuctionHouseAPI.Application.Services
                 {
                     throw new InactiveAuctionException($"Can't place bid on inactive auction");
                 }
-                if (auctionOptions.AllowBuyItNow && createBidDTO.Amount >= auctionOptions.BuyItNowPrice)
-                {
-                    auctionOptions.IsActive = false;
-                    auctionOptions.FinishDateTime = DateTime.Now;
-                }
                 else
                 {
                     var auctionBids = await _bidRepository.GetByAuctionAsync(createBidDTO.AuctionId);
@@ -47,7 +42,7 @@ namespace AuctionHouseAPI.Application.Services
                         throw new MinimumOutbidException($"Minimum outbid is {auctionOptions.MinimumOutbid}, {minimumRequired} to reach the minimum.");
                     }
                 }
-                var bid = _mapper.ToEntity(createBidDTO);
+                var bid = _mapper.Map<Bid>(createBidDTO);
                 bid.UserId = userId;
                 await _bidRepository.CreateAsync(bid);
                 await _bidRepository.CommitTransactionAsync();
@@ -61,19 +56,19 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task<List<BidDTO>> GetAuctionBids(int auctionId)
         {
-            var bids = _mapper.ToDTO((List<Bid>)await _bidRepository.GetByAuctionAsync(auctionId));
+            var bids = _mapper.Map<List<BidDTO>>(await _bidRepository.GetByAuctionAsync(auctionId));
             return bids;
         }
 
         public async Task<List<BidDTO>> GetUserBids(int userId)
         {
-            var bids = _mapper.ToDTO((List<Bid>)await _bidRepository.GetByUserAsync(userId));
+            var bids = _mapper.Map<List<BidDTO>>(await _bidRepository.GetByUserAsync(userId));
             return bids;
         }
 
         public async Task<List<BidDTO>> GetUsersBidsByAuctionId(int userId, int auctionId)
         {
-            var bids = _mapper.ToDTO((List<Bid>)await _bidRepository.GetByUserAndAuctionAsync(userId, auctionId));
+            var bids = _mapper.Map<List<BidDTO>>(await _bidRepository.GetByUserAndAuctionAsync(userId, auctionId));
             return bids;
         }
 

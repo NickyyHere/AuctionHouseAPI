@@ -1,19 +1,19 @@
 ﻿using AuctionHouseAPI.Application.DTOs.Create;
 using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.DTOs.Update;
-using AuctionHouseAPI.Application.Mappers;
 using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using AuctionHouseAPI.Shared.Exceptions;
+using AutoMapper;
 
 namespace AuctionHouseAPI.Application.Services
 {
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IMapper<CategoryDTO, CreateCategoryDTO, Category> _mapper;
-        public CategoryService(ICategoryRepository categoryRepository, IMapper<CategoryDTO, CreateCategoryDTO, Category> mapper)
+        private readonly IMapper _mapper;
+        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
@@ -24,7 +24,7 @@ namespace AuctionHouseAPI.Application.Services
             await _categoryRepository.BeginTransactionAsync();
             try
             {
-                var category = _mapper.ToEntity(categoryDTO);
+                var category = _mapper.Map<Category>(categoryDTO);
                 var newId = await _categoryRepository.CreateAsync(category);
                 await _categoryRepository.CommitTransactionAsync();
                 return newId;
@@ -54,13 +54,13 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task<List<CategoryDTO>> GetAllCategories()
         {
-            var categories = _mapper.ToDTO((List<Category>)await _categoryRepository.GetAllAsync());
+            var categories = _mapper.Map<List<CategoryDTO>>(await _categoryRepository.GetAllAsync());
             return categories;
         }
 
         public async Task<CategoryDTO> GetCategory(int id)
         {
-            var category = _mapper.ToDTO(await _categoryRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"Category with given id ({id}) does not exist"));
+            var category = _mapper.Map<CategoryDTO>(await _categoryRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"Category with given id ({id}) does not exist"));
             return category;
         }
 

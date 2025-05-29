@@ -1,11 +1,11 @@
 ﻿using AuctionHouseAPI.Application.DTOs.Create;
 using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.DTOs.Update;
-using AuctionHouseAPI.Application.Mappers;
 using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using AuctionHouseAPI.Shared.Exceptions;
+using AutoMapper;
 
 namespace AuctionHouseAPI.Application.Services
 {
@@ -13,8 +13,8 @@ namespace AuctionHouseAPI.Application.Services
     {
         private readonly IAuctionRepository _auctionRepository;
         private readonly ITagService _tagService;
-        private readonly IMapper<AuctionDTO, CreateAuctionDTO, Auction> _mapper;
-        public AuctionService(IAuctionRepository auctionRepository, ITagService tagService, IMapper<AuctionDTO, CreateAuctionDTO, Auction> mapper)
+        private readonly IMapper _mapper;
+        public AuctionService(IAuctionRepository auctionRepository, ITagService tagService, IMapper mapper)
         {
             _auctionRepository = auctionRepository;
             _tagService = tagService;
@@ -26,7 +26,7 @@ namespace AuctionHouseAPI.Application.Services
             await _auctionRepository.BeginTransactionAsync();
             try
             {
-                var auction = _mapper.ToEntity(createAuctionDTO);
+                var auction = _mapper.Map<Auction>(createAuctionDTO);
                 auction.OwnerId = userId;
                 await AddTagsToAuctionItem(createAuctionDTO.Item.CustomTags, auction.Item!);
                 var newId = await _auctionRepository.CreateAsync(auction);
@@ -66,38 +66,38 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task<List<AuctionItemDTO>> GetAllAuctionItems()
         {
-            var auctions = _mapper.ToDTO((List<Auction>)await _auctionRepository.GetAllAsync());
+            var auctions = _mapper.Map<List<AuctionDTO>>(await _auctionRepository.GetAllAsync());
             var items = auctions.Select(t => t.Item).ToList();
             return items;
         }
 
         public async Task<List<AuctionDTO>> GetAllAuctions()
         {
-            var auctions = _mapper.ToDTO((List<Auction>)await _auctionRepository.GetAllAsync());
+            var auctions = _mapper.Map<List<AuctionDTO>>(await _auctionRepository.GetAllAsync());
             return auctions;
         }
 
         public async Task<AuctionDTO> GetAuctionById(int id)
         {
-            var auction = _mapper.ToDTO(await _auctionRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"Auction with given id ({id}) does not exist"));
+            var auction = _mapper.Map<AuctionDTO>(await _auctionRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"Auction with given id ({id}) does not exist"));
             return auction;
         }
 
         public async Task<AuctionItemDTO> GetAuctionItem(int auctionId)
         {
-            var auction = _mapper.ToDTO(await _auctionRepository.GetByIdAsync(auctionId) ?? throw new EntityDoesNotExistException($"Auction with given id ({auctionId}) does not exist"));
+            var auction = _mapper.Map<AuctionDTO>(await _auctionRepository.GetByIdAsync(auctionId) ?? throw new EntityDoesNotExistException($"Auction with given id ({auctionId}) does not exist"));
             return auction.Item;
         }
 
         public async Task<AuctionOptionsDTO> GetAuctionOptions(int auctionId)
         {
-            var auction = _mapper.ToDTO(await _auctionRepository.GetByIdAsync(auctionId) ?? throw new EntityDoesNotExistException($"Auction with given id ({auctionId}) does not exist"));
+            var auction = _mapper.Map<AuctionDTO>(await _auctionRepository.GetByIdAsync(auctionId) ?? throw new EntityDoesNotExistException($"Auction with given id ({auctionId}) does not exist"));
             return auction.Options;
         }
 
         public async Task<List<AuctionDTO>> GetAuctionsByCategory(int categoryId)
         {
-            var auctions = _mapper.ToDTO((List<Auction>)await _auctionRepository.GetByCategoryIdAsync(categoryId));
+            var auctions = _mapper.Map<List<AuctionDTO>>(await _auctionRepository.GetByCategoryIdAsync(categoryId));
             return auctions;
         }
 
@@ -111,7 +111,7 @@ namespace AuctionHouseAPI.Application.Services
             {
                 foreach (var auction in task)
                 {
-                    auctions.Add(_mapper.ToDTO(auction));
+                    auctions.Add(_mapper.Map<AuctionDTO>(auction));
                 }
             }
             return auctions.ToList();
@@ -119,7 +119,7 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task<List<AuctionDTO>> GetAuctionsByUser(int userId)
         {
-            var auctions = _mapper.ToDTO((List<Auction>)await _auctionRepository.GetByUserAsync(userId));
+            var auctions = _mapper.Map<List<AuctionDTO>>(await _auctionRepository.GetByUserAsync(userId));
             return auctions;
         }
 

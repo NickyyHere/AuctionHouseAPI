@@ -1,16 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace AuctionHouseAPI.Application.DTOs.Create
+﻿namespace AuctionHouseAPI.Application.DTOs.Create
 {
-#pragma warning disable
-    public class CreateAuctionItemDTO
-    {
-        [Required, MaxLength(255), MinLength(3)]
-        public string Name { get; set; }
-        [Required]
-        public string Description { get; set; }
-        [Required]
-        public int CategoryId { get; set; }
-        public List<string> CustomTags { get; set; }
-    }
+    public record CreateAuctionItemDTO(string Name, string Description, int CategoryId, List<string> CustomTags);
 }
