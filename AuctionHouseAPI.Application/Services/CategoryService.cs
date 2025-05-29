@@ -3,7 +3,7 @@ using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.DTOs.Update;
 using AuctionHouseAPI.Application.Mappers;
 using AuctionHouseAPI.Application.Services.Interfaces;
-using AuctionHouseAPI.Domain.EFCore.Repositories.Interfaces;
+using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using AuctionHouseAPI.Shared.Exceptions;
 
@@ -11,9 +11,9 @@ namespace AuctionHouseAPI.Application.Services
 {
     public class CategoryService : ICategoryService
     {
-        private readonly IEFCategoryRepository _categoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper<CategoryDTO, CreateCategoryDTO, Category> _mapper;
-        public CategoryService(IEFCategoryRepository categoryRepository, IMapper<CategoryDTO, CreateCategoryDTO, Category> mapper)
+        public CategoryService(ICategoryRepository categoryRepository, IMapper<CategoryDTO, CreateCategoryDTO, Category> mapper)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
@@ -25,9 +25,9 @@ namespace AuctionHouseAPI.Application.Services
             try
             {
                 var category = _mapper.ToEntity(categoryDTO);
-                await _categoryRepository.CreateAsync(category);
+                var newId = await _categoryRepository.CreateAsync(category);
                 await _categoryRepository.CommitTransactionAsync();
-                return category.Id;
+                return newId;
             }
             catch
             {
@@ -74,6 +74,7 @@ namespace AuctionHouseAPI.Application.Services
                     category.Name = categoryDTO.Name;
                 if (!string.IsNullOrWhiteSpace(categoryDTO.Description))
                     category.Description = categoryDTO.Description;
+                await _categoryRepository.UpdateCategoryAsync(category);
                 await _categoryRepository.CommitTransactionAsync();
             }
             catch

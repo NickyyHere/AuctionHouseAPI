@@ -3,7 +3,7 @@ using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.DTOs.Update;
 using AuctionHouseAPI.Application.Mappers;
 using AuctionHouseAPI.Application.Services.Interfaces;
-using AuctionHouseAPI.Domain.EFCore.Repositories.Interfaces;
+using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using AuctionHouseAPI.Shared.Exceptions;
 
@@ -11,10 +11,10 @@ namespace AuctionHouseAPI.Application.Services
 {
     public class AuctionService : IAuctionService
     {
-        private readonly IEFAuctionRepository _auctionRepository;
+        private readonly IAuctionRepository _auctionRepository;
         private readonly ITagService _tagService;
         private readonly IMapper<AuctionDTO, CreateAuctionDTO, Auction> _mapper;
-        public AuctionService(IEFAuctionRepository auctionRepository, ITagService tagService, IMapper<AuctionDTO, CreateAuctionDTO, Auction> mapper)
+        public AuctionService(IAuctionRepository auctionRepository, ITagService tagService, IMapper<AuctionDTO, CreateAuctionDTO, Auction> mapper)
         {
             _auctionRepository = auctionRepository;
             _tagService = tagService;
@@ -28,11 +28,10 @@ namespace AuctionHouseAPI.Application.Services
             {
                 var auction = _mapper.ToEntity(createAuctionDTO);
                 auction.OwnerId = userId;
-                await _auctionRepository.CreateAsync(auction);
-                await _auctionRepository.SaveChangesAsync();
+                var newId = await _auctionRepository.CreateAsync(auction);
                 await AddTagsToAuctionItem(createAuctionDTO.Item.CustomTags, auction.Item!);
                 await _auctionRepository.CommitTransactionAsync();
-                return auction.Id;
+                return newId;
             }
             catch
             {
@@ -145,6 +144,7 @@ namespace AuctionHouseAPI.Application.Services
                 if (updateAuctionItemDTO.CategoryId != null)
                     auction.Item!.CategoryId = (int)updateAuctionItemDTO.CategoryId;
                 await AddTagsToAuctionItem(updateAuctionItemDTO.CustomTags, auction.Item!);
+                await _auctionRepository.UpdateAuctionItemAsync(auction.Item!);
                 await _auctionRepository.CommitTransactionAsync();
             }
             catch
@@ -184,6 +184,7 @@ namespace AuctionHouseAPI.Application.Services
                     auction.Options!.MinutesToIncrement = (int)updateAuctionOptionsDTO.MinutesToIncrement;
                 if (updateAuctionOptionsDTO.StartDateTime != null)
                     auction.Options!.StartDateTime = (DateTime)updateAuctionOptionsDTO.StartDateTime;
+                await _auctionRepository.UpdateAuctionOptionsAsync(auction.Options!);
                 await _auctionRepository.CommitTransactionAsync();
             }
             catch
@@ -209,7 +210,6 @@ namespace AuctionHouseAPI.Application.Services
                     {
                         var newTag = new Tag(tag);
                         await _tagService.CreateTag(newTag);
-                        await _auctionRepository.SaveChangesAsync();
                         customTags.Add(newTag);
                     }
                 }

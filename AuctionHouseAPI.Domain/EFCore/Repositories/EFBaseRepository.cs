@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace AuctionHouseAPI.Domain.EFCore.Repositories
 {
-    public abstract class EFBaseRepository<T> : IEFCoreRepository<T> where T : class
+    public abstract class EFBaseRepository<T> : ITransactionRepository, IBaseRepository<T> where T : class
     {
         protected readonly AppDbContext _context;
         private IDbContextTransaction? _currentTransaction;
@@ -12,11 +12,6 @@ namespace AuctionHouseAPI.Domain.EFCore.Repositories
         protected EFBaseRepository(AppDbContext context)
         {
             _context = context;
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
         }
         public async Task BeginTransactionAsync()
         {
@@ -43,15 +38,12 @@ namespace AuctionHouseAPI.Domain.EFCore.Repositories
             }
         }
 
-        public virtual async Task CreateAsync(T entity)
-        {
-            await _context.Set<T>().AddAsync(entity);
-        }
+        public abstract Task<int> CreateAsync(T entity);
 
-        public virtual Task DeleteAsync(T entity)
+        public virtual async Task DeleteAsync(T entity)
         {
             _context.Set<T>().Remove(entity);
-            return Task.CompletedTask;
+            await _context.SaveChangesAsync();
         }
 
         public virtual async Task<T?> GetByIdAsync(int id)

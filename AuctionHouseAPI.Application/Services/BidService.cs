@@ -2,7 +2,7 @@
 using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.Mappers;
 using AuctionHouseAPI.Application.Services.Interfaces;
-using AuctionHouseAPI.Domain.EFCore.Repositories.Interfaces;
+using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using AuctionHouseAPI.Shared.Exceptions;
 
@@ -10,10 +10,10 @@ namespace AuctionHouseAPI.Application.Services
 {
     public class BidService : IBidService
     {
-        private readonly IEFBidRepository _bidRepository;
+        private readonly IBidRepository _bidRepository;
         private readonly IMapper<BidDTO, CreateBidDTO, Bid> _mapper;
         private readonly IAuctionService _auctionService;
-        public BidService(IEFBidRepository bidRepository, IMapper<BidDTO, CreateBidDTO, Bid> mapper, IAuctionService auctionService)
+        public BidService(IBidRepository bidRepository, IMapper<BidDTO, CreateBidDTO, Bid> mapper, IAuctionService auctionService)
         {
             _bidRepository = bidRepository;
             _mapper = mapper;

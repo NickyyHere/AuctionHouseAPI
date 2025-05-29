@@ -3,9 +3,11 @@ using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.Mappers;
 using AuctionHouseAPI.Application.Services;
 using AuctionHouseAPI.Application.Services.Interfaces;
+using AuctionHouseAPI.Domain.Dapper;
+using AuctionHouseAPI.Domain.Dapper.Repositories;
 using AuctionHouseAPI.Domain.EFCore;
 using AuctionHouseAPI.Domain.EFCore.Repositories;
-using AuctionHouseAPI.Domain.EFCore.Repositories.Interfaces;
+using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -43,9 +45,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connectionString)
-);
+
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -63,12 +63,31 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddAuthorization();
 
-builder.Services.AddScoped<IEFAuctionRepository, EFAuctionRepository>();
-builder.Services.AddScoped<IEFBidRepository, EFBidRepository>();
-builder.Services.AddScoped<IEFCategoryRepository, EFCategoryRepository>();
-builder.Services.AddScoped<IEFTagRepository, EFTagRepository>();
-builder.Services.AddScoped<IEFUserRepository, EFUserRepository>();
-
+string repositoryType = builder.Configuration["RepositoryType"]!;
+switch (repositoryType)
+{
+    case "Dapper":
+        Console.WriteLine("USING DAPPER");
+        builder.Services.AddScoped<DapperContext>();
+        builder.Services.AddScoped<IAuctionRepository, DapperAuctionRepository>();
+        builder.Services.AddScoped<IBidRepository, DapperBidRepository>();
+        builder.Services.AddScoped<ICategoryRepository, DapperCategoryRepository>();
+        builder.Services.AddScoped<ITagRepository, DapperTagRepository>();
+        builder.Services.AddScoped<IUserRepository, DapperUserRepository>();
+        break;
+    default:
+        Console.WriteLine("USING EFCORE");
+        builder.Services.AddDbContext<AppDbContext>(options =>
+            options.UseNpgsql(connectionString)
+        );
+        builder.Services.AddScoped<IAuctionRepository, EFAuctionRepository>();
+        builder.Services.AddScoped<IBidRepository, EFBidRepository>();
+        builder.Services.AddScoped<ICategoryRepository, EFCategoryRepository>();
+        builder.Services.AddScoped<ITagRepository, EFTagRepository>();
+        builder.Services.AddScoped<IUserRepository, EFUserRepository>();
+        break;
+}
+    
 builder.Services.AddSingleton<IMapper<UserDTO, CreateUserDTO, User>, UserMapper>();
 builder.Services.AddSingleton<IMapper<AuctionDTO, CreateAuctionDTO, Auction>, AuctionMapper>();
 builder.Services.AddSingleton<IMapper<CategoryDTO, CreateCategoryDTO, Category>, CategoryMapper>();

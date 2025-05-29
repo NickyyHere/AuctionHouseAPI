@@ -1,5 +1,5 @@
 ﻿using AuctionHouseAPI.Application.Services.Interfaces;
-using AuctionHouseAPI.Domain.EFCore.Repositories.Interfaces;
+using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using AuctionHouseAPI.Shared.Exceptions;
 
@@ -7,9 +7,9 @@ namespace AuctionHouseAPI.Application.Services
 {
     public class TagService : ITagService
     {
-        private readonly IEFTagRepository _tagRepository;
+        private readonly ITagRepository _tagRepository;
 
-        public TagService(IEFTagRepository tagRepository)
+        public TagService(ITagRepository tagRepository)
         {
             _tagRepository = tagRepository;
         }

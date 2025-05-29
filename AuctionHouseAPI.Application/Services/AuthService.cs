@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using AuctionHouseAPI.Shared.Exceptions;
-using AuctionHouseAPI.Domain.EFCore.Repositories.Interfaces;
+using AuctionHouseAPI.Domain.Interfaces;
 
 namespace AuctionHouseAPI.Application.Services
 {
@@ -15,8 +15,8 @@ namespace AuctionHouseAPI.Application.Services
         private readonly string _key;
         private readonly string _issuer;
         private readonly string _audience;
-        private readonly IEFUserRepository _userRepository;
-        public AuthService(IConfiguration configuration, IEFUserRepository userRepository)
+        private readonly IUserRepository _userRepository;
+        public AuthService(IConfiguration configuration, IUserRepository userRepository)
         {
             _key = configuration["JwtSettings:Key"]!;
             _issuer = configuration["JwtSettings:Issuer"]!;

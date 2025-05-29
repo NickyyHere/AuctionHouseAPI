@@ -8,29 +8,38 @@ namespace AuctionHouseAPI.Application.Mappers
     {
         public AuctionDTO ToDTO(Auction entity)
         {
-            #pragma warning disable CS8602 // disable possible null reference (i like clean console)
-            var tags = entity.Item.Tags.Select(t => t.Tag.Name).ToList();
-            var auctionItemDTO = new AuctionItemDTO(
-                entity.Id, 
-                entity.Item.
-                CategoryId, 
-                entity.Item.Name, 
-                entity.Item.Description, 
-                tags);
-            var auctionOptionsDTO = new AuctionOptionsDTO(
-                entity.Id, 
-                entity.Options.StartingPrice, 
-                entity.Options.StartDateTime, 
-                entity.Options.FinishDateTime, 
-                entity.Options.IsIncreamentalOnLastMinuteBid, 
-                entity.Options.MinutesToIncrement,
-                entity.Options.MinimumOutbid,
-                entity.Options.AllowBuyItNow, 
-                entity.Options.BuyItNowPrice,
-                entity.Options.IsActive);
+            var tags = entity.Item?.Tags?
+                .Where(t => t.Tag != null)
+                .Select(t => t.Tag!.Name)
+                .ToList() ?? new List<string>();
 
-            return new AuctionDTO(entity.Id, entity.Owner.FirstName, entity.Owner.LastName, auctionItemDTO, auctionOptionsDTO);
+            var auctionItemDTO = new AuctionItemDTO(
+                entity.Id,
+                entity.Item?.CategoryId ?? 0,
+                entity.Item?.Name ?? string.Empty,
+                entity.Item?.Description ?? string.Empty,
+                tags);
+
+            var auctionOptionsDTO = new AuctionOptionsDTO(
+                entity.Id,
+                entity.Options?.StartingPrice ?? 0,
+                entity.Options?.StartDateTime ?? DateTime.MinValue,
+                entity.Options?.FinishDateTime ?? DateTime.MinValue,
+                entity.Options?.IsIncreamentalOnLastMinuteBid ?? false,
+                entity.Options?.MinutesToIncrement ?? 0,
+                entity.Options?.MinimumOutbid ?? 0,
+                entity.Options?.AllowBuyItNow ?? false,
+                entity.Options?.BuyItNowPrice ?? 0,
+                entity.Options?.IsActive ?? false);
+
+            return new AuctionDTO(
+                entity.Id,
+                entity.Owner?.FirstName ?? string.Empty,
+                entity.Owner?.LastName ?? string.Empty,
+                auctionItemDTO,
+                auctionOptionsDTO);
         }
+
 
         public List<AuctionDTO> ToDTO(List<Auction> entities)
         {

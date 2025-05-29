@@ -3,7 +3,7 @@ using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.DTOs.Update;
 using AuctionHouseAPI.Application.Mappers;
 using AuctionHouseAPI.Application.Services.Interfaces;
-using AuctionHouseAPI.Domain.EFCore.Repositories.Interfaces;
+using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using AuctionHouseAPI.Shared.Exceptions;
 
@@ -11,9 +11,9 @@ namespace AuctionHouseAPI.Application.Services
 {
     public class UserService : IUserService
     {
-        private readonly IEFUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper<UserDTO, CreateUserDTO, User> _mapper;
-        public UserService(IEFUserRepository userRepository, IMapper<UserDTO, CreateUserDTO, User> mapper)
+        public UserService(IUserRepository userRepository, IMapper<UserDTO, CreateUserDTO, User> mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -28,9 +28,9 @@ namespace AuctionHouseAPI.Application.Services
             try
             {
                 var user = _mapper.ToEntity(createUserDTO);
-                await _userRepository.CreateAsync(user);
+                var newId = await _userRepository.CreateAsync(user);
                 await _userRepository.CommitTransactionAsync();
-                return user.Id;
+                return newId;
             }
             catch
             {
@@ -81,6 +81,7 @@ namespace AuctionHouseAPI.Application.Services
                     user.LastName = updateUserDTO.LastName;
                 if (!string.IsNullOrWhiteSpace(updateUserDTO.Password))
                     user.Password = BCrypt.Net.BCrypt.HashPassword(updateUserDTO.Password);
+                await _userRepository.UpdateUserAsync(user);
                 await _userRepository.CommitTransactionAsync();
             }
             catch

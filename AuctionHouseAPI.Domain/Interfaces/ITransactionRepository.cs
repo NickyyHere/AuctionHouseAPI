@@ -1,6 +1,6 @@
 ﻿namespace AuctionHouseAPI.Domain.Interfaces
 {
-    public interface ITransactionRepository<T> : IBaseRepository<T>
+    public interface ITransactionRepository
     {
         public Task BeginTransactionAsync();
         public Task CommitTransactionAsync();

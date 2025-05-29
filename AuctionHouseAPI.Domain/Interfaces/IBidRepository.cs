@@ -1,9 +1,8 @@
-﻿using AuctionHouseAPI.Domain.Interfaces;
-using AuctionHouseAPI.Domain.Models;
+﻿using AuctionHouseAPI.Domain.Models;
 
-namespace AuctionHouseAPI.Domain.EFCore.Repositories.Interfaces
+namespace AuctionHouseAPI.Domain.Interfaces
 {
-    public interface IEFBidRepository :  IEFCoreRepository<Bid>
+    public interface IBidRepository :  IBaseRepository<Bid>, ITransactionRepository
     {
         public Task<IEnumerable<Bid>> GetByUserAsync(int userId);
         public Task<IEnumerable<Bid>> GetByAuctionAsync(int auctionId);
