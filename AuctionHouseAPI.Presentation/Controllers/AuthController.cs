@@ -24,9 +24,9 @@ namespace AuctionHouseAPI.Presentation.Controllers
             }
             catch (EntityDoesNotExistException)
             {
-                return NotFound("Invalid username or password");
+                return Unauthorized("Invalid username or password");
             }
-            return Ok(token);
+            return Ok(new { token });
         }
     }
 }

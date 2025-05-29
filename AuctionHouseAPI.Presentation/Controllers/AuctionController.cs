@@ -11,10 +11,10 @@ namespace AuctionHouseAPI.Presentation.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuctionController : Controller
+    public class AuctionsController : Controller
     {
         private readonly IAuctionService _auctionService;
-        public AuctionController(IAuctionService auctionService) 
+        public AuctionsController(IAuctionService auctionService) 
         {
            _auctionService = auctionService;
         }
@@ -42,19 +42,19 @@ namespace AuctionHouseAPI.Presentation.Controllers
             var auctionItems = await _auctionService.GetAllAuctionItems();
             return Ok(auctionItems);
         }
-        [HttpGet("by/user/{uid}")]
+        [HttpGet("user/{uid}")]
         public async Task<ActionResult<List<AuctionDTO>>> GetUserAuctions(int uid)
         {
             var auctions = await _auctionService.GetAuctionsByUser(uid);
             return Ok(auctions);
         }
-        [HttpGet("by/category/{cid}")]
+        [HttpGet("category/{cid}")]
         public async Task<ActionResult<List<AuctionDTO>>> GetCategoryAuctions(int cid)
         {
             var auctions = await _auctionService.GetAuctionsByCategory(cid);
             return Ok(auctions);
         }
-        [HttpGet("by/tags")]
+        [HttpGet("tags")]
         public async Task<ActionResult<List<AuctionDTO>>> GetTagsAuctions([FromQuery] string[] tags)
         {
             var auctions = await _auctionService.GetAuctionsByTags(tags);
@@ -79,7 +79,7 @@ namespace AuctionHouseAPI.Presentation.Controllers
             return Ok(options);
         }
         // DELETE
-        [HttpDelete, Authorize]
+        [HttpDelete("{id}"), Authorize]
         public async Task<ActionResult> DeleteAuction(int id)
         {
             if (!int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out var userId))

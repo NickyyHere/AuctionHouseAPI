@@ -8,28 +8,27 @@ namespace AuctionHouseAPI.Application.Mappers
     {
         public AuctionDTO ToDTO(Auction entity)
         {
-            #pragma warning disable CS8602 // disable possible null reference (i like clean console)
-            var tags = entity.Item.Tags.Select(t => t.Tag.Name).ToList();
+            var tags = entity.Item!.Tags.Select(t => t.Tag!.Name).ToList();
             var auctionItemDTO = new AuctionItemDTO(
-                entity.Id, 
+                entity.Id,
                 entity.Item.
-                CategoryId, 
-                entity.Item.Name, 
-                entity.Item.Description, 
+                CategoryId,
+                entity.Item.Name,
+                entity.Item.Description,
                 tags);
             var auctionOptionsDTO = new AuctionOptionsDTO(
-                entity.Id, 
-                entity.Options.StartingPrice, 
-                entity.Options.StartDateTime, 
-                entity.Options.FinishDateTime, 
-                entity.Options.IsIncreamentalOnLastMinuteBid, 
+                entity.Id,
+                entity.Options!.StartingPrice,
+                entity.Options.StartDateTime,
+                entity.Options.FinishDateTime,
+                entity.Options.IsIncreamentalOnLastMinuteBid,
                 entity.Options.MinutesToIncrement,
                 entity.Options.MinimumOutbid,
-                entity.Options.AllowBuyItNow, 
+                entity.Options.AllowBuyItNow,
                 entity.Options.BuyItNowPrice,
                 entity.Options.IsActive);
 
-            return new AuctionDTO(entity.Id, entity.Owner.FirstName, entity.Owner.LastName, auctionItemDTO, auctionOptionsDTO);
+            return new AuctionDTO(entity.Id, entity.Owner!.FirstName, entity.Owner.LastName, auctionItemDTO, auctionOptionsDTO);
         }
 
         public List<AuctionDTO> ToDTO(List<Auction> entities)
@@ -57,7 +56,6 @@ namespace AuctionHouseAPI.Application.Mappers
                 create_dto.Options.StartDateTime > DateTime.Now ? false : true
                 );
             var auction = new Auction(auctionItem, auctionOptions);
-            auction.Item.Tags = create_dto.Item.CustomTags.Select(t => new AuctionItemTag { Tag = new Tag(t)}).ToList();
             return auction;
         }
     }

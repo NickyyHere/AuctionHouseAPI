@@ -3,8 +3,9 @@ using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.DTOs.Update;
 using AuctionHouseAPI.Application.Mappers;
 using AuctionHouseAPI.Application.Services.Interfaces;
+using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
-using AuctionHouseAPI.Domain.Repositories.interfaces;
+using AuctionHouseAPI.Shared.Exceptions;
 
 namespace AuctionHouseAPI.Application.Services
 {
@@ -18,38 +19,69 @@ namespace AuctionHouseAPI.Application.Services
             _mapper = mapper;
         }
 
-        public async Task CreateCategory(CreateCategoryDTO categoryDTO)
+        public async Task<int> CreateCategory(CreateCategoryDTO categoryDTO)
         {
-            var category = _mapper.ToEntity(categoryDTO);
-            await _categoryRepository.CreateCategory(category);
+            await _categoryRepository.BeginTransactionAsync();
+            try
+            {
+                var category = _mapper.ToEntity(categoryDTO);
+                var newId = await _categoryRepository.CreateAsync(category);
+                await _categoryRepository.CommitTransactionAsync();
+                return newId;
+            }
+            catch
+            {
+                await _categoryRepository.RollbackTransactionAsync();
+                throw;
+            }
         }
 
         public async Task DeleteCategory(int id)
         {
-            var category = await _categoryRepository.GetCategoryById(id);
-            await _categoryRepository.DeleteCategory(category);
+            await _categoryRepository.BeginTransactionAsync();
+            try
+            {
+                var category = await _categoryRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"Category with given id ({id}) does not exist");
+                await _categoryRepository.DeleteAsync(category);
+                await _categoryRepository.CommitTransactionAsync();
+            }
+            catch
+            {
+                await _categoryRepository.RollbackTransactionAsync();
+                throw;
+            }
         }
 
         public async Task<List<CategoryDTO>> GetAllCategories()
         {
-            var categories = _mapper.ToDTO(await _categoryRepository.GetCategories());
+            var categories = _mapper.ToDTO((List<Category>)await _categoryRepository.GetAllAsync());
             return categories;
         }
 
         public async Task<CategoryDTO> GetCategory(int id)
         {
-            var category = _mapper.ToDTO(await _categoryRepository.GetCategoryById(id));
+            var category = _mapper.ToDTO(await _categoryRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"Category with given id ({id}) does not exist"));
             return category;
         }
 
         public async Task UpdateCategory(UpdateCategoryDTO categoryDTO, int id)
         {
-            var category = await _categoryRepository.GetCategoryById(id);
-            if(!string.IsNullOrWhiteSpace(categoryDTO.Name))
-                category.Name = categoryDTO.Name;
-            if(!string.IsNullOrWhiteSpace(categoryDTO.Description))
-                category.Description = categoryDTO.Description;
-            await _categoryRepository.UpdateCategory();
+            var category = await _categoryRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"Category with given id ({id}) does not exist");
+            await _categoryRepository.BeginTransactionAsync();
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(categoryDTO.Name))
+                    category.Name = categoryDTO.Name;
+                if (!string.IsNullOrWhiteSpace(categoryDTO.Description))
+                    category.Description = categoryDTO.Description;
+                await _categoryRepository.UpdateCategoryAsync(category);
+                await _categoryRepository.CommitTransactionAsync();
+            }
+            catch
+            {
+                await _categoryRepository.RollbackTransactionAsync();
+                throw;
+            }
         }
     }
 }
