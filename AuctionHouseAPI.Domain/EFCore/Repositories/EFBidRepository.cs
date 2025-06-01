@@ -38,5 +38,13 @@ namespace AuctionHouseAPI.Domain.EFCore.Repositories
                 .AsNoTracking()
                 .ToListAsync();
         }
+
+        public async Task<Bid?> GetHighestAuctionBidAsync(int auctionId)
+        {
+            var highestBid = await _context.Bids.MaxAsync(b => b.Amount);
+            return await _context.Bids
+                .Where(b => b.AuctionId == auctionId && b.Amount == highestBid)
+                .FirstOrDefaultAsync();
+        }
     }
 }

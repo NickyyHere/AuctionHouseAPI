@@ -1,8 +1,10 @@
-﻿using AuctionHouseAPI.Application.DTOs.Create;
+﻿using AuctionHouseAPI.Application.CQRS.Features.Auctions.Commands;
+using AuctionHouseAPI.Application.CQRS.Features.Auctions.Queries;
+using AuctionHouseAPI.Application.DTOs.Create;
 using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.DTOs.Update;
-using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Shared.Exceptions;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -13,10 +15,10 @@ namespace AuctionHouseAPI.Presentation.Controllers
     [Route("api/[controller]")]
     public class AuctionsController : Controller
     {
-        private readonly IAuctionService _auctionService;
-        public AuctionsController(IAuctionService auctionService) 
+        private readonly IMediator _mediator;
+        public AuctionsController(IMediator mediator) 
         {
-           _auctionService = auctionService;
+            _mediator = mediator;
         }
         // POST
         [HttpPost, Authorize]
@@ -26,57 +28,73 @@ namespace AuctionHouseAPI.Presentation.Controllers
             {
                 return Problem();
             }
-            var auctionId = await _auctionService.CreateAuction(auction, userId);
+            var command = new CreateAuctionCommand(auction, userId);
+            var auctionId = await _mediator.Send(command);
             return Ok(auctionId);
         }
         // GET
         [HttpGet]
         public async Task<ActionResult<List<AuctionDTO>>> GetAuctions()
         {
-            var auctions = await _auctionService.GetAllAuctions();
+            var query = new GetAllAuctionsQuery();
+            var auctions = await _mediator.Send(query);
             return Ok(auctions);
         }
         [HttpGet("items")]
         public async Task<ActionResult<List<AuctionItemDTO>>> GetAuctionItems()
         {
-            var auctionItems = await _auctionService.GetAllAuctionItems();
-            return Ok(auctionItems);
+            var query = new GetAllAuctionItemsQuery();
+            var items = await _mediator.Send(query);
+            return Ok(items);
         }
         [HttpGet("user/{uid}")]
         public async Task<ActionResult<List<AuctionDTO>>> GetUserAuctions(int uid)
         {
-            var auctions = await _auctionService.GetAuctionsByUser(uid);
+            var query = new GetAllAuctionsByUserQuery(uid);
+            var auctions = await _mediator.Send(query);
             return Ok(auctions);
         }
         [HttpGet("category/{cid}")]
         public async Task<ActionResult<List<AuctionDTO>>> GetCategoryAuctions(int cid)
         {
-            var auctions = await _auctionService.GetAuctionsByCategory(cid);
+            var query = new GetAllAuctionsFromCategoryQuery(cid);
+            var auctions = await _mediator.Send(query);
             return Ok(auctions);
         }
         [HttpGet("tags")]
         public async Task<ActionResult<List<AuctionDTO>>> GetTagsAuctions([FromQuery] string[] tags)
         {
-            var auctions = await _auctionService.GetAuctionsByTags(tags);
+            var query = new GetAllAuctionsByTagsQuery(tags.ToList());
+            var auctions = await _mediator.Send(query);
             return Ok(auctions);
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<AuctionDTO>> GetAuction(int id)
         {
-            var auction = await _auctionService.GetAuctionById(id);
+            var query = new GetAuctionByIdQuery(id);
+            var auction = await _mediator.Send(query);
             return Ok(auction);
         }
         [HttpGet("{id}/item")]
         public async Task<ActionResult<AuctionItemDTO>> GetAuctionItem(int id)
         {
-            var item = await _auctionService.GetAuctionItem(id);
+            var query = new GetAuctionItemByIdQuery(id);
+            var item = await _mediator.Send(query);
             return Ok(item);
         }
         [HttpGet("{id}/options")]
         public async Task<ActionResult<AuctionOptionsDTO>> GetAuctionOptions(int id)
         {
-            var options = await _auctionService.GetAuctionOptions(id);
+            var query = new GetAuctionOptionsByIdQuery(id);
+            var options = await _mediator.Send(query);
             return Ok(options);
+        }
+        [HttpGet("active")]
+        public async Task<ActionResult<List<AuctionDTO>>> GetActiveAuctions()
+        {
+            var query = new GetAllActiveAuctionsQuery();
+            var auctions = await _mediator.Send(query);
+            return Ok(auctions);
         }
         // DELETE
         [HttpDelete("{id}"), Authorize]
@@ -88,7 +106,8 @@ namespace AuctionHouseAPI.Presentation.Controllers
             }
             try
             {
-                await _auctionService.DeleteAuction(id, userId);
+                var command = new DeleteAuctionCommand(id, userId);
+                await _mediator.Send(command);
             }
             catch (UnauthorizedAccessException e)
             {
@@ -110,7 +129,8 @@ namespace AuctionHouseAPI.Presentation.Controllers
             }
             try
             {
-                await _auctionService.UpdateAuctionItem(editedAuctionItem, id, userId);
+                var command = new UpdateAuctionItemCommand(editedAuctionItem, id, userId);
+                await _mediator.Send(command);
             }
             catch (UnauthorizedAccessException e)
             {
@@ -131,7 +151,8 @@ namespace AuctionHouseAPI.Presentation.Controllers
             }
             try
             {
-                await _auctionService.UpdateAuctionOptions(editedAuctionOptions, id, userId);
+                var command = new UpdateAuctionOptionsCommand(editedAuctionOptions, id, userId);
+                await _mediator.Send(command);
             }
             catch (UnauthorizedAccessException e)
             {

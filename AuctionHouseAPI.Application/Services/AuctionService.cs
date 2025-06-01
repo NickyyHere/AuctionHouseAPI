@@ -13,22 +13,17 @@ namespace AuctionHouseAPI.Application.Services
     {
         private readonly IAuctionRepository _auctionRepository;
         private readonly ITagService _tagService;
-        private readonly IMapper _mapper;
-        public AuctionService(IAuctionRepository auctionRepository, ITagService tagService, IMapper mapper)
+        public AuctionService(IAuctionRepository auctionRepository, ITagService tagService)
         {
             _auctionRepository = auctionRepository;
             _tagService = tagService;
-            _mapper = mapper;
         }
 
-        public async Task<int> CreateAuction(CreateAuctionDTO createAuctionDTO, int userId)
+        public async Task<int> CreateAuctionAsync(Auction auction, int userId)
         {
             await _auctionRepository.BeginTransactionAsync();
             try
             {
-                var auction = _mapper.Map<Auction>(createAuctionDTO);
-                auction.OwnerId = userId;
-                await AddTagsToAuctionItem(createAuctionDTO.Item.CustomTags, auction.Item!);
                 var newId = await _auctionRepository.CreateAsync(auction);
                 await _auctionRepository.CommitTransactionAsync();
                 return newId;
@@ -39,10 +34,15 @@ namespace AuctionHouseAPI.Application.Services
                 throw;
             }
         }
-
-        public async Task DeleteAuction(int id, int userId)
+        public void AddTagsToAuction(List<Tag> tags, Auction auction)
         {
-            var auction = await _auctionRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"Auction with given id ({id}) does not exist");
+            foreach (var tag in tags)
+            {
+                auction.Item!.Tags.Add(new AuctionItemTag { TagId = tag.Id });
+            }
+        }
+        public async Task DeleteAuction(Auction auction, int userId)
+        {
             await _auctionRepository.BeginTransactionAsync();
             try
             {
@@ -64,68 +64,8 @@ namespace AuctionHouseAPI.Application.Services
             }
         }
 
-        public async Task<List<AuctionItemDTO>> GetAllAuctionItems()
+        public async Task UpdateAuctionItemAsync(Auction auction, UpdateAuctionItemDTO updateAuctionItemDTO, int userId)
         {
-            var auctions = _mapper.Map<List<AuctionDTO>>(await _auctionRepository.GetAllAsync());
-            var items = auctions.Select(t => t.Item).ToList();
-            return items;
-        }
-
-        public async Task<List<AuctionDTO>> GetAllAuctions()
-        {
-            var auctions = _mapper.Map<List<AuctionDTO>>(await _auctionRepository.GetAllAsync());
-            return auctions;
-        }
-
-        public async Task<AuctionDTO> GetAuctionById(int id)
-        {
-            var auction = _mapper.Map<AuctionDTO>(await _auctionRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"Auction with given id ({id}) does not exist"));
-            return auction;
-        }
-
-        public async Task<AuctionItemDTO> GetAuctionItem(int auctionId)
-        {
-            var auction = _mapper.Map<AuctionDTO>(await _auctionRepository.GetByIdAsync(auctionId) ?? throw new EntityDoesNotExistException($"Auction with given id ({auctionId}) does not exist"));
-            return auction.Item;
-        }
-
-        public async Task<AuctionOptionsDTO> GetAuctionOptions(int auctionId)
-        {
-            var auction = _mapper.Map<AuctionDTO>(await _auctionRepository.GetByIdAsync(auctionId) ?? throw new EntityDoesNotExistException($"Auction with given id ({auctionId}) does not exist"));
-            return auction.Options;
-        }
-
-        public async Task<List<AuctionDTO>> GetAuctionsByCategory(int categoryId)
-        {
-            var auctions = _mapper.Map<List<AuctionDTO>>(await _auctionRepository.GetByCategoryIdAsync(categoryId));
-            return auctions;
-        }
-
-        public async Task<List<AuctionDTO>> GetAuctionsByTags(string[] tags)
-        {
-            var tasks = tags.Select(t => _auctionRepository.GetByTagsAsync(t)).ToList();
-            var results = await Task.WhenAll(tasks);
-
-            var auctions = new HashSet<AuctionDTO>();
-            foreach (var task in results)
-            {
-                foreach (var auction in task)
-                {
-                    auctions.Add(_mapper.Map<AuctionDTO>(auction));
-                }
-            }
-            return auctions.ToList();
-        }
-
-        public async Task<List<AuctionDTO>> GetAuctionsByUser(int userId)
-        {
-            var auctions = _mapper.Map<List<AuctionDTO>>(await _auctionRepository.GetByUserAsync(userId));
-            return auctions;
-        }
-
-        public async Task UpdateAuctionItem(UpdateAuctionItemDTO updateAuctionItemDTO, int auctionId, int userId)
-        {
-            var auction = await _auctionRepository.GetByIdAsync(auctionId) ?? throw new EntityDoesNotExistException($"Auction with given id ({auctionId}) does not exist");
             await _auctionRepository.BeginTransactionAsync();
             try
             {
@@ -143,7 +83,6 @@ namespace AuctionHouseAPI.Application.Services
                     auction.Item!.Description = updateAuctionItemDTO.Description;
                 if (updateAuctionItemDTO.CategoryId != null)
                     auction.Item!.CategoryId = (int)updateAuctionItemDTO.CategoryId;
-                await AddTagsToAuctionItem(updateAuctionItemDTO.CustomTags, auction.Item!);
                 await _auctionRepository.UpdateAuctionItemAsync(auction.Item!);
                 await _auctionRepository.CommitTransactionAsync();
             }
@@ -154,9 +93,8 @@ namespace AuctionHouseAPI.Application.Services
             }
         }
 
-        public async Task UpdateAuctionOptions(UpdateAuctionOptionsDTO updateAuctionOptionsDTO, int auctionId, int userId)
+        public async Task UpdateAuctionOptionsAsync(Auction auction, UpdateAuctionOptionsDTO updateAuctionOptionsDTO, int userId)
         {
-            var auction = await _auctionRepository.GetByIdAsync(auctionId) ?? throw new EntityDoesNotExistException($"Auction with given id ({auctionId}) does not exist");
             await _auctionRepository.BeginTransactionAsync();
             try
             {
@@ -191,29 +129,6 @@ namespace AuctionHouseAPI.Application.Services
             {
                 await _auctionRepository.RollbackTransactionAsync();
                 throw;
-            }
-        }
-
-        private async Task AddTagsToAuctionItem(List<string> tags, AuctionItem auctionItem)
-        {
-            if (tags.Count > 0)
-            {
-                var customTags = new List<Tag>();
-                foreach (var tag in tags)
-                {
-                    try
-                    {
-                        var tagObject = await _tagService.GetTagByName(tag);
-                        customTags.Add(tagObject);
-                    }
-                    catch (EntityDoesNotExistException)
-                    {
-                        var newTag = new Tag(tag);
-                        var newTagId = await _tagService.CreateTag(newTag);
-                        customTags.Add(await _tagService.GetTagById(newTagId) ?? throw new EntityDoesNotExistException("Tag does not exist"));
-                    }
-                }
-                auctionItem.Tags = customTags.Select(t => new AuctionItemTag { TagId = t.Id, AuctionItemId = auctionItem.AuctionId }).ToList();
             }
         }
     }

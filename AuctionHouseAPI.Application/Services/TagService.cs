@@ -30,6 +30,33 @@ namespace AuctionHouseAPI.Application.Services
             }
         }
 
+        public async Task<List<Tag>> EnsureTagsExistAsync(List<string> tagNames)
+        {
+            var result = new List<Tag>();
+            await _tagRepository.BeginTransactionAsync();
+            try
+            {
+                foreach (var name in tagNames.Distinct())
+                {
+                    var tag = await _tagRepository.GetByNameAsync(name);
+                    if (tag == null)
+                    {
+                        var newTag = new Tag(name);
+                        var newTagId = await _tagRepository.CreateAsync(newTag);
+                        tag = await _tagRepository.GetByIdAsync(newTagId) ?? throw new EntityDoesNotExistException("Failed to fetch a newly created tag");
+                    }
+                    result.Add(tag);
+                }
+                await _tagRepository.CommitTransactionAsync();
+                return result;
+            }
+            catch
+            {
+                await _tagRepository.RollbackTransactionAsync();
+                throw;
+            }
+        }
+
         public async Task<Tag?> GetTagById(int id)
         {
             return await _tagRepository.GetByIdAsync(id);

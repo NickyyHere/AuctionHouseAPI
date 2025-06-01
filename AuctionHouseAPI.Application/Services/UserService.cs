@@ -1,6 +1,4 @@
-﻿using AuctionHouseAPI.Application.DTOs.Create;
-using AuctionHouseAPI.Application.DTOs.Read;
-using AuctionHouseAPI.Application.DTOs.Update;
+﻿using AuctionHouseAPI.Application.DTOs.Update;
 using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
@@ -19,15 +17,14 @@ namespace AuctionHouseAPI.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<int> CreateUser(CreateUserDTO createUserDTO)
+        public async Task<int> CreateUserAsync(User user)
         {
-            if(await _userRepository.GetByUsernameAsync(createUserDTO.Username) != null)
+            if(await _userRepository.GetByUsernameAsync(user.Username) != null)
                 throw new DuplicateEntityException("Username is already taken");
 
             await _userRepository.BeginTransactionAsync();
             try
             {
-                var user = _mapper.Map<User>(createUserDTO);
                 var newId = await _userRepository.CreateAsync(user);
                 await _userRepository.CommitTransactionAsync();
                 return newId;
@@ -39,9 +36,8 @@ namespace AuctionHouseAPI.Application.Services
             }
         }
 
-        public async Task DeleteUser(int userId)
+        public async Task DeleteUserAsync(User user)
         {
-            var user = await _userRepository.GetByIdAsync(userId) ?? throw new EntityDoesNotExistException($"User with given id ({userId}) does not exist");
             await _userRepository.BeginTransactionAsync();
             try
             {
@@ -54,22 +50,8 @@ namespace AuctionHouseAPI.Application.Services
                 throw;
             }
         }
-
-        public async Task<List<UserDTO>> GetAllUsers()
+        public async Task UpdateUserAsync(User user, UpdateUserDTO updateUserDTO)
         {
-            var users = _mapper.Map<List<UserDTO>>(await _userRepository.GetAllAsync());
-            return users;
-        }
-
-        public async Task<UserDTO> GetUserById(int id)
-        {
-            var user = _mapper.Map<UserDTO>(await _userRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"User with given id ({id}) does not exist"));
-            return user;
-        }
-
-        public async Task UpdateUser(UpdateUserDTO updateUserDTO, int userId)
-        {
-            var user = await _userRepository.GetByIdAsync(userId) ?? throw new EntityDoesNotExistException($"User with given id ({userId}) does not exist");
             await _userRepository.BeginTransactionAsync();
             try
             {

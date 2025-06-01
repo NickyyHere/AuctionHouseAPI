@@ -70,5 +70,14 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
             await CloseConnection();
             return result.ToList();
         }
+
+        public async Task<Bid?> GetHighestAuctionBidAsync(int auctionId)
+        {
+            await OpenConnection();
+            var sql = "SELECT MAX(\"Amount\") FROM \"Bids\" WHERE \"AuctionId\" = @auctionId;";
+            var result = await _connection!.QueryFirstOrDefaultAsync<Bid>(sql, new { auctionId });
+            await CloseConnection();
+            return result;
+        }
     }
 }

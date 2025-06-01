@@ -1,21 +1,13 @@
-using AuctionHouseAPI.Application.DTOs.Create;
-using AuctionHouseAPI.Application.DTOs.Read;
-using AuctionHouseAPI.Application.MappingProfiles;
-using AuctionHouseAPI.Application.Services;
-using AuctionHouseAPI.Application.Services.Interfaces;
-using AuctionHouseAPI.Domain.Dapper;
-using AuctionHouseAPI.Domain.Dapper.Repositories;
-using AuctionHouseAPI.Domain.EFCore;
-using AuctionHouseAPI.Domain.EFCore.Repositories;
-using AuctionHouseAPI.Domain.Interfaces;
-using AuctionHouseAPI.Domain.Models;
+using AuctionHouseAPI.Migrations;
+using AuctionHouseAPI.Presentation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = Environment.GetEnvironmentVariable("PGSQL_CONNECTION_STRING");
+
+await MigrationManager.Run(connectionString!);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -68,37 +60,17 @@ switch (repositoryType)
 {
     case "Dapper":
         Console.WriteLine("USING DAPPER");
-        builder.Services.AddScoped<DapperContext>();
-        builder.Services.AddScoped<IAuctionRepository, DapperAuctionRepository>();
-        builder.Services.AddScoped<IBidRepository, DapperBidRepository>();
-        builder.Services.AddScoped<ICategoryRepository, DapperCategoryRepository>();
-        builder.Services.AddScoped<ITagRepository, DapperTagRepository>();
-        builder.Services.AddScoped<IUserRepository, DapperUserRepository>();
+        builder.Services.AddDapperRepositories();
         break;
     default:
         Console.WriteLine("USING EFCORE");
-        builder.Services.AddDbContext<AppDbContext>(options =>
-            options.UseNpgsql(connectionString)
-        );
-        builder.Services.AddScoped<IAuctionRepository, EFAuctionRepository>();
-        builder.Services.AddScoped<IBidRepository, EFBidRepository>();
-        builder.Services.AddScoped<ICategoryRepository, EFCategoryRepository>();
-        builder.Services.AddScoped<ITagRepository, EFTagRepository>();
-        builder.Services.AddScoped<IUserRepository, EFUserRepository>();
+        builder.Services.AddEFCoreRepositories(connectionString!);
         break;
 }
 
-builder.Services.AddAutoMapper(typeof(AuctionMappingProfile));
-builder.Services.AddAutoMapper(typeof(UserMappingProfile));
-builder.Services.AddAutoMapper(typeof(CategoryMappingProfile));
-builder.Services.AddAutoMapper(typeof(BidMappingProfile));
-
-builder.Services.AddScoped<IAuctionService, AuctionService>();
-builder.Services.AddScoped<IBidService, BidService>();
-builder.Services.AddScoped<ITagService, TagService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddMediatRHandlers();
+builder.Services.AddMappers();
+builder.Services.AddServices();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

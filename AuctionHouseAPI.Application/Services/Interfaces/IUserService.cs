@@ -1,15 +1,14 @@
 ﻿using AuctionHouseAPI.Application.DTOs.Create;
 using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.DTOs.Update;
+using AuctionHouseAPI.Domain.Models;
 
 namespace AuctionHouseAPI.Application.Services.Interfaces
 {
     public interface IUserService
     {
-        public Task<int> CreateUser(CreateUserDTO createUserDTO);
-        public Task UpdateUser(UpdateUserDTO updateUserDTO, int userId);
-        public Task DeleteUser(int userId);
-        public Task<UserDTO> GetUserById(int id);
-        public Task<List<UserDTO>> GetAllUsers();
+        public Task<int> CreateUserAsync(User user);
+        public Task UpdateUserAsync(User user, UpdateUserDTO updateUserDTO);
+        public Task DeleteUserAsync(User user);
     }
 }

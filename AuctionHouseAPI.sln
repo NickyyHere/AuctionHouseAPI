@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionHouseAPI.Presentatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionHouseAPI.Shared", "AuctionHouseAPI.Shared\AuctionHouseAPI.Shared.csproj", "{897CBA2F-827D-8416-515C-1079B711AC21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionHouseAPI.Database", "AuctionHouseAPI.Database\AuctionHouseAPI.Database.csproj", "{5E12609D-1C8F-4731-8139-C3CB68E78C49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionHouseAPI.Migration", "AuctionHouseAPI.Migration\AuctionHouseAPI.Migration.csproj", "{5643A79A-7732-4F4F-9D62-4670B4B8F93F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{897CBA2F-827D-8416-515C-1079B711AC21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{897CBA2F-827D-8416-515C-1079B711AC21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{897CBA2F-827D-8416-515C-1079B711AC21}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5E12609D-1C8F-4731-8139-C3CB68E78C49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E12609D-1C8F-4731-8139-C3CB68E78C49}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5E12609D-1C8F-4731-8139-C3CB68E78C49}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E12609D-1C8F-4731-8139-C3CB68E78C49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5643A79A-7732-4F4F-9D62-4670B4B8F93F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5643A79A-7732-4F4F-9D62-4670B4B8F93F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5643A79A-7732-4F4F-9D62-4670B4B8F93F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5643A79A-7732-4F4F-9D62-4670B4B8F93F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

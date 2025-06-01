@@ -1,6 +1,7 @@
-﻿using AuctionHouseAPI.Application.DTOs.Read;
-using AuctionHouseAPI.Application.Services.Interfaces;
+﻿using AuctionHouseAPI.Application.CQRS.Features.Auth.Queries;
+using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Shared.Exceptions;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionHouseAPI.Presentation.Controllers
@@ -9,10 +10,10 @@ namespace AuctionHouseAPI.Presentation.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthService _authService;
-        public AuthController(IAuthService authService) 
+        private readonly IMediator _mediator;
+        public AuthController(IMediator mediator)
         {
-            _authService = authService;
+            _mediator = mediator;
         }
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] LoginDTO loginDTO)
@@ -20,11 +21,12 @@ namespace AuctionHouseAPI.Presentation.Controllers
             string token;
             try
             {
-                token = await _authService.GetUserAuthenticationToken(loginDTO);
+                var query = new GetAuthTokenQuery(loginDTO);
+                token = await _mediator.Send(query);
             }
             catch (EntityDoesNotExistException)
             {
-                return Unauthorized("Invalid username or password");
+                return NotFound("Invalid username or password");
             }
             return Ok(new { token });
         }

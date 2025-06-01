@@ -80,6 +80,56 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
             await CloseConnection();
         }
 
+        public async Task<IEnumerable<Auction>> GetActiveAsync()
+        {
+            await OpenConnection();
+            var sql = @"
+                SELECT 
+                    a.*, 
+                    i.""AuctionId"" AS ""ItemId"", i.""AuctionId"", i.""Name"", i.""Description"", i.""CategoryId"",
+                    o.""AuctionId"" AS ""OptionsId"", o.""StartingPrice"", o.""StartDateTime"", o.""FinishDateTime"", 
+                    o.""IsIncreamentalOnLastMinuteBid"", o.""MinutesToIncrement"", o.""MinimumOutbid"",
+                    o.""AllowBuyItNow"", o.""BuyItNowPrice"", o.""IsActive"",
+                    u.""Id"" AS ""OwnerId"", u.""FirstName"", u.""LastName""
+                FROM ""Auctions"" a
+                JOIN ""AuctionItems"" i ON a.""Id"" = i.""AuctionId""
+                JOIN ""AuctionOptions"" o ON a.""Id"" = o.""AuctionId""
+                JOIN ""Users"" u ON a.""OwnerId"" = u.""Id""
+                WHERE o.""IsActive"" = true;";
+
+            var result = await _connection!.QueryAsync<Auction, AuctionItem, AuctionOptions, User, Auction>(
+                sql,
+                (a, item, options, user) =>
+                {
+                    a.Item = item;
+                    a.Options = options;
+                    a.Owner = user;
+                    return a;
+                },
+                splitOn: "ItemId,OptionsId,OwnerId"
+            );
+
+            var auctions = result.ToList();
+
+            foreach (var auction in auctions)
+            {
+                var tagSql = @"
+                    SELECT t.*
+                    FROM ""Tags"" t
+                    JOIN ""ItemTags"" it ON t.""Id"" = it.""TagId""
+                    WHERE it.""AuctionItemId"" = @AuctionItemId";
+
+                var tagResult = await _connection!.QueryAsync<Tag>(tagSql, new { AuctionItemId = auction.Id });
+
+                foreach (var tag in tagResult)
+                {
+                    auction.Item!.Tags.Add(new AuctionItemTag { AuctionItem = auction.Item, AuctionItemId = auction.Item.AuctionId, Tag = tag, TagId = tag.Id });
+                }
+            }
+            await CloseConnection();
+            return auctions;
+        }
+
         public override async Task<IEnumerable<Auction>> GetAllAsync()
         {
             await OpenConnection();
@@ -236,7 +286,7 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
             return auctions.FirstOrDefault();
         }
 
-        public async Task<IEnumerable<Auction>> GetByTagsAsync(string tag)
+        public async Task<IEnumerable<Auction>> GetByTagAsync(string tag)
         {
             using var connection = _context.CreateConnection();
             if (connection.State != ConnectionState.Open && connection is Npgsql.NpgsqlConnection pgSqlConnection)
