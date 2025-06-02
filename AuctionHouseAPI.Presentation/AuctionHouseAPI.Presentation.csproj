@@ -21,5 +21,4 @@
 		<ProjectReference Include="..\AuctionHouseAPI.Migration\AuctionHouseAPI.Migration.csproj" />
 		<ProjectReference Include="..\AuctionHouseAPI.Shared\AuctionHouseAPI.Shared.csproj" />
 	</ItemGroup>
-
 </Project>

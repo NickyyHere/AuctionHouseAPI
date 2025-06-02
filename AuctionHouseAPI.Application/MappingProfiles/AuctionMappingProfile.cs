@@ -16,9 +16,20 @@ namespace AuctionHouseAPI.Application.MappingProfiles
             CreateMap<AuctionItem, AuctionItemDTO>();
             CreateMap<AuctionOptions, AuctionOptionsDTO>();
 
-            CreateMap<CreateAuctionDTO, Auction>();
-            CreateMap<CreateAuctionItemDTO, AuctionItem>();
-            CreateMap<CreateAuctionOptionsDTO, AuctionOptions>();
+            CreateMap<CreateAuctionDTO, Auction>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.OwnerId, opt => opt.Ignore())
+                .ForMember(dest => dest.Owner, opt => opt.Ignore())
+                .ForMember(dest => dest.Bids, opt => opt.Ignore());
+            CreateMap<CreateAuctionItemDTO, AuctionItem>()
+                .ForMember(dest => dest.AuctionId, opt => opt.Ignore())
+                .ForMember(dest => dest.Category, opt => opt.Ignore())
+                .ForMember(dest => dest.Tags, opt => opt.Ignore())
+                .ForMember(dest => dest.Auction, opt => opt.Ignore());
+            CreateMap<CreateAuctionOptionsDTO, AuctionOptions>()
+                .ForMember(dest => dest.AuctionId, opt => opt.Ignore())
+                .ForMember(dest => dest.Auction, opt => opt.Ignore())
+                .ForMember(dest => dest.IsActive, opt => opt.Ignore());
         }
     }
 }

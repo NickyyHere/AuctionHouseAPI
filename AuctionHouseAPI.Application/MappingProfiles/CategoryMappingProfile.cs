@@ -15,7 +15,9 @@ namespace AuctionHouseAPI.Application.MappingProfiles
         public CategoryMappingProfile()
         {
             CreateMap<Category, CategoryDTO>();
-            CreateMap<CreateCategoryDTO, Category>();
+            CreateMap<CreateCategoryDTO, Category>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.AuctionItems, opt => opt.Ignore());
         }
     }
 }

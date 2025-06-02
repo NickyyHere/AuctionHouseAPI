@@ -2,6 +2,7 @@
 using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Domain.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,10 @@ namespace AuctionHouseAPI.Application.MappingProfiles
         public UserMappingProfile() 
         {
             CreateMap<User, UserDTO>();
-            CreateMap<CreateUserDTO, User>();
+            CreateMap<CreateUserDTO, User>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Bids, opt => opt.Ignore())
+                .ForMember(dest => dest.Auctions, opt => opt.Ignore());
         }
     }
 }
