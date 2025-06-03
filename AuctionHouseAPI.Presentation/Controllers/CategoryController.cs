@@ -1,7 +1,9 @@
-﻿using AuctionHouseAPI.Application.DTOs.Create;
+﻿using AuctionHouseAPI.Application.CQRS.Features.Categories.Commands;
+using AuctionHouseAPI.Application.CQRS.Features.Categories.Queries;
+using AuctionHouseAPI.Application.DTOs.Create;
 using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.DTOs.Update;
-using AuctionHouseAPI.Application.Services.Interfaces;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,43 +13,48 @@ namespace AuctionHouseAPI.Presentation.Controllers
     [Route("api/[controller]")]
     public class CategoryController : ControllerBase
     {
-        private readonly ICategoryService _categoryService;
-        public CategoryController(ICategoryService categoryService)
+        private readonly IMediator _mediator;
+        public CategoryController(IMediator mediator)
         {
-            _categoryService = categoryService;
+            _mediator = mediator;
         }
         // POST
         [HttpPost, Authorize]
         public async Task<ActionResult> AddCategory([FromBody] CreateCategoryDTO createCategoryDTO)
         {
-            await _categoryService.CreateCategory(createCategoryDTO);
-            return Created();
+            var command = new CreateCategoryCommand(createCategoryDTO);
+            var categoryId = await _mediator.Send(command);
+            return Ok(categoryId);
         }
         // GET
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryDTO>> GetCategory(int id)
         {
-            var category = await _categoryService.GetCategory(id);
+            var query = new GetCategoryByIdQuery(id);
+            var category = await _mediator.Send(query);
             return Ok(category);
         }
         [HttpGet]
         public async Task<ActionResult<List<CategoryDTO>>> GetCategories()
         {
-            var categories = await _categoryService.GetAllCategories();
+            var query = new GetAllCategoriesQuery();
+            var categories = await _mediator.Send(query);
             return Ok(categories);
         }
         // DELETE
         [HttpDelete("{id}"), Authorize]
         public async Task<ActionResult> DeleteCategory(int id)
         {
-            await _categoryService.DeleteCategory(id);
+            var command = new DeleteCategoryCommand(id);
+            await _mediator.Send(command);
             return NoContent();
         }
         // PUT
         [HttpPut("{id}"), Authorize]
         public async Task<ActionResult> EditCategory(int id, [FromBody] UpdateCategoryDTO editedCategory)
         {
-            await _categoryService.UpdateCategory(editedCategory, id);
+            var command = new EditCategoryCommand(editedCategory, id);
+            await _mediator.Send(command);
             return NoContent();
         }  
     }

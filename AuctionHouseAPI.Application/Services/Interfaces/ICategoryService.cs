@@ -1,15 +1,13 @@
-﻿using AuctionHouseAPI.Application.DTOs.Create;
-using AuctionHouseAPI.Application.DTOs.Read;
+﻿using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.DTOs.Update;
+using AuctionHouseAPI.Domain.Models;
 
 namespace AuctionHouseAPI.Application.Services.Interfaces
 {
     public interface ICategoryService
     {
-        public Task<int> CreateCategory(CreateCategoryDTO categoryDTO);
-        public Task UpdateCategory(UpdateCategoryDTO categoryDTO, int id);
-        public Task DeleteCategory(int id);
-        public Task<CategoryDTO> GetCategory(int id);
-        public Task<List<CategoryDTO>> GetAllCategories();
+        public Task<int> CreateCategoryAsync(Category category);
+        public Task UpdateCategoryAsync(Category category, UpdateCategoryDTO categoryDTO);
+        public Task DeleteCategoryAsync(Category category);
     }
 }

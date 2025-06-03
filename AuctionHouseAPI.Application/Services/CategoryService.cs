@@ -1,72 +1,36 @@
 ﻿using AuctionHouseAPI.Application.DTOs.Create;
 using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.DTOs.Update;
-using AuctionHouseAPI.Application.Mappers;
 using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using AuctionHouseAPI.Shared.Exceptions;
+using AutoMapper;
 
 namespace AuctionHouseAPI.Application.Services
 {
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IMapper<CategoryDTO, CreateCategoryDTO, Category> _mapper;
-        public CategoryService(ICategoryRepository categoryRepository, IMapper<CategoryDTO, CreateCategoryDTO, Category> mapper)
+        private readonly IMapper _mapper;
+        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
 
-        public async Task<int> CreateCategory(CreateCategoryDTO categoryDTO)
+        public async Task<int> CreateCategoryAsync(Category category)
         {
-            await _categoryRepository.BeginTransactionAsync();
-            try
-            {
-                var category = _mapper.ToEntity(categoryDTO);
-                var newId = await _categoryRepository.CreateAsync(category);
-                await _categoryRepository.CommitTransactionAsync();
-                return newId;
-            }
-            catch
-            {
-                await _categoryRepository.RollbackTransactionAsync();
-                throw;
-            }
+            var newId = await _categoryRepository.CreateAsync(category);
+            return newId;
         }
 
-        public async Task DeleteCategory(int id)
+        public async Task DeleteCategoryAsync(Category category)
         {
-            await _categoryRepository.BeginTransactionAsync();
-            try
-            {
-                var category = await _categoryRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"Category with given id ({id}) does not exist");
-                await _categoryRepository.DeleteAsync(category);
-                await _categoryRepository.CommitTransactionAsync();
-            }
-            catch
-            {
-                await _categoryRepository.RollbackTransactionAsync();
-                throw;
-            }
+            await _categoryRepository.DeleteAsync(category);
         }
-
-        public async Task<List<CategoryDTO>> GetAllCategories()
+        public async Task UpdateCategoryAsync(Category category, UpdateCategoryDTO categoryDTO)
         {
-            var categories = _mapper.ToDTO((List<Category>)await _categoryRepository.GetAllAsync());
-            return categories;
-        }
-
-        public async Task<CategoryDTO> GetCategory(int id)
-        {
-            var category = _mapper.ToDTO(await _categoryRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"Category with given id ({id}) does not exist"));
-            return category;
-        }
-
-        public async Task UpdateCategory(UpdateCategoryDTO categoryDTO, int id)
-        {
-            var category = await _categoryRepository.GetByIdAsync(id) ?? throw new EntityDoesNotExistException($"Category with given id ({id}) does not exist");
             await _categoryRepository.BeginTransactionAsync();
             try
             {

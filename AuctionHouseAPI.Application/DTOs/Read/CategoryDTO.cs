@@ -1,14 +1,4 @@
 ﻿namespace AuctionHouseAPI.Application.DTOs.Read
 {
-    public class CategoryDTO
-    {
-        public string Name { get; set; }
-        public string Description { get; set; }
-
-        public CategoryDTO(string name, string description)
-        {
-            Name = name; 
-            Description = description;
-        }
-    }
+    public record CategoryDTO(string Name, string Description);
 }

@@ -22,7 +22,7 @@ namespace AuctionHouseAPI.Domain.EFCore.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Auction>> GetByTagsAsync(string tag)
+        public async Task<IEnumerable<Auction>> GetByTagAsync(string tag)
         {
             return await GetAllAuctionsWithDetails()
                 .Where(a => a.Item!.Tags.Any(it => it.Tag!.Name == tag))
@@ -49,6 +49,22 @@ namespace AuctionHouseAPI.Domain.EFCore.Repositories
         public override async Task<IEnumerable<Auction>> GetAllAsync()
         {
             return await GetAllAuctionsWithDetails().ToListAsync();
+        }
+        public override async Task<Auction?> GetByIdAsync(int id)
+        {
+            return await _context.Auctions
+                .Include(a => a.Item)
+                    .ThenInclude(i => i!.Tags)
+                        .ThenInclude(t => t.Tag)
+                .Include(a => a.Options)
+                .Include(a => a.Owner)
+                .FirstOrDefaultAsync(a => a.Id == id);
+        }
+        public async Task<IEnumerable<Auction>> GetActiveAsync()
+        {
+            return await GetAllAuctionsWithDetails()
+                .Where(a => a.Options!.IsActive)
+                .ToListAsync();
         }
         private IQueryable<Auction> GetAllAuctionsWithDetails()
         {

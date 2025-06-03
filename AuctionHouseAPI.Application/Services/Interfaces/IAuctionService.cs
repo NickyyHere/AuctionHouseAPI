@@ -1,22 +1,16 @@
 ﻿using AuctionHouseAPI.Application.DTOs.Create;
 using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.DTOs.Update;
+using AuctionHouseAPI.Domain.Models;
 
 namespace AuctionHouseAPI.Application.Services.Interfaces
 {
     public interface IAuctionService
     {
-        public Task<int> CreateAuction(CreateAuctionDTO createAuctionDTO, int userId);
-        public Task UpdateAuctionItem(UpdateAuctionItemDTO updateAuctionItemDTO, int auctionId, int userId);
-        public Task UpdateAuctionOptions(UpdateAuctionOptionsDTO updateAuctionOptionsDTO, int auctionId, int userId);
-        public Task DeleteAuction(int id, int userId);
-        public Task<AuctionDTO> GetAuctionById(int id);
-        public Task<List<AuctionDTO>> GetAllAuctions();
-        public Task<List<AuctionDTO>> GetAuctionsByUser(int userId);
-        public Task<List<AuctionDTO>> GetAuctionsByCategory(int categoryId);
-        public Task<List<AuctionDTO>> GetAuctionsByTags(string[] tags);
-        public Task<List<AuctionItemDTO>> GetAllAuctionItems();
-        public Task<AuctionOptionsDTO> GetAuctionOptions(int auctionId);
-        public Task<AuctionItemDTO> GetAuctionItem(int auctionId);
+        public Task<int> CreateAuctionAsync(Auction auction, int userId);
+        public void AddTagsToAuction(List<Tag> tags, Auction auction);
+        public Task UpdateAuctionItemAsync(Auction auction, UpdateAuctionItemDTO updateAuctionItemDTO, int userId);
+        public Task UpdateAuctionOptionsAsync(Auction auction, UpdateAuctionOptionsDTO updateAuctionOptionsDTO, int userId);
+        public Task DeleteAuction(Auction auction, int userId);
     }
 }

@@ -1,7 +1,9 @@
-﻿using AuctionHouseAPI.Application.DTOs.Create;
+﻿using AuctionHouseAPI.Application.CQRS.Features.Bids.Commands;
+using AuctionHouseAPI.Application.CQRS.Features.Bids.Queries;
+using AuctionHouseAPI.Application.DTOs.Create;
 using AuctionHouseAPI.Application.DTOs.Read;
-using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Shared.Exceptions;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -12,10 +14,10 @@ namespace AuctionHouseAPI.Presentation.Controllers
     [Route("/api/[controller]")]
     public class BidsController : ControllerBase
     {
-        private readonly IBidService _bidService;
-        public BidsController(IBidService bidService)
+        private readonly IMediator _mediator;
+        public BidsController(IMediator mediator)
         {
-            _bidService = bidService;
+            _mediator = mediator;
         }
         // POST
         [HttpPost, Authorize]
@@ -27,7 +29,8 @@ namespace AuctionHouseAPI.Presentation.Controllers
             }
             try
             {
-                await _bidService.CreateBid(createBidDTO, userId);
+                var command = new CreateBidCommand(createBidDTO, userId);
+                await _mediator.Send(command);
             }
             catch (EntityDoesNotExistException e)
             {
@@ -43,20 +46,30 @@ namespace AuctionHouseAPI.Presentation.Controllers
         [HttpGet("user/{uid}")]
         public async Task<ActionResult<List<BidDTO>>> GetUserBids(int uid)
         {
-            var bids = await _bidService.GetUserBids(uid);
+            var query = new GetAllUserBidsQuery(uid);
+            var bids = await _mediator.Send(query);
             return Ok(bids);
         }
         [HttpGet("auction/{aid}")]
         public async Task<ActionResult<List<BidDTO>>> GetAuctionBids(int aid)
         {
-            var bids = await _bidService.GetAuctionBids(aid);
+            var query = new GetAllAuctionBidsQuery(aid);
+            var bids = await _mediator.Send(query);
             return Ok(bids);
         }
         [HttpGet("auction/{aid}/user/{uid}")]
         public async Task<ActionResult<List<BidDTO>>> GetUserAuctionBids(int aid, int uid)
         {
-            var bids = await _bidService.GetUsersBidsByAuctionId(aid, uid);
+            var query = new GetAllAuctionBidsByUserQuery(aid, uid);
+            var bids = await _mediator.Send(query);
             return Ok(bids);
+        }
+        [HttpGet("auction/{aid}/highest")]
+        public async Task<ActionResult<BidDTO>> GetHighestBid(int aid)
+        {
+            var query = new GetAuctionHighestBidQuery(aid);
+            var bid = await _mediator.Send(query);
+            return Ok(bid);
         }
         // DELETE
         [HttpDelete("auction/{aid}"), Authorize]
@@ -68,7 +81,8 @@ namespace AuctionHouseAPI.Presentation.Controllers
             }
             try
             {
-                await _bidService.WithdrawFromAuction(aid, userId);
+                var command = new DeleteAllUserBidsFromAuctionCommand(userId, aid);
+                await _mediator.Send(command);
             }
             catch (EntityDoesNotExistException e)
             {

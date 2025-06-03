@@ -1,8 +1,10 @@
-﻿using AuctionHouseAPI.Application.DTOs.Create;
+﻿using AuctionHouseAPI.Application.CQRS.Features.Users.Commands;
+using AuctionHouseAPI.Application.CQRS.Features.Users.Queries;
+using AuctionHouseAPI.Application.DTOs.Create;
 using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Application.DTOs.Update;
-using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Shared.Exceptions;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -13,10 +15,10 @@ namespace AuctionHouseAPI.Presentation.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly IMediator _mediator;
+        public UserController(IMediator mediator)
         {
-            _userService = userService;
+            _mediator = mediator;
         }
         // POST
         [HttpPost]
@@ -25,7 +27,8 @@ namespace AuctionHouseAPI.Presentation.Controllers
             int userId;
             try
             {
-                userId = await _userService.CreateUser(createUserDTO);
+                var command = new CreateUserCommand(createUserDTO);
+                userId = await _mediator.Send(command);
             }
             catch (DuplicateEntityException e)
             {
@@ -37,13 +40,15 @@ namespace AuctionHouseAPI.Presentation.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetUser(int id)
         {
-            var user = await _userService.GetUserById(id);
+            var query = new GetUserByIdQuery(id);
+            var user = await _mediator.Send(query);
             return Ok(user);
         }
         [HttpGet]
         public async Task<ActionResult<List<UserDTO>>> GetUsers()
         {
-            var users = await _userService.GetAllUsers();
+            var query = new GetAllUsersQuery();
+            var users = await _mediator.Send(query);
             return Ok(users);
         }
         // DELETE
@@ -54,7 +59,8 @@ namespace AuctionHouseAPI.Presentation.Controllers
             {
                 return Problem();
             }
-            await _userService.DeleteUser(userId);
+            var command = new DeleteUserCommand(userId);
+            await _mediator.Send(command);
             return NoContent();
         }
         // PUT
@@ -65,7 +71,8 @@ namespace AuctionHouseAPI.Presentation.Controllers
             {
                 return Problem();
             }
-            await _userService.UpdateUser(editedUser, userId);
+            var command = new UpdateUserCommand(editedUser, userId);
+            await _mediator.Send(command);
             return NoContent();
         }
     }
