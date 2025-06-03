@@ -1,0 +1,4 @@
+[*.cs]
+dotnet_diagnostic.SA*.severity = warning
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_prefer_braces = true:warning
