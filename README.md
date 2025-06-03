@@ -35,7 +35,7 @@ dotnet restore
   PGSQL_CONNECTION_STRING enviorment variable<br>
   Windows:
 ```bash
-  set PGSQL_CONNECTIONSTRING="Host={HostAddress};Port={PortNumber};Username={Username};Password={Password};Database={DatabaseName};"
+set PGSQL_CONNECTION_STRING="Host={HostAddress};Port={PortNumber};Username={Username};Password={Password};Database={DatabaseName};"
 ```
 ## Running the project
 ```bash
