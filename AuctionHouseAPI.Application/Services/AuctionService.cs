@@ -12,27 +12,15 @@ namespace AuctionHouseAPI.Application.Services
     public class AuctionService : IAuctionService
     {
         private readonly IAuctionRepository _auctionRepository;
-        private readonly ITagService _tagService;
-        public AuctionService(IAuctionRepository auctionRepository, ITagService tagService)
+        public AuctionService(IAuctionRepository auctionRepository)
         {
             _auctionRepository = auctionRepository;
-            _tagService = tagService;
         }
 
-        public async Task<int> CreateAuctionAsync(Auction auction, int userId)
+        public async Task<int> CreateAuctionAsync(Auction auction)
         {
-            await _auctionRepository.BeginTransactionAsync();
-            try
-            {
-                var newId = await _auctionRepository.CreateAsync(auction);
-                await _auctionRepository.CommitTransactionAsync();
-                return newId;
-            }
-            catch
-            {
-                await _auctionRepository.RollbackTransactionAsync();
-                throw;
-            }
+            var newId = await _auctionRepository.CreateAsync(auction);
+            return newId;
         }
         public void AddTagsToAuction(List<Tag> tags, Auction auction)
         {
@@ -41,7 +29,7 @@ namespace AuctionHouseAPI.Application.Services
                 auction.Item!.Tags.Add(new AuctionItemTag { TagId = tag.Id });
             }
         }
-        public async Task DeleteAuction(Auction auction, int userId)
+        public async Task DeleteAuctionAsync(Auction auction, int userId)
         {
             await _auctionRepository.BeginTransactionAsync();
             try
@@ -53,6 +41,10 @@ namespace AuctionHouseAPI.Application.Services
                 if (auction.OwnerId != userId)
                 {
                     throw new UnauthorizedAccessException("Access denied! Only auction owner can delete the auction.");
+                }
+                if (auction.Options.FinishDateTime < DateTime.UtcNow)
+                {
+                    throw new FinishedAuctionException("Can't delete finished auction");
                 }
                 await _auctionRepository.DeleteAsync(auction);
                 await _auctionRepository.CommitTransactionAsync();
@@ -76,6 +68,10 @@ namespace AuctionHouseAPI.Application.Services
                 if (auction.Options!.IsActive)
                 {
                     throw new ActiveAuctionException("Can't edit active auction");
+                }
+                if(auction.Options.FinishDateTime < DateTime.UtcNow)
+                {
+                    throw new FinishedAuctionException("Can't edit finished auction");
                 }
                 if (!string.IsNullOrWhiteSpace(updateAuctionItemDTO.Name))
                     auction.Item!.Name = updateAuctionItemDTO.Name;
@@ -105,6 +101,10 @@ namespace AuctionHouseAPI.Application.Services
                 if (auction.Options!.IsActive)
                 {
                     throw new ActiveAuctionException("Can't edit active auction");
+                }
+                if (auction.Options.FinishDateTime < DateTime.UtcNow)
+                {
+                    throw new FinishedAuctionException("Can't edit finished auction");
                 }
                 if (updateAuctionOptionsDTO.IsIncreamentalOnLastMinuteBid != null)
                     auction.Options!.IsIncreamentalOnLastMinuteBid = (bool)updateAuctionOptionsDTO.IsIncreamentalOnLastMinuteBid;

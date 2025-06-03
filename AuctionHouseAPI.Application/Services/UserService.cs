@@ -10,11 +10,9 @@ namespace AuctionHouseAPI.Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IMapper _mapper;
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _mapper = mapper;
         }
 
         public async Task<int> CreateUserAsync(User user)
@@ -22,33 +20,14 @@ namespace AuctionHouseAPI.Application.Services
             if(await _userRepository.GetByUsernameAsync(user.Username) != null)
                 throw new DuplicateEntityException("Username is already taken");
 
-            await _userRepository.BeginTransactionAsync();
-            try
-            {
-                var newId = await _userRepository.CreateAsync(user);
-                await _userRepository.CommitTransactionAsync();
-                return newId;
-            }
-            catch
-            {
-                await _userRepository.RollbackTransactionAsync();
-                throw;
-            }
+            var newId = await _userRepository.CreateAsync(user);
+            return newId;
         }
 
         public async Task DeleteUserAsync(User user)
         {
-            await _userRepository.BeginTransactionAsync();
-            try
-            {
-                await _userRepository.DeleteAsync(user);
-                await _userRepository.CommitTransactionAsync();
-            }
-            catch
-            {
-                await _userRepository.RollbackTransactionAsync();
-                throw;
-            }
+
+            await _userRepository.DeleteAsync(user);
         }
         public async Task UpdateUserAsync(User user, UpdateUserDTO updateUserDTO)
         {

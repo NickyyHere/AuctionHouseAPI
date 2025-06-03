@@ -7,7 +7,7 @@ using AuctionHouseAPI.Domain.Models;
 using AutoMapper;
 using Moq;
 
-namespace AuctionHouseAPI.Tests.Application.Features.Users
+namespace AuctionHouseAPI.Tests.Application.CQRS.Features.Users
 {
     [TestFixture]
     public class CreateUserCommandTests
