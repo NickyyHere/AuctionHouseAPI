@@ -59,7 +59,7 @@ GET /api/bids
 - iwedaz (Mentor)
 
 ## License
-This projects is licensed under [MIT License](https://choosealicense.com/licenses/mit/)
+This projects is licensed under [The Unlicense](https://choosealicense.com/licenses/unlicense/)
 
 ## Author
 [Mail](mailto:jwojcicki001@gmail.com)<br>
