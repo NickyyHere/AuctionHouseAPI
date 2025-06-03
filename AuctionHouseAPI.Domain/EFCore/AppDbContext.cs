@@ -1,7 +1,7 @@
 ﻿using AuctionHouseAPI.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace AuctionHouseAPI.Domain
+namespace AuctionHouseAPI.Domain.EFCore
 {
     public class AppDbContext : DbContext
     {
