@@ -74,11 +74,18 @@ namespace AuctionHouseAPI.Application.Services
                     throw new FinishedAuctionException("Can't edit finished auction");
                 }
                 if (!string.IsNullOrWhiteSpace(updateAuctionItemDTO.Name))
+                {
                     auction.Item!.Name = updateAuctionItemDTO.Name;
+                }
                 if (!string.IsNullOrWhiteSpace(updateAuctionItemDTO.Description))
+                {
                     auction.Item!.Description = updateAuctionItemDTO.Description;
+                }
                 if (updateAuctionItemDTO.CategoryId != null)
+                {
                     auction.Item!.CategoryId = (int)updateAuctionItemDTO.CategoryId;
+                }
+
                 await _auctionRepository.UpdateAuctionItemAsync(auction.Item!);
                 await _auctionRepository.CommitTransactionAsync();
             }
@@ -107,21 +114,44 @@ namespace AuctionHouseAPI.Application.Services
                     throw new FinishedAuctionException("Can't edit finished auction");
                 }
                 if (updateAuctionOptionsDTO.IsIncreamentalOnLastMinuteBid != null)
+                {
                     auction.Options!.IsIncreamentalOnLastMinuteBid = (bool)updateAuctionOptionsDTO.IsIncreamentalOnLastMinuteBid;
+                }
+
                 if (updateAuctionOptionsDTO.AllowBuyItNow != null)
+                {
                     auction.Options!.AllowBuyItNow = (bool)updateAuctionOptionsDTO.AllowBuyItNow;
+                }
+
                 if (updateAuctionOptionsDTO.BuyItNowPrice != null)
+                {
                     auction.Options!.BuyItNowPrice = (decimal)updateAuctionOptionsDTO.BuyItNowPrice;
+                }
+
                 if (updateAuctionOptionsDTO.StartingPrice != null)
+                {
                     auction.Options!.StartingPrice = (decimal)updateAuctionOptionsDTO.StartingPrice;
+                }
+
                 if (updateAuctionOptionsDTO.FinishDateTime != null)
+                {
                     auction.Options!.FinishDateTime = (DateTime)updateAuctionOptionsDTO.FinishDateTime;
+                }
+
                 if (updateAuctionOptionsDTO.MinimumOutbid != null)
+                {
                     auction.Options!.MinimumOutbid = (int)updateAuctionOptionsDTO.MinimumOutbid;
+                }
+
                 if (updateAuctionOptionsDTO.MinutesToIncrement != null)
+                {
                     auction.Options!.MinutesToIncrement = (int)updateAuctionOptionsDTO.MinutesToIncrement;
+                }
+
                 if (updateAuctionOptionsDTO.StartDateTime != null)
+                {
                     auction.Options!.StartDateTime = (DateTime)updateAuctionOptionsDTO.StartDateTime;
+                }
                 await _auctionRepository.UpdateAuctionOptionsAsync(auction.Options!);
                 await _auctionRepository.CommitTransactionAsync();
             }

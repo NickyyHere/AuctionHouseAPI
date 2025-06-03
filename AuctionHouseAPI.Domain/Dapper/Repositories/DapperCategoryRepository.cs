@@ -12,7 +12,7 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
         public override async Task<int> CreateAsync(Category entity)
         {
             await OpenConnection();
-            var sql = "INSERT INTO \"Categories\" (\"Name\", \"Description\") VALUES (@Name, @Description) RETURNING \"Id\";";
+            var sql = """INSERT INTO "Categories" ("Name", "Description") VALUES (@Name, @Description) RETURNING "Id";""";
             var categoryId = await _connection!.ExecuteScalarAsync<int>(sql, new { entity.Name, entity.Description }, _currentTransaction);
             await CloseConnection();
             return categoryId;
@@ -21,7 +21,7 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
         public override async Task DeleteAsync(Category entity)
         {
             await OpenConnection();
-            var sql = "DELETE FROM \"Categories\" WHERE \"Id\" = @Id;";
+            var sql = """DELETE FROM "Categories" WHERE "Id" = @Id;""";
             await _connection!.ExecuteAsync(sql, new { entity.Id }, _currentTransaction);
             await CloseConnection();
         }
@@ -29,7 +29,7 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
         public override async Task<IEnumerable<Category>> GetAllAsync()
         {
             await OpenConnection();
-            var sql = "SELECT * FROM \"Categories\";";
+            var sql = """SELECT * FROM "Categories";""";
             var result = await _connection!.QueryAsync<Category>(sql);
             await CloseConnection();
             return result.ToList();
@@ -38,7 +38,7 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
         public override async Task<Category?> GetByIdAsync(int id)
         {
             await OpenConnection();
-            var sql = "SELECT * FROM \"Categories\" WHERE \"Id\" = @id";
+            var sql = """SELECT * FROM "Categories" WHERE "Id" = @id""";
             var result = await _connection!.QueryFirstOrDefaultAsync<Category>(sql, new { id });
             await CloseConnection();
             return result;
@@ -47,10 +47,12 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
         public async Task UpdateCategoryAsync(Category category)
         {
             await OpenConnection();
-            var sql = @"UPDATE ""Categories""
-                SET ""Name"" = @Name,
-                ""Description"" = @Description
-                WHERE ""Id"" = @Id";
+            var sql = """
+                UPDATE "Categories"
+                SET "Name" = @Name,
+                "Description" = @Description
+                WHERE "Id" = @Id;
+            """;
             await _connection!.ExecuteAsync(sql, new { category.Name, category.Description, category.Id }, _currentTransaction);
             await CloseConnection();
         }

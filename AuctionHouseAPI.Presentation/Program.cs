@@ -1,13 +1,16 @@
 using AuctionHouseAPI.Migrations;
 using AuctionHouseAPI.Presentation;
+using AuctionHouseAPI.Shared.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = Environment.GetEnvironmentVariable("PGSQL_CONNECTION_STRING");
 
-await MigrationManager.Run(connectionString!);
+var connectionString = Environment.GetEnvironmentVariable("PGSQL_CONNECTION_STRING");
+builder.Services.Configure<PgSqlDatabaseSettings>(options => options.ConnectionString = connectionString!);
+
+builder.Services.AddHostedService<MigrationHostedService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

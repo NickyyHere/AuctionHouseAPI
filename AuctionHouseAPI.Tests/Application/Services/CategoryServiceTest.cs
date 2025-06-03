@@ -4,7 +4,6 @@ using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using Moq;
-using System.Threading.Tasks;
 
 namespace AuctionHouseAPI.Tests.Application.Services
 {

@@ -9,7 +9,7 @@ namespace AuctionHouseAPI.Tests.Architecture
         [Test]
         public void MigrationShouldDependOnSharedLayer()
         {
-            var types = Types.InAssembly(typeof(MigrationManager).Assembly);
+            var types = Types.InAssembly(typeof(MigrationHostedService).Assembly);
             var result = types
                 .That()
                 .HaveDependencyOn("AuctionHouseAPI.Shared")
@@ -20,7 +20,7 @@ namespace AuctionHouseAPI.Tests.Architecture
         [Test]
         public void MigrationShouldNotDependOnApplicationLayer()
         {
-            var types = Types.InAssembly(typeof(MigrationManager).Assembly);
+            var types = Types.InAssembly(typeof(MigrationHostedService).Assembly);
             var result = types
                 .That()
                 .HaveDependencyOn("AuctionHouseAPI.Application")
@@ -31,7 +31,7 @@ namespace AuctionHouseAPI.Tests.Architecture
         [Test]
         public void MigrationShouldNotDependOnDomainLayer()
         {
-            var types = Types.InAssembly(typeof(MigrationManager).Assembly);
+            var types = Types.InAssembly(typeof(MigrationHostedService).Assembly);
             var result = types
                 .That()
                 .HaveDependencyOn("AuctionHouseAPI.Domain")
@@ -42,7 +42,7 @@ namespace AuctionHouseAPI.Tests.Architecture
         [Test]
         public void MigrationShouldNotDependOnPresentationLayer()
         {
-            var types = Types.InAssembly(typeof(MigrationManager).Assembly);
+            var types = Types.InAssembly(typeof(MigrationHostedService).Assembly);
             var result = types
                 .That()
                 .HaveDependencyOn("AuctionHouseAPI.Presentation")

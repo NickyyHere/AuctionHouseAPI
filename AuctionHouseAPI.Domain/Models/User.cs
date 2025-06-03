@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using AuctionHouseAPI.Domain.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AuctionHouseAPI.Domain.Models
 {
@@ -13,6 +14,7 @@ namespace AuctionHouseAPI.Domain.Models
         public DateTime JoinedDateTime { get; }
         public ICollection<Bid> Bids { get; set; } = new List<Bid>();
         public ICollection<Auction> Auctions { get; set; } = new List<Auction>();
+        public UserRole Role { get; set; }
 
         public User()
         {
@@ -22,6 +24,7 @@ namespace AuctionHouseAPI.Domain.Models
             FirstName = string.Empty;
             LastName = string.Empty;
             JoinedDateTime = DateTime.Now;
+            Role = UserRole.ROLE_USER;
         }
         public User(string username, string email, string password, string firstName, string lastName)
         {

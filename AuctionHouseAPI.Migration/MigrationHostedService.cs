@@ -1,31 +1,46 @@
 ﻿using AuctionHouseAPI.Shared.Exceptions;
+using AuctionHouseAPI.Shared.Settings;
 using Dapper;
 using DbUp;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Npgsql;
 using System.Reflection;
 
 namespace AuctionHouseAPI.Migrations
 {
-    public static class MigrationManager
+    public class MigrationHostedService : IHostedService
     {
-        public static async Task Run(string connectionString)
+        private readonly PgSqlDatabaseSettings _dbOptions;
+        public MigrationHostedService(IOptions<PgSqlDatabaseSettings> options)
         {
-            await CreateDatabaseIfNotExistAsync(connectionString);
+            _dbOptions = options.Value;
+        }
+        public async Task StartAsync(CancellationToken cancellationToken)
+        {
+            await CreateDatabaseIfNotExistAsync(_dbOptions.ConnectionString!);
             var updater = DeployChanges.To
-                .PostgresqlDatabase(connectionString)
+                .PostgresqlDatabase(_dbOptions.ConnectionString)
                 .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
                 .LogToConsole()
+                .WithVariablesDisabled()
                 .Build();
 
             var result = updater.PerformUpgrade();
 
-            if(!result.Successful)
+            if (!result.Successful)
             {
                 throw new DatabaseUpdateException("Updating database failed");
             }
             Console.WriteLine("Successfuly updated database.");
         }
-        private static async Task CreateDatabaseIfNotExistAsync(string connectionString)
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
+        }
+
+        private async Task CreateDatabaseIfNotExistAsync(string connectionString)
         {
             var builder = new NpgsqlConnectionStringBuilder(connectionString);
             var dbName = builder.Database;

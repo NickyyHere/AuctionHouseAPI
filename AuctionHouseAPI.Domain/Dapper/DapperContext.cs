@@ -1,17 +1,19 @@
-﻿using Npgsql;
+﻿using AuctionHouseAPI.Shared.Settings;
+using Microsoft.Extensions.Options;
+using Npgsql;
 using System.Data;
 
 namespace AuctionHouseAPI.Domain.Dapper
 {
     public class DapperContext
     {
-        private readonly string _connectionString;
-        public DapperContext()
+        private readonly PgSqlDatabaseSettings _dbSettings;
+        public DapperContext(IOptions<PgSqlDatabaseSettings> options)
         {
-            _connectionString = Environment.GetEnvironmentVariable("PGSQL_CONNECTION_STRING")!;
+            _dbSettings = options.Value;
         }
 
         public IDbConnection CreateConnection()
-            => new NpgsqlConnection(_connectionString);
+            => new NpgsqlConnection(_dbSettings.ConnectionString);
     }
 }

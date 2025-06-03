@@ -19,7 +19,7 @@ namespace AuctionHouseAPI.Presentation.Controllers
             _mediator = mediator;
         }
         // POST
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "ROLE_ADMIN")]
         public async Task<ActionResult> AddCategory([FromBody] CreateCategoryDTO createCategoryDTO)
         {
             var command = new CreateCategoryCommand(createCategoryDTO);
@@ -42,7 +42,7 @@ namespace AuctionHouseAPI.Presentation.Controllers
             return Ok(categories);
         }
         // DELETE
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}"), Authorize(Roles = "ROLE_ADMIN")]
         public async Task<ActionResult> DeleteCategory(int id)
         {
             var command = new DeleteCategoryCommand(id);
@@ -50,7 +50,7 @@ namespace AuctionHouseAPI.Presentation.Controllers
             return NoContent();
         }
         // PUT
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "ROLE_ADMIN")]
         public async Task<ActionResult> EditCategory(int id, [FromBody] UpdateCategoryDTO editedCategory)
         {
             var command = new EditCategoryCommand(editedCategory, id);
