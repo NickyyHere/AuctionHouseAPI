@@ -4,6 +4,7 @@ REST API for managing auctions and bids, built with ASP.NET Core, Entity Frameow
 - [Overview](#overview)
 - [Technologies](#technologies)
 - [Installing](#installing)
+- [Requirements](#requirements)
 - [Running the project](#running-the-project)
 - [Testing](#testing)
 - [API Usage](#api-usage)
@@ -30,7 +31,14 @@ git clone https://github.com/NickyyHere/AuctionHouseAPI.git
 cd AuctionHouseAPI
 dotnet restore
 ```
-
+## Requirements
+<pre>
+  PGSQL_CONNECTION_STRING enviorment variable
+  Windows:
+</pre>
+```bash
+  set PGSQL_CONNECTIONSTRING="Host={HostAddress};Port={PortNumber};Username={Username};Password={Password};Database={DatabaseName};"
+```
 ## Running the project
 ```bash
 dotnet run --project AuctionHouseAPI.Presentation
