@@ -32,10 +32,8 @@ cd AuctionHouseAPI
 dotnet restore
 ```
 ## Requirements
-<pre>
-  PGSQL_CONNECTION_STRING enviorment variable
+  PGSQL_CONNECTION_STRING enviorment variable<br>
   Windows:
-</pre>
 ```bash
   set PGSQL_CONNECTIONSTRING="Host={HostAddress};Port={PortNumber};Username={Username};Password={Password};Database={DatabaseName};"
 ```
