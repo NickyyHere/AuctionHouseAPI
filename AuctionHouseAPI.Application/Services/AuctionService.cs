@@ -34,7 +34,7 @@ namespace AuctionHouseAPI.Application.Services
             await _auctionRepository.BeginTransactionAsync();
             try
             {
-                if (auction.Options!.IsActive)
+                if (auction.Options!.StartDateTime <= DateTime.UtcNow && auction.Options.FinishDateTime >= DateTime.UtcNow)
                 {
                     throw new ActiveAuctionException("Can't delete active auction");
                 }
@@ -65,7 +65,7 @@ namespace AuctionHouseAPI.Application.Services
                 {
                     throw new UnauthorizedAccessException("Access denied! Only auction owner can edit auction item.");
                 }
-                if (auction.Options!.IsActive)
+                if (auction.Options!.StartDateTime <= DateTime.UtcNow && auction.Options.FinishDateTime >= DateTime.UtcNow)
                 {
                     throw new ActiveAuctionException("Can't edit active auction");
                 }
@@ -105,7 +105,7 @@ namespace AuctionHouseAPI.Application.Services
                 {
                     throw new UnauthorizedAccessException("Access denied! Only auction owner can edit auction options.");
                 }
-                if (auction.Options!.IsActive)
+                if (auction.Options!.StartDateTime <= DateTime.UtcNow && auction.Options.FinishDateTime >= DateTime.UtcNow)
                 {
                     throw new ActiveAuctionException("Can't edit active auction");
                 }

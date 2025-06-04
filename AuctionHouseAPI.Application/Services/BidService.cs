@@ -18,7 +18,7 @@ namespace AuctionHouseAPI.Application.Services
 
         public async Task CreateBidAsync(Bid bid, AuctionOptions auctionOptions, int userId)
         {
-            if (!auctionOptions.IsActive)
+            if (auctionOptions.StartDateTime > DateTime.UtcNow || auctionOptions.FinishDateTime < DateTime.UtcNow)
             {
                 throw new InactiveAuctionException($"Can't place bid on inactive auction");
             }

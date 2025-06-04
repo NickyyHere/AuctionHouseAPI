@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\005-drop-isactive-column-in-auctions.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="Scripts\004-add-default-admin-user-account.sql" />
   </ItemGroup>
 

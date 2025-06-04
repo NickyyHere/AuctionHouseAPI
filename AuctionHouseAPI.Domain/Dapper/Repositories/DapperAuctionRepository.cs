@@ -42,8 +42,7 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
                     "MinutesToIncrement",
                     "MinimumOutbid",
                     "AllowBuyItNow",
-                    "BuyItNowPrice",
-                    "IsActive"
+                    "BuyItNowPrice"
                 ) VALUES (
                     @AuctionId,
                     @StartingPrice,
@@ -53,8 +52,7 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
                     @MinutesToIncrement,
                     @MinimumOutbid,
                     @AllowBuyItNow,
-                    @BuyItNowPrice,
-                    @IsActive
+                    @BuyItNowPrice
                 );
                 """;
             await _connection!.ExecuteAsync(insertOptionsSql, new
@@ -68,7 +66,6 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
                 options.MinimumOutbid,
                 options.AllowBuyItNow,
                 options.BuyItNowPrice,
-                options.IsActive
             }, _currentTransaction);
             await CloseConnection();
             return auctionId;
@@ -91,13 +88,13 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
                     i."AuctionId" AS "ItemId", i."AuctionId", i."Name", i."Description", i."CategoryId",
                     o."AuctionId" AS "OptionsId", o."StartingPrice", o."StartDateTime", o."FinishDateTime", 
                     o."IsIncreamentalOnLastMinuteBid", o."MinutesToIncrement", o."MinimumOutbid",
-                    o."AllowBuyItNow", o."BuyItNowPrice", o."IsActive",
+                    o."AllowBuyItNow", o."BuyItNowPrice",
                     u."Id" AS "OwnerId", u."FirstName", u."LastName"
                 FROM "Auctions" a
                 JOIN "AuctionItems" i ON a."Id" = i."AuctionId"
                 JOIN "AuctionOptions" o ON a."Id" = o."AuctionId"
                 JOIN "Users" u ON a."OwnerId" = u."Id"
-                WHERE o."IsActive" = true;
+                WHERE o."StartDateTime" <= @Now AND o."FinishDateTime" >= @Now;
                 """;
 
             var result = await _connection!.QueryAsync<Auction, AuctionItem, AuctionOptions, User, Auction>(
@@ -109,6 +106,7 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
                     a.Owner = user;
                     return a;
                 },
+                new { Now = DateTime.UtcNow },
                 splitOn: "ItemId,OptionsId,OwnerId"
             );
 
@@ -143,7 +141,7 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
                     i."AuctionId" AS "ItemId", i."AuctionId", i."Name", i."Description", i."CategoryId",
                     o."AuctionId" AS "OptionsId", o."StartingPrice", o."StartDateTime", o."FinishDateTime", 
                     o."IsIncreamentalOnLastMinuteBid", o."MinutesToIncrement", o."MinimumOutbid",
-                    o."AllowBuyItNow", o."BuyItNowPrice", o."IsActive",
+                    o."AllowBuyItNow", o."BuyItNowPrice",
                     u."Id" AS "OwnerId", u."FirstName", u."LastName"
                 FROM "Auctions" a
                 JOIN "AuctionItems" i ON a."Id" = i."AuctionId"
@@ -196,7 +194,7 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
                     i."AuctionId" AS "ItemId", i."AuctionId", i."Name", i."Description", i."CategoryId",
                     o."AuctionId" AS "OptionsId", o."StartingPrice", o."StartDateTime", o."FinishDateTime", 
                     o."IsIncreamentalOnLastMinuteBid", o."MinutesToIncrement", o."MinimumOutbid",
-                    o."AllowBuyItNow", o."BuyItNowPrice", o."IsActive",
+                    o."AllowBuyItNow", o."BuyItNowPrice",
                     u."Id" AS "OwnerId", u."FirstName", u."LastName"
                 FROM "Auctions" a
                 JOIN "AuctionItems" i ON a."Id" = i."AuctionId"
@@ -258,7 +256,7 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
                     i."AuctionId" AS "ItemId", i."AuctionId", i."Name", i."Description", i."CategoryId",
                     o."AuctionId" AS "OptionsId", o."StartingPrice", o."StartDateTime", o."FinishDateTime", 
                     o."IsIncreamentalOnLastMinuteBid", o."MinutesToIncrement", o."MinimumOutbid",
-                    o."AllowBuyItNow", o."BuyItNowPrice", o."IsActive",
+                    o."AllowBuyItNow", o."BuyItNowPrice",
                     u."Id" AS "OwnerId", u."FirstName", u."LastName"
                 FROM "Auctions" a
                 JOIN "AuctionItems" i ON a."Id" = i."AuctionId"
@@ -320,7 +318,7 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
                     i."AuctionId" AS "ItemId", i."AuctionId", i."Name", i."Description", i."CategoryId",
                     o."AuctionId" AS "OptionsId", o."StartingPrice", o."StartDateTime", o."FinishDateTime", 
                     o."IsIncreamentalOnLastMinuteBid", o."MinutesToIncrement", o."MinimumOutbid",
-                    o."AllowBuyItNow", o."BuyItNowPrice", o."IsActive",
+                    o."AllowBuyItNow", o."BuyItNowPrice",
                     u."Id" AS "OwnerId", u."FirstName", u."LastName"
                 FROM "Auctions" a
                 JOIN "AuctionItems" i ON a."Id" = i."AuctionId"
@@ -375,7 +373,7 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
                     i."AuctionId" AS "ItemId", i."AuctionId", i."Name", i."Description", i."CategoryId",
                     o."AuctionId" AS "OptionsId", o."StartingPrice", o."StartDateTime", o."FinishDateTime", 
                     o."IsIncreamentalOnLastMinuteBid", o."MinutesToIncrement", o."MinimumOutbid",
-                    o."AllowBuyItNow", o."BuyItNowPrice", o."IsActive",
+                    o."AllowBuyItNow", o."BuyItNowPrice",
                     u."Id" AS "OwnerId", u."FirstName", u."LastName"
                 FROM "Auctions" a
                 JOIN "AuctionItems" i ON a."Id" = i."AuctionId"
@@ -446,8 +444,7 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
                 "MinutesToIncrement" = @MinutesToIncrement,
                 "MinimumOutbid" = @MinimumOutbid,
                 "AllowBuyItNow" = @AllowBuyItNow,
-                "BuyItNowPrice" = @BuyItNowPrice,
-                "IsActive" = @IsActive
+                "BuyItNowPrice" = @BuyItNowPrice
                 WHERE "AuctionId" = @AuctionId;
                 """;
             await _connection!.ExecuteAsync(sql, new
@@ -460,7 +457,6 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
                 options.MinimumOutbid,
                 options.AllowBuyItNow,
                 options.BuyItNowPrice,
-                options.IsActive,
                 options.AuctionId
             }, _currentTransaction);
             await CloseConnection();

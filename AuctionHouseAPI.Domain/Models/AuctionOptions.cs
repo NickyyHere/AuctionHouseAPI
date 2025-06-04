@@ -15,10 +15,9 @@ namespace AuctionHouseAPI.Domain.Models
         public int MinimumOutbid { get; set; }
         public bool AllowBuyItNow { get; set; }
         public decimal BuyItNowPrice { get; set; }
-        public bool IsActive { get; set; }
 
         public AuctionOptions() { }
-        public AuctionOptions(decimal startingPrice, DateTime startDateTime, DateTime finishDateTime, bool isIncreamentalOnLastMinuteBid, int minutesToIncrement, int minimumOutbid, bool allowBuyItNow, decimal buyItNowPrice, bool isActive)
+        public AuctionOptions(decimal startingPrice, DateTime startDateTime, DateTime finishDateTime, bool isIncreamentalOnLastMinuteBid, int minutesToIncrement, int minimumOutbid, bool allowBuyItNow, decimal buyItNowPrice)
         {
             StartingPrice = startingPrice;
             StartDateTime = startDateTime;
@@ -28,7 +27,6 @@ namespace AuctionHouseAPI.Domain.Models
             MinimumOutbid = minimumOutbid;
             AllowBuyItNow = allowBuyItNow;
             BuyItNowPrice = buyItNowPrice;
-            IsActive = isActive;
         }
     }
 }
