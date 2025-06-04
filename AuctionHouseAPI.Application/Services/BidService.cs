@@ -16,21 +16,23 @@ namespace AuctionHouseAPI.Application.Services
             _bidRepository = bidRepository;
         }
 
-        public async Task CreateBidAsync(Bid bid, AuctionOptions auctionOptions, int userId)
+        public async Task CreateBidAsync(Bid bid, Auction auction, int userId)
         {
-            if (auctionOptions.StartDateTime > DateTime.UtcNow || auctionOptions.FinishDateTime < DateTime.UtcNow)
+            if (auction.Options!.StartDateTime > DateTime.UtcNow || auction.Options.FinishDateTime < DateTime.UtcNow)
             {
                 throw new InactiveAuctionException($"Can't place bid on inactive auction");
             }
-            else
+            if (auction.OwnerId == userId)
             {
-                var highestBid = await _bidRepository.GetHighestAuctionBidAsync(bid.AuctionId);
-                var minimumRequired = highestBid == null ? auctionOptions.StartingPrice : highestBid.Amount + auctionOptions.MinimumOutbid;
-                if (bid.Amount < minimumRequired)
-                {
-                    throw new MinimumOutbidException($"Minimum outbid is {auctionOptions.MinimumOutbid}, {minimumRequired} to reach the minimum.");
-                }
+                throw new BidOnOwnedAuctionException("Bidding on your own auction is not allowed");
             }
+            var highestBid = await _bidRepository.GetHighestAuctionBidAsync(bid.AuctionId);
+            var minimumRequired = highestBid == null ? auction.Options.StartingPrice : highestBid.Amount + auction.Options.MinimumOutbid;
+            if (bid.Amount < minimumRequired)
+            {
+                throw new MinimumOutbidException($"Minimum outbid is {auction.Options.MinimumOutbid}, {minimumRequired} to reach the minimum.");
+            }
+            
             bid.UserId = userId;
             await _bidRepository.CreateAsync(bid);
             await _bidRepository.CommitTransactionAsync();

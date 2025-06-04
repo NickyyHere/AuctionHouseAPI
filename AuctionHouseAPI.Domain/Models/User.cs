@@ -23,7 +23,7 @@ namespace AuctionHouseAPI.Domain.Models
             Password = string.Empty;
             FirstName = string.Empty;
             LastName = string.Empty;
-            JoinedDateTime = DateTime.Now;
+            JoinedDateTime = DateTime.UtcNow;
             Role = UserRole.ROLE_USER;
         }
         public User(string username, string email, string password, string firstName, string lastName)
@@ -33,7 +33,7 @@ namespace AuctionHouseAPI.Domain.Models
             Password = password;
             FirstName = firstName;
             LastName = lastName;
-            JoinedDateTime = DateTime.Now;
+            JoinedDateTime = DateTime.UtcNow;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace AuctionHouseAPI.Application.Services.Interfaces
 {
     public interface IBidService
     {
-        public Task CreateBidAsync(Bid bid, AuctionOptions auctionOptions, int userId);
+        public Task CreateBidAsync(Bid bid, Auction auction, int userId);
         public Task WithdrawFromAuctionAsync(Auction auction, int userId);
     }
 }

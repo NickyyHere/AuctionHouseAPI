@@ -15,8 +15,19 @@ namespace AuctionHouseAPI.Presentation.Controllers
         {
             _mediator = mediator;
         }
+        /// <summary>
+        /// Get authorization token
+        /// </summary>
+        /// <param name="loginDTO">LoginDTO; login data</param>
+        /// <returns>
+        /// { token }
+        /// </returns>
+        /// <response code="200">Login successful</response>
+        /// <response code="404">Resource not found</response>
+        /// <response code="500">Internal server error - unknown</response>
+        /// <exception cref="EntityDoesNotExistException">Thrown when entity does not exist in database</exception>
         [HttpPost("login")]
-        public async Task<ActionResult> Login([FromBody] LoginDTO loginDTO)
+        public async Task<ActionResult<object>> Login([FromBody] LoginDTO loginDTO)
         {
             string token;
             try

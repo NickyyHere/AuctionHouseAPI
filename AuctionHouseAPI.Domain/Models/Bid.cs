@@ -9,12 +9,15 @@
         public Auction? Auction { get; set; }
         public decimal Amount { get; set; }
         public DateTime PlacedDateTime { get; set; }
-        public Bid() { }
+        public Bid() 
+        {
+            PlacedDateTime = DateTime.UtcNow;
+        }
         public Bid(int auctionId, decimal amount)
         {
             AuctionId = auctionId;
             Amount = amount;
-            PlacedDateTime = DateTime.Now;
+            PlacedDateTime = DateTime.UtcNow;
         }
     }
 }
