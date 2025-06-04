@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\006-update-trigger-function.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="Scripts\005-drop-isactive-column-in-auctions.sql" />
   </ItemGroup>
 
