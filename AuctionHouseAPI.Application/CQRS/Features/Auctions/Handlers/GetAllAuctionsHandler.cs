@@ -6,7 +6,7 @@ using MediatR;
 
 namespace AuctionHouseAPI.Application.CQRS.Features.Auctions.Handlers
 {
-    class GetAllAuctionsHandler : IRequestHandler<GetAllAuctionsQuery, List<AuctionDTO>>
+    public class GetAllAuctionsHandler : IRequestHandler<GetAllAuctionsQuery, List<AuctionDTO>>
     {
         private readonly IAuctionRepository _auctionRepository;
         private readonly IMapper _mapper;

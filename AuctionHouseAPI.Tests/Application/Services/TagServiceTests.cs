@@ -2,6 +2,7 @@
 using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace AuctionHouseAPI.Tests.Application.Services
@@ -11,11 +12,13 @@ namespace AuctionHouseAPI.Tests.Application.Services
     {
         private Mock<ITagRepository> repository;
         private ITagService service;
+        private Mock<ILogger<TagService>> logger;
         [SetUp]
         public void Setup()
         {
             repository = new Mock<ITagRepository>();
-            service = new TagService(repository.Object);
+            logger = new Mock<ILogger<TagService>>();
+            service = new TagService(repository.Object, logger.Object);
         }
         [Test]
         public async Task CreateTagShouldRetrunTagId()
@@ -66,8 +69,6 @@ namespace AuctionHouseAPI.Tests.Application.Services
                 new Tag { Id = 2, Name = "tag2" },
                 new Tag { Id = 3, Name = "tag3" }
             };
-
-            int i = 0;
 
             repository.Setup(r => r.BeginTransactionAsync()).Returns(Task.CompletedTask);
             repository.Setup(r => r.CommitTransactionAsync()).Returns(Task.CompletedTask);

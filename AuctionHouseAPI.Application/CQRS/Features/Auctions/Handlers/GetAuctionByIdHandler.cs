@@ -1,6 +1,7 @@
 ﻿using AuctionHouseAPI.Application.CQRS.Features.Auctions.Queries;
 using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Domain.Interfaces;
+using AuctionHouseAPI.Shared.Exceptions;
 using AutoMapper;
 using MediatR;
 
@@ -18,7 +19,8 @@ namespace AuctionHouseAPI.Application.CQRS.Features.Auctions.Handlers
 
         public async Task<AuctionDTO> Handle(GetAuctionByIdQuery request, CancellationToken cancellationToken)
         {
-            var auction = await _auctionRepository.GetByIdAsync(request.id);
+            var auction = await _auctionRepository.GetByIdAsync(request.id)
+                ?? throw new EntityDoesNotExistException($"Auction with given id ({request.id}) does not exist");
             return _mapper.Map<AuctionDTO>(auction);
         }
     }

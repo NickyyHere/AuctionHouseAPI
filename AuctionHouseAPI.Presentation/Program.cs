@@ -96,6 +96,10 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 var app = builder.Build();
+
+var logger = app.Services.GetRequiredService<ILogger<Program>>();
+logger.LogInformation("Application started at {Time}", DateTime.UtcNow);
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
