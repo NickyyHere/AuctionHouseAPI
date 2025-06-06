@@ -30,6 +30,7 @@ namespace AuctionHouseAPI.Presentation.Controllers
         /// <response code="401">User is not logged in</response>
         /// <response code="403">Couldn't verify user identity</response>
         /// <response code="404">Auction does not exist</response>
+        /// <response code="409">Bid on own auction</response>
         /// <response code="500">Internal server error - unknown</response>
         /// <exception cref="EntityDoesNotExistException">Thrown when entity does not exist in database</exception>
         /// <exception cref="MinimumOutbidException">Thrown when new bid is too low</exception>
@@ -53,6 +54,10 @@ namespace AuctionHouseAPI.Presentation.Controllers
             catch (Exception e) when (e is MinimumOutbidException || e is InactiveAuctionException)
             {
                 return BadRequest(e.Message);
+            }
+            catch (BidOnOwnedAuctionException e)
+            {
+                return Conflict(e.Message);
             }
             return Created();
         }

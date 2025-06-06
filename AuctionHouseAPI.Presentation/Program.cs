@@ -4,10 +4,13 @@ using AuctionHouseAPI.Shared.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = Environment.GetEnvironmentVariable("PGSQL_CONNECTION_STRING");
+var mongoConnectionString = Environment.GetEnvironmentVariable("MONGO_CONNECTION_STRING");
 builder.Services.Configure<PgSqlDatabaseSettings>(options => options.ConnectionString = connectionString!);
 
 builder.Services.AddHostedService<MigrationHostedService>();
@@ -56,13 +59,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]!))
         };
     });
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy =>
+    {
+        policy.RequireRole("ROLE_ADMIN");
+    });
+});
 
 string repositoryType = builder.Configuration["RepositoryType"]!;
 switch (repositoryType)
 {
     case "Dapper":
-        Console.WriteLine("USING DAPPER");
         builder.Services.AddDapperRepositories();
         break;
     default:
@@ -75,12 +83,26 @@ builder.Services.AddMediatRHandlers();
 builder.Services.AddMappers();
 builder.Services.AddServices();
 
+builder.Services.AddHealthChecks()
+    .AddNpgSql(connectionString!, name: "PostgreSQL")
+    .AddMongoDb(sp => new MongoDB.Driver.MongoClient(mongoConnectionString), name: "MongoDB");
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Warning()
+    .MinimumLevel.Override("AuctionHouseAPI", LogEventLevel.Information)
+    .WriteTo.Console()
+    .WriteTo.MongoDB(mongoConnectionString!, collectionName: "Logs")
+    .CreateLogger();
+builder.Host.UseSerilog();
+
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapHealthChecks("/health");
 
 app.UseHttpsRedirection();
 

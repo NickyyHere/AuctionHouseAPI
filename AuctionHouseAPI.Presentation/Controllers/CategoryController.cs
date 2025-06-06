@@ -28,7 +28,7 @@ namespace AuctionHouseAPI.Presentation.Controllers
         /// <response code="200">Category created</response>
         /// <response code="403">No permissions</response>
         /// <response code="500">Internal server error - unknown</response>
-        [HttpPost, Authorize(Roles = "ROLE_ADMIN")]
+        [HttpPost, Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult<int>> AddCategory([FromBody] CreateCategoryDTO createCategoryDTO)
         {
             var command = new CreateCategoryCommand(createCategoryDTO);
@@ -76,7 +76,7 @@ namespace AuctionHouseAPI.Presentation.Controllers
         /// <response code="204">Category deleted</response>
         /// <response code="403">No permissions</response>
         /// <response code="500">Internal server error - unknown</response>
-        [HttpDelete("{id}"), Authorize(Roles = "ROLE_ADMIN")]
+        [HttpDelete("{id}"), Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult> DeleteCategory(int id)
         {
             var command = new DeleteCategoryCommand(id);
@@ -94,7 +94,7 @@ namespace AuctionHouseAPI.Presentation.Controllers
         /// <response code="204">Category updated</response>
         /// <response code="403">No permissions</response>
         /// <response code="500">Internal server error - unknown</response>
-        [HttpPut("{id}"), Authorize(Roles = "ROLE_ADMIN")]
+        [HttpPut("{id}"), Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult> EditCategory(int id, [FromBody] UpdateCategoryDTO editedCategory)
         {
             var command = new EditCategoryCommand(editedCategory, id);
