@@ -1,0 +1,110 @@
+﻿using AuctionHouseAPI.Application.CQRS.Features.Users.Commands;
+using AuctionHouseAPI.Application.CQRS.Features.Users.Handlers;
+using AuctionHouseAPI.Application.CQRS.Validators;
+using AuctionHouseAPI.Application.DTOs.Create;
+using AuctionHouseAPI.Application.Services.Interfaces;
+using AuctionHouseAPI.Domain.Models;
+using AutoMapper;
+using Moq;
+
+namespace AuctionHouseAPI.Tests.Application.CQRS.Features.Users
+{
+    [TestFixture]
+    public class CreateUserCommandTests
+    {
+        [Test]
+        public async Task CreateUserHandlerShouldMapAndCallService()
+        {
+            var mapper = new Mock<IMapper>();
+            var service = new Mock<IUserService>();
+
+            var dto = new CreateUserDTO("test", "test", "test", "test", "test");
+            var command = new CreateUserCommand(dto);
+            var user = new User { Username = "test" };
+
+            mapper.Setup(m => m.Map<User>(dto)).Returns(user);
+            service.Setup(m => m.CreateUserAsync(user)).ReturnsAsync(1);
+
+            var handler = new CreateUserHandler(service.Object, mapper.Object);
+
+            var result = await handler.Handle(command, default);
+
+            Assert.That(result, Is.EqualTo(1));
+            mapper.Verify(m => m.Map<User>(dto), Times.Once);
+            service.Verify(s => s.CreateUserAsync(user), Times.Once);
+        }
+        [Test]
+        public void UsernameShouldBeBetween8and50CharactersLong()
+        {
+            var shortUsernameDTO = new CreateUserDTO("usrname", "test@email.com", "password123", "fname", "lname");
+            var noUsernameDTO = new CreateUserDTO("", "test@email.com", "password123", "fname", "lname");
+            var longUsernameDTO = new CreateUserDTO(new string('a', 51), "test@email.com", "password123", "fname", "lname");
+            var correctUsernameDTO = new CreateUserDTO("username", "test@email.com", "password123", "fname", "lname");
+
+            var validator = new CreateUserValidator();
+
+            Assert.False(validator.Validate(new CreateUserCommand(shortUsernameDTO)).IsValid);
+            Assert.False(validator.Validate(new CreateUserCommand(noUsernameDTO)).IsValid);
+            Assert.False(validator.Validate(new CreateUserCommand(longUsernameDTO)).IsValid);
+            Assert.True(validator.Validate(new CreateUserCommand(correctUsernameDTO)).IsValid);
+        }
+        [Test]
+        public void PasswordShouldBeBetween10and100CharactersLong()
+        {
+            var shortPasswordDTO = new CreateUserDTO("username", "test@email.com", "pass", "fname", "lname");
+            var noPasswordDTO = new CreateUserDTO("username", "test@email.com", "", "fname", "lname");
+            var longPasswordDTO = new CreateUserDTO("username", "test@email.com", new string('a', 101), "fname", "lname");
+            var correctPasswordDTO = new CreateUserDTO("username", "test@email.com", "correctpassword", "fname", "lname");
+
+            var validator = new CreateUserValidator();
+
+            Assert.False(validator.Validate(new CreateUserCommand(shortPasswordDTO)).IsValid);
+            Assert.False(validator.Validate(new CreateUserCommand(noPasswordDTO)).IsValid);
+            Assert.False(validator.Validate(new CreateUserCommand(longPasswordDTO)).IsValid);
+            Assert.True(validator.Validate(new CreateUserCommand(correctPasswordDTO)).IsValid);
+        }
+        [Test]
+        public void EmailShouldHaveCorrectStructure()
+        {
+            var incorrectEmailDTO = new CreateUserDTO("username", "test.email.com", "correctpassword", "fname", "lname");
+            var noEmailDTO = new CreateUserDTO("username", "", "correctpassword", "fname", "lname");
+            var correctEmailDTO = new CreateUserDTO("username", "test@email.com", "correctpassword", "fname", "lname");
+
+            var validator = new CreateUserValidator();
+
+            Assert.False(validator.Validate(new CreateUserCommand(incorrectEmailDTO)).IsValid);
+            Assert.False(validator.Validate(new CreateUserCommand(noEmailDTO)).IsValid);
+            Assert.True(validator.Validate(new CreateUserCommand(correctEmailDTO)).IsValid);
+        }
+        [Test]
+        public void FirstNameShouldBeBetween2and100CharactersLong()
+        {
+            var shortFirstNameDTO = new CreateUserDTO("username", "test@email.com", "correctpassword", "f", "lname");
+            var noFirstNameDTO = new CreateUserDTO("username", "test@email.com", "correctpassword", "", "lname");
+            var longFirstNamedDTO = new CreateUserDTO("username", "test@email.com", "correctpassword", new string('a', 101), "lname");
+            var correctFirstNameDTO = new CreateUserDTO("username", "test@email.com", "correctpassword", "fname", "lname");
+
+            var validator = new CreateUserValidator();
+
+            Assert.False(validator.Validate(new CreateUserCommand(shortFirstNameDTO)).IsValid);
+            Assert.False(validator.Validate(new CreateUserCommand(noFirstNameDTO)).IsValid);
+            Assert.False(validator.Validate(new CreateUserCommand(longFirstNamedDTO)).IsValid);
+            Assert.True(validator.Validate(new CreateUserCommand(correctFirstNameDTO)).IsValid);
+        }
+        [Test]
+        public void LastNameShouldBeBetween2and100CharactersLong()
+        {
+            var shortLastNameDTO = new CreateUserDTO("username", "test@email.com", "correctpassword", "fname", "l");
+            var noLastNameDTO = new CreateUserDTO("username", "test@email.com", "correctpassword", "fname", "");
+            var longLastNamedDTO = new CreateUserDTO("username", "test@email.com", "correctpassword", "fname", new string('a', 101));
+            var correctLastNameDTO = new CreateUserDTO("username", "test@email.com", "correctpassword", "fname", "lname");
+
+            var validator = new CreateUserValidator();
+
+            Assert.False(validator.Validate(new CreateUserCommand(shortLastNameDTO)).IsValid);
+            Assert.False(validator.Validate(new CreateUserCommand(noLastNameDTO)).IsValid);
+            Assert.False(validator.Validate(new CreateUserCommand(longLastNamedDTO)).IsValid);
+            Assert.True(validator.Validate(new CreateUserCommand(correctLastNameDTO)).IsValid);
+        }
+    }
+}

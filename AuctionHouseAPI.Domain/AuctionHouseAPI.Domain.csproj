@@ -17,7 +17,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\AuctionHouseAPI.Shared\AuctionHouseAPI.Shared.csproj" />
+	  <ProjectReference Include="..\AuctionHouseAPI.Shared\AuctionHouseAPI.Shared.csproj" />
 	</ItemGroup>
 
 </Project>

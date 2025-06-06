@@ -18,15 +18,32 @@ namespace AuctionHouseAPI.Presentation.Controllers
         {
             _mediator = mediator;
         }
-        // POST
-        [HttpPost, Authorize]
-        public async Task<ActionResult> AddCategory([FromBody] CreateCategoryDTO createCategoryDTO)
+        /// <summary>
+        /// Add new category
+        /// </summary>
+        /// <param name="createCategoryDTO">CreateCategoryDTO; Category data</param>
+        /// <returns>
+        /// int
+        /// </returns>
+        /// <response code="200">Category created</response>
+        /// <response code="403">No permissions</response>
+        /// <response code="500">Internal server error - unknown</response>
+        [HttpPost, Authorize(Policy = "AdminOnly")]
+        public async Task<ActionResult<int>> AddCategory([FromBody] CreateCategoryDTO createCategoryDTO)
         {
             var command = new CreateCategoryCommand(createCategoryDTO);
             var categoryId = await _mediator.Send(command);
             return Ok(categoryId);
         }
-        // GET
+        /// <summary>
+        /// Get category by id
+        /// </summary>
+        /// <param name="id">Integer; Category id</param>
+        /// <returns>
+        /// CategoryDTO
+        /// </returns>
+        /// <response code="200">Category data sent</response>
+        /// <response code="500">Internal server error - unknown</response>
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryDTO>> GetCategory(int id)
         {
@@ -34,6 +51,14 @@ namespace AuctionHouseAPI.Presentation.Controllers
             var category = await _mediator.Send(query);
             return Ok(category);
         }
+        /// <summary>
+        /// Get all categories
+        /// </summary>
+        /// <returns>
+        /// CategoryDTO[]
+        /// </returns>
+        /// <response code="200">Categories data sent</response>
+        /// <response code="500">Internal server error - unknown</response>
         [HttpGet]
         public async Task<ActionResult<List<CategoryDTO>>> GetCategories()
         {
@@ -41,16 +66,35 @@ namespace AuctionHouseAPI.Presentation.Controllers
             var categories = await _mediator.Send(query);
             return Ok(categories);
         }
-        // DELETE
-        [HttpDelete("{id}"), Authorize]
+        /// <summary>
+        /// Delete category by id
+        /// </summary>
+        /// <param name="id">Integer; Category id</param>
+        /// <returns>
+        /// ActionResult
+        /// </returns>
+        /// <response code="204">Category deleted</response>
+        /// <response code="403">No permissions</response>
+        /// <response code="500">Internal server error - unknown</response>
+        [HttpDelete("{id}"), Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult> DeleteCategory(int id)
         {
             var command = new DeleteCategoryCommand(id);
             await _mediator.Send(command);
             return NoContent();
         }
-        // PUT
-        [HttpPut("{id}"), Authorize]
+        /// <summary>
+        /// Update category by id
+        /// </summary>
+        /// <param name="id">Integer; Category id</param>
+        /// <param name="editedCategory">UpdateCategoryDTO; Category data</param>
+        /// <returns>
+        /// ActionResult
+        /// </returns>
+        /// <response code="204">Category updated</response>
+        /// <response code="403">No permissions</response>
+        /// <response code="500">Internal server error - unknown</response>
+        [HttpPut("{id}"), Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult> EditCategory(int id, [FromBody] UpdateCategoryDTO editedCategory)
         {
             var command = new EditCategoryCommand(editedCategory, id);

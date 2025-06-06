@@ -63,7 +63,7 @@ namespace AuctionHouseAPI.Domain.EFCore.Repositories
         public async Task<IEnumerable<Auction>> GetActiveAsync()
         {
             return await GetAllAuctionsWithDetails()
-                .Where(a => a.Options!.IsActive)
+                .Where(a => a.Options!.StartDateTime <= DateTime.UtcNow && a.Options.FinishDateTime >= DateTime.UtcNow)
                 .ToListAsync();
         }
         private IQueryable<Auction> GetAllAuctionsWithDetails()

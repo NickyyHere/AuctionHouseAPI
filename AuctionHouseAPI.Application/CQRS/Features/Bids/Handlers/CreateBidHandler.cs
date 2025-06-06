@@ -24,7 +24,7 @@ namespace AuctionHouseAPI.Application.CQRS.Features.Bids.Handlers
             var auction = await _auctionRepository.GetByIdAsync(request.CreateBidDTO.AuctionId)
                 ?? throw new EntityDoesNotExistException($"Auction with given id ({request.CreateBidDTO.AuctionId}) does not exist");
             var bid = _mapper.Map<Bid>(request.CreateBidDTO);
-            await _bidService.CreateBidAsync(bid, auction.Options!, request.userId);
+            await _bidService.CreateBidAsync(bid, auction, request.userId);
         }
     }
 }

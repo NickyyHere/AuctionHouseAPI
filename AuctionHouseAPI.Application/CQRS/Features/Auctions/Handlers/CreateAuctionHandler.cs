@@ -24,7 +24,7 @@ namespace AuctionHouseAPI.Application.CQRS.Features.Auctions.Handlers
             var tags = await _tagService.EnsureTagsExistAsync(request.CreateAuctionDTO.Item.CustomTags);
             _auctionService.AddTagsToAuction(tags, auction);
             auction.OwnerId = request.userId;
-            var auctionId = await _auctionService.CreateAuctionAsync(auction, request.userId);
+            var auctionId = await _auctionService.CreateAuctionAsync(auction);
             return auctionId;
         }
     }

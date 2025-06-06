@@ -1,4 +1,5 @@
 ﻿using AuctionHouseAPI.Application.CQRS.Features.Users.Commands;
+using AuctionHouseAPI.Application.DTOs.Update;
 using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using AutoMapper;
@@ -19,6 +20,7 @@ namespace AuctionHouseAPI.Application.CQRS.Features.Users.Handlers
         public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var user = _mapper.Map<User>(request.CreateUserDTO);
+            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
             return await _userService.CreateUserAsync(user);
         }
     }

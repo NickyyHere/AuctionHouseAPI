@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace AuctionHouseAPI.Application.CQRS.Validators
 {
-    class UpdateAuctionOptionsValidator : AbstractValidator<UpdateAuctionOptionsCommand>
+    public class UpdateAuctionOptionsValidator : AbstractValidator<UpdateAuctionOptionsCommand>
     {
         public UpdateAuctionOptionsValidator()
         {

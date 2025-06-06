@@ -16,28 +16,41 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
         protected async Task OpenConnection()
         {
             if (_connection == null)
+            {
                 _connection = _context.CreateConnection();
+            }
 
             if (_connection.State != ConnectionState.Open)
             {
                 if (_connection is NpgsqlConnection pgSqlConnection)
+                {
                     await pgSqlConnection.OpenAsync();
+                }
                 else
+                {
                     _connection.Open();
+                }
             }
         }
 
         protected async Task CloseConnection()
         {
             if (_currentTransaction != null)
+            {
                 return;
+            }
 
             if (_connection != null)
             {
                 if (_connection is NpgsqlConnection pgSqlConnection)
+                {
                     await pgSqlConnection.CloseAsync();
+                }
                 else
+                {
                     _connection.Close();
+                }
+
                 _connection.Dispose();
                 _connection = null;
             }
@@ -47,9 +60,13 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
         {
             _connection = _context.CreateConnection();
             if (_connection is Npgsql.NpgsqlConnection pgSqlConnection)
+            {
                 await pgSqlConnection.OpenAsync();
+            }
             else
+            {
                 _connection.Open();
+            }
 
             _currentTransaction = _connection.BeginTransaction();
         }

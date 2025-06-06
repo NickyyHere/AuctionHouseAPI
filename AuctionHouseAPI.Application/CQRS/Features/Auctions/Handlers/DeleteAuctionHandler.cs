@@ -20,7 +20,7 @@ namespace AuctionHouseAPI.Application.CQRS.Features.Auctions.Handlers
         {
             var auction = await _auctionRepository.GetByIdAsync(request.auctionId)
                 ?? throw new EntityDoesNotExistException($"Auction with given id ({request.auctionId}) does not exist");
-            await _auctionService.DeleteAuction(auction, request.userId);
+            await _auctionService.DeleteAuctionAsync(auction, request.userId);
         }
     }
 }

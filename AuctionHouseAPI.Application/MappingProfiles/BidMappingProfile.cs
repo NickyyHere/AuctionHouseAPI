@@ -10,7 +10,12 @@ namespace AuctionHouseAPI.Application.MappingProfiles
         public BidMappingProfile()
         {
             CreateMap<Bid, BidDTO>();
-            CreateMap<CreateBidDTO, Bid>();
+            CreateMap<CreateBidDTO, Bid>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.UserId, opt => opt.Ignore())
+                .ForMember(dest => dest.User, opt => opt.Ignore())
+                .ForMember(dest => dest.Auction, opt => opt.Ignore())
+                .ForMember(dest => dest.PlacedDateTime, opt => opt.Ignore());
         }
     }
 }

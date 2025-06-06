@@ -1,0 +1,1 @@
+﻿ALTER TABLE "AuctionOptions" DROP COLUMN "IsActive";

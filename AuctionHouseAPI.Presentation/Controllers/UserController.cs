@@ -20,7 +20,16 @@ namespace AuctionHouseAPI.Presentation.Controllers
         {
             _mediator = mediator;
         }
-        // POST
+        /// <summary>
+        /// Create new user
+        /// </summary>
+        /// <param name="createUserDTO">CreateUserDTO; User data</param>
+        /// <returns>
+        /// int
+        /// </returns>
+        /// <response code="200">User created</response>
+        /// <response code="409">Username or email taken</response>
+        /// <response code="500">Internal server error - unknown</response>
         [HttpPost]
         public async Task<ActionResult<int>> CreateUser([FromBody] CreateUserDTO createUserDTO)
         {
@@ -36,14 +45,30 @@ namespace AuctionHouseAPI.Presentation.Controllers
             }
             return Ok(userId);
         }
-        // GET
+        /// <summary>
+        /// Get user by id
+        /// </summary>
+        /// <param name="id">Integer; User id</param>
+        /// <returns>
+        /// UserDTO
+        /// </returns>
+        /// <response code="200">User data sent</response>
+        /// <response code="500">Internal server error - unknown</response>
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetUser(int id)
+        public async Task<ActionResult<UserDTO>> GetUser(int id)
         {
             var query = new GetUserByIdQuery(id);
             var user = await _mediator.Send(query);
             return Ok(user);
         }
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <returns>
+        /// UserDTO[]
+        /// </returns>
+        /// <response code="200">Users data sent</response>
+        /// <response code="500">Internal server error - unknown</response>
         [HttpGet]
         public async Task<ActionResult<List<UserDTO>>> GetUsers()
         {
@@ -51,29 +76,63 @@ namespace AuctionHouseAPI.Presentation.Controllers
             var users = await _mediator.Send(query);
             return Ok(users);
         }
-        // DELETE
+        /// <summary>
+        /// Delete user
+        /// </summary>
+        /// <returns>
+        /// UserDTO
+        /// </returns>
+        /// <response code="204">User deleted</response>
+        /// <response code="403">Couldn't verify user identity</response>
+        /// <response code="404">User not found</response>
+        /// <response code="500">Internal server error - unknown</response>
+        /// <exception cref="EntityDoesNotExistException">Thrown when entity does not exist in database</exception>
         [HttpDelete, Authorize]
         public async Task<ActionResult> DeleteUser()
         {
             if (!int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out var userId))
             {
-                return Problem();
+                return Forbid("Couldn't verify user identity");
             }
-            var command = new DeleteUserCommand(userId);
-            await _mediator.Send(command);
-            return NoContent();
+            try
+            {
+                var command = new DeleteUserCommand(userId);
+                await _mediator.Send(command);
+                return NoContent();
+            }
+            catch(EntityDoesNotExistException e)
+            {
+                return NotFound(e.Message);
+            }
         }
-        // PUT
+        /// <summary>
+        /// Update user
+        /// </summary>
+        /// <returns>
+        /// UserDTO
+        /// </returns>
+        /// <response code="204">User updated</response>
+        /// <response code="403">Couldn't verify user identity</response>
+        /// <response code="404">User not found</response>
+        /// <response code="500">Internal server error - unknown</response>
+        /// <exception cref="EntityDoesNotExistException">Thrown when entity does not exist in database</exception>
         [HttpPut, Authorize]
         public async Task<ActionResult> EditUser([FromBody] UpdateUserDTO editedUser)
         {
             if (!int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out var userId))
             {
-                return Problem();
+                return Forbid("Couldn't verify user identity");
             }
-            var command = new UpdateUserCommand(editedUser, userId);
-            await _mediator.Send(command);
-            return NoContent();
+            try
+            {
+                var command = new UpdateUserCommand(editedUser, userId);
+                await _mediator.Send(command);
+                return NoContent();
+            }
+            catch (EntityDoesNotExistException e)
+            {
+                return NotFound(e.Message);
+            }
         }
     }
 }

@@ -13,36 +13,36 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
         public override async Task<int> CreateAsync(Auction entity)
         {
             await OpenConnection();
-            var insertAuctionSql = @"INSERT INTO ""Auctions"" (""OwnerId"") VALUES (@OwnerId) RETURNING ""Id"";";
+            var insertAuctionSql = """INSERT INTO "Auctions" ("OwnerId") VALUES (@OwnerId) RETURNING "Id";""";
 
             var auctionId = await _connection!.ExecuteScalarAsync<int>(insertAuctionSql, new { entity.OwnerId }, _currentTransaction);
 
             entity.Item!.AuctionId = entity.Options!.AuctionId = auctionId;
 
             var item = entity.Item;
-            var insertItemSql = @"INSERT INTO ""AuctionItems"" (""AuctionId"", ""Name"", ""Description"", ""CategoryId"") VALUES (@AuctionId, @Name, @Description, @CategoryId);";
+            var insertItemSql = """INSERT INTO "AuctionItems" ("AuctionId", "Name", "Description", "CategoryId") VALUES (@AuctionId, @Name, @Description, @CategoryId);""";
             await _connection!.ExecuteAsync(insertItemSql, new { item.AuctionId, item.Name, item.Description, item.CategoryId }, _currentTransaction);
 
             foreach(var tag in item.Tags)
             {
-                var insertItemTagSql = @"INSERT INTO ""ItemTags"" (""AuctionItemId"", ""TagId"") VALUES (@AuctionItemId, @TagId);";
+                var insertItemTagSql = """INSERT INTO "ItemTags" ("AuctionItemId", "TagId") VALUES (@AuctionItemId, @TagId);""";
                 await _connection!.ExecuteAsync(insertItemTagSql, new { AuctionItemId = item.AuctionId, tag.TagId }, _currentTransaction);
 
             }
 
             var options = entity.Options;
-            var insertOptionsSql = @"
-                INSERT INTO ""AuctionOptions"" (
-                    ""AuctionId"",
-                    ""StartingPrice"",
-                    ""StartDateTime"",
-                    ""FinishDateTime"",
-                    ""IsIncreamentalOnLastMinuteBid"",
-                    ""MinutesToIncrement"",
-                    ""MinimumOutbid"",
-                    ""AllowBuyItNow"",
-                    ""BuyItNowPrice"",
-                    ""IsActive""
+            var insertOptionsSql = """
+                
+                INSERT INTO "AuctionOptions" (
+                    "AuctionId",
+                    "StartingPrice",
+                    "StartDateTime",
+                    "FinishDateTime",
+                    "IsIncreamentalOnLastMinuteBid",
+                    "MinutesToIncrement",
+                    "MinimumOutbid",
+                    "AllowBuyItNow",
+                    "BuyItNowPrice"
                 ) VALUES (
                     @AuctionId,
                     @StartingPrice,
@@ -52,9 +52,9 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
                     @MinutesToIncrement,
                     @MinimumOutbid,
                     @AllowBuyItNow,
-                    @BuyItNowPrice,
-                    @IsActive
-                );";
+                    @BuyItNowPrice
+                );
+                """;
             await _connection!.ExecuteAsync(insertOptionsSql, new
             {
                 options.AuctionId,
@@ -66,7 +66,6 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
                 options.MinimumOutbid,
                 options.AllowBuyItNow,
                 options.BuyItNowPrice,
-                options.IsActive
             }, _currentTransaction);
             await CloseConnection();
             return auctionId;
@@ -75,7 +74,7 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
         public override async Task DeleteAsync(Auction entity)
         {
             await OpenConnection();
-            var sql = @"DELETE FROM ""Auctions"" WHERE ""Id"" = @Id;";
+            var sql = """DELETE FROM "Auctions" WHERE "Id" = @Id;""";
             await _connection!.ExecuteAsync(sql, new { entity.Id }, _currentTransaction);
             await CloseConnection();
         }
@@ -83,19 +82,20 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
         public async Task<IEnumerable<Auction>> GetActiveAsync()
         {
             await OpenConnection();
-            var sql = @"
+            var sql = """
                 SELECT 
                     a.*, 
-                    i.""AuctionId"" AS ""ItemId"", i.""AuctionId"", i.""Name"", i.""Description"", i.""CategoryId"",
-                    o.""AuctionId"" AS ""OptionsId"", o.""StartingPrice"", o.""StartDateTime"", o.""FinishDateTime"", 
-                    o.""IsIncreamentalOnLastMinuteBid"", o.""MinutesToIncrement"", o.""MinimumOutbid"",
-                    o.""AllowBuyItNow"", o.""BuyItNowPrice"", o.""IsActive"",
-                    u.""Id"" AS ""OwnerId"", u.""FirstName"", u.""LastName""
-                FROM ""Auctions"" a
-                JOIN ""AuctionItems"" i ON a.""Id"" = i.""AuctionId""
-                JOIN ""AuctionOptions"" o ON a.""Id"" = o.""AuctionId""
-                JOIN ""Users"" u ON a.""OwnerId"" = u.""Id""
-                WHERE o.""IsActive"" = true;";
+                    i."AuctionId" AS "ItemId", i."AuctionId", i."Name", i."Description", i."CategoryId",
+                    o."AuctionId" AS "OptionsId", o."StartingPrice", o."StartDateTime", o."FinishDateTime", 
+                    o."IsIncreamentalOnLastMinuteBid", o."MinutesToIncrement", o."MinimumOutbid",
+                    o."AllowBuyItNow", o."BuyItNowPrice",
+                    u."Id" AS "OwnerId", u."FirstName", u."LastName"
+                FROM "Auctions" a
+                JOIN "AuctionItems" i ON a."Id" = i."AuctionId"
+                JOIN "AuctionOptions" o ON a."Id" = o."AuctionId"
+                JOIN "Users" u ON a."OwnerId" = u."Id"
+                WHERE o."StartDateTime" <= @Now AND o."FinishDateTime" >= @Now;
+                """;
 
             var result = await _connection!.QueryAsync<Auction, AuctionItem, AuctionOptions, User, Auction>(
                 sql,
@@ -106,6 +106,7 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
                     a.Owner = user;
                     return a;
                 },
+                new { Now = DateTime.UtcNow },
                 splitOn: "ItemId,OptionsId,OwnerId"
             );
 
@@ -113,11 +114,12 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
 
             foreach (var auction in auctions)
             {
-                var tagSql = @"
+                var tagSql = """
                     SELECT t.*
-                    FROM ""Tags"" t
-                    JOIN ""ItemTags"" it ON t.""Id"" = it.""TagId""
-                    WHERE it.""AuctionItemId"" = @AuctionItemId";
+                    FROM "Tags" t
+                    JOIN "ItemTags" it ON t."Id" = it."TagId"
+                    WHERE it."AuctionItemId" = @AuctionItemId
+                    """;
 
                 var tagResult = await _connection!.QueryAsync<Tag>(tagSql, new { AuctionItemId = auction.Id });
 
@@ -133,18 +135,19 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
         public override async Task<IEnumerable<Auction>> GetAllAsync()
         {
             await OpenConnection();
-            var sql = @"
+            var sql = """
                 SELECT 
                     a.*, 
-                    i.""AuctionId"" AS ""ItemId"", i.""AuctionId"", i.""Name"", i.""Description"", i.""CategoryId"",
-                    o.""AuctionId"" AS ""OptionsId"", o.""StartingPrice"", o.""StartDateTime"", o.""FinishDateTime"", 
-                    o.""IsIncreamentalOnLastMinuteBid"", o.""MinutesToIncrement"", o.""MinimumOutbid"",
-                    o.""AllowBuyItNow"", o.""BuyItNowPrice"", o.""IsActive"",
-                    u.""Id"" AS ""OwnerId"", u.""FirstName"", u.""LastName""
-                FROM ""Auctions"" a
-                JOIN ""AuctionItems"" i ON a.""Id"" = i.""AuctionId""
-                JOIN ""AuctionOptions"" o ON a.""Id"" = o.""AuctionId""
-                JOIN ""Users"" u ON a.""OwnerId"" = u.""Id"";";
+                    i."AuctionId" AS "ItemId", i."AuctionId", i."Name", i."Description", i."CategoryId",
+                    o."AuctionId" AS "OptionsId", o."StartingPrice", o."StartDateTime", o."FinishDateTime", 
+                    o."IsIncreamentalOnLastMinuteBid", o."MinutesToIncrement", o."MinimumOutbid",
+                    o."AllowBuyItNow", o."BuyItNowPrice",
+                    u."Id" AS "OwnerId", u."FirstName", u."LastName"
+                FROM "Auctions" a
+                JOIN "AuctionItems" i ON a."Id" = i."AuctionId"
+                JOIN "AuctionOptions" o ON a."Id" = o."AuctionId"
+                JOIN "Users" u ON a."OwnerId" = u."Id";
+            """;
 
             var result = await _connection!.QueryAsync<Auction, AuctionItem, AuctionOptions, User, Auction>(
                 sql,
@@ -162,11 +165,13 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
 
             foreach (var auction in auctions)
             {
-                var tagSql = @"
+                var tagSql = """
+                    
                     SELECT t.*
-                    FROM ""Tags"" t
-                    JOIN ""ItemTags"" it ON t.""Id"" = it.""TagId""
-                    WHERE it.""AuctionItemId"" = @AuctionItemId";
+                    FROM "Tags" t
+                    JOIN "ItemTags" it ON t."Id" = it."TagId"
+                    WHERE it."AuctionItemId" = @AuctionItemId
+                    """;
 
                 var tagResult = await _connection!.QueryAsync<Tag>(tagSql, new { AuctionItemId = auction.Id });
 
@@ -183,19 +188,20 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
         public async Task<IEnumerable<Auction>> GetByCategoryIdAsync(int categoryId)
         {
             await OpenConnection();
-            var sql = @"
+            var sql = """
                 SELECT 
                     a.*, 
-                    i.""AuctionId"" AS ""ItemId"", i.""AuctionId"", i.""Name"", i.""Description"", i.""CategoryId"",
-                    o.""AuctionId"" AS ""OptionsId"", o.""StartingPrice"", o.""StartDateTime"", o.""FinishDateTime"", 
-                    o.""IsIncreamentalOnLastMinuteBid"", o.""MinutesToIncrement"", o.""MinimumOutbid"",
-                    o.""AllowBuyItNow"", o.""BuyItNowPrice"", o.""IsActive"",
-                    u.""Id"" AS ""OwnerId"", u.""FirstName"", u.""LastName""
-                FROM ""Auctions"" a
-                JOIN ""AuctionItems"" i ON a.""Id"" = i.""AuctionId""
-                JOIN ""AuctionOptions"" o ON a.""Id"" = o.""AuctionId""
-                JOIN ""Users"" u ON a.""OwnerId"" = u.""Id""
-                WHERE i.""CategoryId"" = @categoryId;";
+                    i."AuctionId" AS "ItemId", i."AuctionId", i."Name", i."Description", i."CategoryId",
+                    o."AuctionId" AS "OptionsId", o."StartingPrice", o."StartDateTime", o."FinishDateTime", 
+                    o."IsIncreamentalOnLastMinuteBid", o."MinutesToIncrement", o."MinimumOutbid",
+                    o."AllowBuyItNow", o."BuyItNowPrice",
+                    u."Id" AS "OwnerId", u."FirstName", u."LastName"
+                FROM "Auctions" a
+                JOIN "AuctionItems" i ON a."Id" = i."AuctionId"
+                JOIN "AuctionOptions" o ON a."Id" = o."AuctionId"
+                JOIN "Users" u ON a."OwnerId" = u."Id"
+                WHERE i."CategoryId" = @categoryId;
+                """;
 
             var result = await _connection!.QueryAsync<Auction, AuctionItem, AuctionOptions, User, Auction>(
                 sql,
@@ -214,11 +220,12 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
 
             foreach (var auction in auctions)
             {
-                var tagSql = @"
+                var tagSql = """
                     SELECT t.*
-                    FROM ""Tags"" t
-                    JOIN ""ItemTags"" it ON t.""Id"" = it.""TagId""
-                    WHERE it.""AuctionItemId"" = @AuctionItemId";
+                    FROM "Tags" t
+                    JOIN "ItemTags" it ON t."Id" = it."TagId"
+                    WHERE it."AuctionItemId" = @AuctionItemId
+                    """;
 
                 var tagResult = await _connection!.QueryAsync<Tag>(tagSql, new { AuctionItemId = auction.Id });
 
@@ -235,22 +242,28 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
         {
             using var connection = _context.CreateConnection();
             if (connection.State != ConnectionState.Open && connection is Npgsql.NpgsqlConnection pgSqlConnection)
+            {
                 await pgSqlConnection.OpenAsync();
+            }
             else
+            {
                 connection.Open();
-            var sql = @"
+            }
+
+            var sql = """
                 SELECT 
                     a.*, 
-                    i.""AuctionId"" AS ""ItemId"", i.""AuctionId"", i.""Name"", i.""Description"", i.""CategoryId"",
-                    o.""AuctionId"" AS ""OptionsId"", o.""StartingPrice"", o.""StartDateTime"", o.""FinishDateTime"", 
-                    o.""IsIncreamentalOnLastMinuteBid"", o.""MinutesToIncrement"", o.""MinimumOutbid"",
-                    o.""AllowBuyItNow"", o.""BuyItNowPrice"", o.""IsActive"",
-                    u.""Id"" AS ""OwnerId"", u.""FirstName"", u.""LastName""
-                FROM ""Auctions"" a
-                JOIN ""AuctionItems"" i ON a.""Id"" = i.""AuctionId""
-                JOIN ""AuctionOptions"" o ON a.""Id"" = o.""AuctionId""
-                JOIN ""Users"" u ON a.""OwnerId"" = u.""Id""
-                WHERE a.""Id"" = @id;";
+                    i."AuctionId" AS "ItemId", i."AuctionId", i."Name", i."Description", i."CategoryId",
+                    o."AuctionId" AS "OptionsId", o."StartingPrice", o."StartDateTime", o."FinishDateTime", 
+                    o."IsIncreamentalOnLastMinuteBid", o."MinutesToIncrement", o."MinimumOutbid",
+                    o."AllowBuyItNow", o."BuyItNowPrice",
+                    u."Id" AS "OwnerId", u."FirstName", u."LastName"
+                FROM "Auctions" a
+                JOIN "AuctionItems" i ON a."Id" = i."AuctionId"
+                JOIN "AuctionOptions" o ON a."Id" = o."AuctionId"
+                JOIN "Users" u ON a."OwnerId" = u."Id"
+                WHERE a."Id" = @id;
+            """;
 
             var result = await connection.QueryAsync<Auction, AuctionItem, AuctionOptions, User, Auction>(
                 sql,
@@ -269,11 +282,12 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
 
             foreach (var auction in auctions)
             {
-                var tagSql = @"
+                var tagSql = """
                     SELECT t.*
-                    FROM ""Tags"" t
-                    JOIN ""ItemTags"" it ON t.""Id"" = it.""TagId""
-                    WHERE it.""AuctionItemId"" = @AuctionItemId";
+                    FROM "Tags" t
+                    JOIN "ItemTags" it ON t."Id" = it."TagId"
+                    WHERE it."AuctionItemId" = @AuctionItemId
+                    """;
 
                 var tagResult = await connection.QueryAsync<Tag>(tagSql, new { AuctionItemId = auction.Id });
 
@@ -290,24 +304,30 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
         {
             using var connection = _context.CreateConnection();
             if (connection.State != ConnectionState.Open && connection is Npgsql.NpgsqlConnection pgSqlConnection)
+            {
                 await pgSqlConnection.OpenAsync();
+            }
             else
+            {
                 connection.Open();
-            var sql = @"
+            }
+
+            var sql = """
                 SELECT 
                     a.*, 
-                    i.""AuctionId"" AS ""ItemId"", i.""AuctionId"", i.""Name"", i.""Description"", i.""CategoryId"",
-                    o.""AuctionId"" AS ""OptionsId"", o.""StartingPrice"", o.""StartDateTime"", o.""FinishDateTime"", 
-                    o.""IsIncreamentalOnLastMinuteBid"", o.""MinutesToIncrement"", o.""MinimumOutbid"",
-                    o.""AllowBuyItNow"", o.""BuyItNowPrice"", o.""IsActive"",
-                    u.""Id"" AS ""OwnerId"", u.""FirstName"", u.""LastName""
-                FROM ""Auctions"" a
-                JOIN ""AuctionItems"" i ON a.""Id"" = i.""AuctionId""
-                JOIN ""AuctionOptions"" o ON a.""Id"" = o.""AuctionId""
-                JOIN ""Users"" u ON a.""OwnerId"" = u.""Id""
-                LEFT JOIN ""ItemTags"" it ON it.""AuctionItemId"" = i.""AuctionId""
-                LEFT JOIN ""Tags"" t ON it.""TagId"" = t.""Id""
-                WHERE t.""Name"" = @tag;";
+                    i."AuctionId" AS "ItemId", i."AuctionId", i."Name", i."Description", i."CategoryId",
+                    o."AuctionId" AS "OptionsId", o."StartingPrice", o."StartDateTime", o."FinishDateTime", 
+                    o."IsIncreamentalOnLastMinuteBid", o."MinutesToIncrement", o."MinimumOutbid",
+                    o."AllowBuyItNow", o."BuyItNowPrice",
+                    u."Id" AS "OwnerId", u."FirstName", u."LastName"
+                FROM "Auctions" a
+                JOIN "AuctionItems" i ON a."Id" = i."AuctionId"
+                JOIN "AuctionOptions" o ON a."Id" = o."AuctionId"
+                JOIN "Users" u ON a."OwnerId" = u."Id"
+                LEFT JOIN "ItemTags" it ON it."AuctionItemId" = i."AuctionId"
+                LEFT JOIN "Tags" t ON it."TagId" = t."Id"
+                WHERE t."Name" = @tag;
+                """;
 
             var result = await connection.QueryAsync<Auction, AuctionItem, AuctionOptions, User, Auction>(
                 sql,
@@ -326,11 +346,12 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
 
             foreach (var auction in auctions)
             {
-                var tagSql = @"
+                var tagSql = """
                     SELECT t.*
-                    FROM ""Tags"" t
-                    JOIN ""ItemTags"" it ON t.""Id"" = it.""TagId""
-                    WHERE it.""AuctionItemId"" = @AuctionItemId";
+                    FROM "Tags" t
+                    JOIN "ItemTags" it ON t."Id" = it."TagId"
+                    WHERE it."AuctionItemId" = @AuctionItemId
+                    """;
 
                 var tagResult = await connection.QueryAsync<Tag>(tagSql, new { AuctionItemId = auction.Id });
 
@@ -346,19 +367,20 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
         public async Task<IEnumerable<Auction>> GetByUserAsync(int userId)
         {
             await OpenConnection();
-            var sql = @"
+            var sql = """
                 SELECT 
                     a.*, 
-                    i.""AuctionId"" AS ""ItemId"", i.""AuctionId"", i.""Name"", i.""Description"", i.""CategoryId"",
-                    o.""AuctionId"" AS ""OptionsId"", o.""StartingPrice"", o.""StartDateTime"", o.""FinishDateTime"", 
-                    o.""IsIncreamentalOnLastMinuteBid"", o.""MinutesToIncrement"", o.""MinimumOutbid"",
-                    o.""AllowBuyItNow"", o.""BuyItNowPrice"", o.""IsActive"",
-                    u.""Id"" AS ""OwnerId"", u.""FirstName"", u.""LastName""
-                FROM ""Auctions"" a
-                JOIN ""AuctionItems"" i ON a.""Id"" = i.""AuctionId""
-                JOIN ""AuctionOptions"" o ON a.""Id"" = o.""AuctionId""
-                JOIN ""Users"" u ON a.""OwnerId"" = u.""Id""
-                WHERE a.""OwnerId"" = @userId;";
+                    i."AuctionId" AS "ItemId", i."AuctionId", i."Name", i."Description", i."CategoryId",
+                    o."AuctionId" AS "OptionsId", o."StartingPrice", o."StartDateTime", o."FinishDateTime", 
+                    o."IsIncreamentalOnLastMinuteBid", o."MinutesToIncrement", o."MinimumOutbid",
+                    o."AllowBuyItNow", o."BuyItNowPrice",
+                    u."Id" AS "OwnerId", u."FirstName", u."LastName"
+                FROM "Auctions" a
+                JOIN "AuctionItems" i ON a."Id" = i."AuctionId"
+                JOIN "AuctionOptions" o ON a."Id" = o."AuctionId"
+                JOIN "Users" u ON a."OwnerId" = u."Id"
+                WHERE a."OwnerId" = @userId;
+                """;
 
             var result = await _connection!.QueryAsync<Auction, AuctionItem, AuctionOptions, User, Auction>(
                 sql,
@@ -377,11 +399,12 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
 
             foreach (var auction in auctions)
             {
-                var tagSql = @"
+                var tagSql = """
                     SELECT t.*
-                    FROM ""Tags"" t
-                    JOIN ""ItemTags"" it ON t.""Id"" = it.""TagId""
-                    WHERE it.""AuctionItemId"" = @AuctionItemId";
+                    FROM "Tags" t
+                    JOIN "ItemTags" it ON t."Id" = it."TagId"
+                    WHERE it."AuctionItemId" = @AuctionItemId
+                    """;
 
                 var tagResult = await _connection!.QueryAsync<Tag>(tagSql, new { AuctionItemId = auction.Id });
 
@@ -397,12 +420,13 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
         public async Task UpdateAuctionItemAsync(AuctionItem item)
         {
             await OpenConnection();
-            var sql = @"
-                UPDATE ""AuctionItems""
-                SET ""Name"" = @Name,
-                ""Description"" = @Description,
-                ""CategoryId"" = @CategoryId
-                WHERE ""AuctionId"" = @AuctionId";
+            var sql = """
+                UPDATE "AuctionItems"
+                SET "Name" = @Name,
+                "Description" = @Description,
+                "CategoryId" = @CategoryId
+                WHERE "AuctionId" = @AuctionId
+                """;
             await _connection!.ExecuteAsync(sql, new { item.Name, item.Description, item.CategoryId, item.AuctionId }, _currentTransaction);
             await CloseConnection();
         }
@@ -410,18 +434,19 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
         public async Task UpdateAuctionOptionsAsync(AuctionOptions options)
         {
             await OpenConnection();
-            var sql = @"
-                UPDATE ""AuctionOptions""
-                SET ""StartingPrice"" = @StartingPrice,
-                ""StartDateTime"" = @StartDateTime,
-                ""FinishDateTime"" = @FinishDateTime,
-                ""IsIncreamentalOnLastMinuteBid"" = @IsIncreamentalOnLastMinuteBid,
-                ""MinutesToIncrement"" = @MinutesToIncrement,
-                ""MinimumOutbid"" = @MinimumOutbid,
-                ""AllowBuyItNow"" = @AllowBuyItNow,
-                ""BuyItNowPrice"" = @BuyItNowPrice,
-                ""IsActive"" = @IsActive
-                WHERE ""AuctionId"" = @AuctionId";
+            var sql = """
+                
+                UPDATE "AuctionOptions"
+                SET "StartingPrice" = @StartingPrice,
+                "StartDateTime" = @StartDateTime,
+                "FinishDateTime" = @FinishDateTime,
+                "IsIncreamentalOnLastMinuteBid" = @IsIncreamentalOnLastMinuteBid,
+                "MinutesToIncrement" = @MinutesToIncrement,
+                "MinimumOutbid" = @MinimumOutbid,
+                "AllowBuyItNow" = @AllowBuyItNow,
+                "BuyItNowPrice" = @BuyItNowPrice
+                WHERE "AuctionId" = @AuctionId;
+                """;
             await _connection!.ExecuteAsync(sql, new
             {
                 options.StartingPrice,
@@ -432,7 +457,6 @@ namespace AuctionHouseAPI.Domain.Dapper.Repositories
                 options.MinimumOutbid,
                 options.AllowBuyItNow,
                 options.BuyItNowPrice,
-                options.IsActive,
                 options.AuctionId
             }, _currentTransaction);
             await CloseConnection();
