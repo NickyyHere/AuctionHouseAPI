@@ -25,12 +25,14 @@ namespace AuctionHouseAPI.Tests.Application.Services
         public async Task CreateBidShouldCreateBidIfAuctionIsActiveAndAmountIsSufficient()
         {
             var bid = new Bid { Amount = 300, AuctionId = 1 };
-            var auctionOptions = new AuctionOptions { IsActive = true, MinimumOutbid = 1 };
+            var auction = new Auction { Options = new AuctionOptions() };
+            auction.Options.StartDateTime = DateTime.UtcNow.AddDays(-1);
+            auction.Options.FinishDateTime = DateTime.UtcNow.AddDays(1);
 
             bidRepository.Setup(r => r.GetHighestAuctionBidAsync(1)).ReturnsAsync(new Bid { Amount = 100 });
             bidRepository.Setup(r => r.CreateAsync(bid)).ReturnsAsync(1);
 
-            await service.CreateBidAsync(bid, auctionOptions, 1);
+            await service.CreateBidAsync(bid, auction, 1);
 
             bidRepository.Verify(r => r.GetHighestAuctionBidAsync(1), Times.Once);
             bidRepository.Verify(r => r.CreateAsync(bid), Times.Once);
@@ -39,10 +41,10 @@ namespace AuctionHouseAPI.Tests.Application.Services
         public async Task CreateBidShouldThrowExceptionIfAuctionIsInactive()
         {
             var bid = new Bid { Amount = 300, AuctionId = 1 };
-            var auctionOptions = new AuctionOptions { IsActive = false, MinimumOutbid = 1 };
+            var auction = new Auction { Options = new AuctionOptions() };
 
             await Task.Delay(1);
-            Assert.ThrowsAsync<InactiveAuctionException>(async () => await service.CreateBidAsync(bid, auctionOptions, 1));
+            Assert.ThrowsAsync<InactiveAuctionException>(async () => await service.CreateBidAsync(bid, auction, 1));
 
             bidRepository.Verify(r => r.GetHighestAuctionBidAsync(1), Times.Never);
             bidRepository.Verify(r => r.CreateAsync(bid), Times.Never);
@@ -51,12 +53,15 @@ namespace AuctionHouseAPI.Tests.Application.Services
         public async Task CreateBidShouldThrowExceptionIfBidIsBelowMinimumOutbid()
         {
             var bid = new Bid { Amount = 120, AuctionId = 1 };
-            var auctionOptions = new AuctionOptions { IsActive = true, MinimumOutbid = 50 };
+            var auction = new Auction { Options = new AuctionOptions() };
+            auction.Options.StartDateTime = DateTime.UtcNow.AddDays(-1);
+            auction.Options.FinishDateTime = DateTime.UtcNow.AddDays(1);
+            auction.Options.MinimumOutbid = 50;
 
             bidRepository.Setup(r => r.GetHighestAuctionBidAsync(1)).ReturnsAsync(new Bid { Amount = 100 });
 
             await Task.Delay(1);
-            Assert.ThrowsAsync<MinimumOutbidException>(async () => await service.CreateBidAsync(bid, auctionOptions, 1));
+            Assert.ThrowsAsync<MinimumOutbidException>(async () => await service.CreateBidAsync(bid, auction, 1));
 
             bidRepository.Verify(r => r.GetHighestAuctionBidAsync(1), Times.Once);
             bidRepository.Verify(r => r.CreateAsync(bid), Times.Never);

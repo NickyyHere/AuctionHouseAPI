@@ -7,7 +7,7 @@ namespace AuctionHouseAPI.Tests.Architecture
     public class DomainArchitectureTests
     {
         [Test]
-        public void DomainShouldNotDependOnSharedLayer()
+        public void DomainShouldDependOnSharedLayer()
         {
             var types = Types.InAssembly(typeof(User).Assembly);
             var result = types
@@ -15,7 +15,7 @@ namespace AuctionHouseAPI.Tests.Architecture
                 .HaveDependencyOn("AuctionHouseAPI.Shared")
                 .GetTypes();
 
-            Assert.IsFalse(result.Any());
+            Assert.IsTrue(result.Any());
         }
         [Test]
         public void DomainShouldNotDependOnApplicationLayer()

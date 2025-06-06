@@ -3,6 +3,7 @@ using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Shared.Exceptions;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace AuctionHouseAPI.Application.CQRS.Features.Auctions.Handlers
 {
@@ -11,11 +12,13 @@ namespace AuctionHouseAPI.Application.CQRS.Features.Auctions.Handlers
         private readonly IAuctionService _auctionService;
         private readonly IAuctionRepository _auctionRepository;
         private readonly ITagService _tagService;
-        public UpdateAuctionItemHandler(IAuctionService auctionService, IAuctionRepository auctionRepository, ITagService tagService)
+        private readonly ILogger<UpdateAuctionItemHandler> _logger;
+        public UpdateAuctionItemHandler(IAuctionService auctionService, IAuctionRepository auctionRepository, ITagService tagService, ILogger<UpdateAuctionItemHandler> logger)
         {
             _auctionService = auctionService;
             _auctionRepository = auctionRepository;
             _tagService = tagService;
+            _logger = logger;
         }
 
         public async Task Handle(UpdateAuctionItemCommand request, CancellationToken cancellationToken)
@@ -25,6 +28,7 @@ namespace AuctionHouseAPI.Application.CQRS.Features.Auctions.Handlers
             var tags = await _tagService.EnsureTagsExistAsync(request.UpdateAuctionItemDTO.CustomTags);
             _auctionService.AddTagsToAuction(tags, auction);
             await _auctionService.UpdateAuctionItemAsync(auction, request.UpdateAuctionItemDTO, request.userId);
+            _logger.LogInformation("Auction {AuctionId} item has been updated", auction.Id);
         }
     }
 }

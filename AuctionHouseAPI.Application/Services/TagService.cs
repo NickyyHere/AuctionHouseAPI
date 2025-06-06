@@ -2,16 +2,19 @@
 using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using AuctionHouseAPI.Shared.Exceptions;
+using Microsoft.Extensions.Logging;
 
 namespace AuctionHouseAPI.Application.Services
 {
     public class TagService : ITagService
     {
         private readonly ITagRepository _tagRepository;
+        private readonly ILogger<TagService> _logger;
 
-        public TagService(ITagRepository tagRepository)
+        public TagService(ITagRepository tagRepository, ILogger<TagService> logger)
         {
             _tagRepository = tagRepository;
+            _logger = logger;
         }
 
         public async Task<int> CreateTag(Tag tag)
@@ -33,6 +36,7 @@ namespace AuctionHouseAPI.Application.Services
                     {
                         var newTag = new Tag(name);
                         var newTagId = await _tagRepository.CreateAsync(newTag);
+                        _logger.LogInformation("Tag {TagName} has been created", name);
                         tag = await _tagRepository.GetByIdAsync(newTagId) ?? throw new EntityDoesNotExistException("Failed to fetch a newly created tag");
                     }
                     result.Add(tag);
@@ -40,8 +44,12 @@ namespace AuctionHouseAPI.Application.Services
                 await _tagRepository.CommitTransactionAsync();
                 return result;
             }
-            catch
+            catch (Exception ex)
             {
+                if(ex is EntityDoesNotExistException)
+                {
+                    _logger.LogError(ex, "Error while fetching newly created tag");
+                }
                 await _tagRepository.RollbackTransactionAsync();
                 throw;
             }
