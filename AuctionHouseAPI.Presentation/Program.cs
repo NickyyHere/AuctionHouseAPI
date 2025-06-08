@@ -74,7 +74,6 @@ switch (repositoryType)
         builder.Services.AddDapperRepositories();
         break;
     default:
-        Console.WriteLine("USING EFCORE");
         builder.Services.AddEFCoreRepositories(connectionString!);
         break;
 }

@@ -23,6 +23,7 @@ namespace AuctionHouseAPI.Presentation
             );
             services.AddScoped<IAuctionRepository, EFAuctionRepository>();
             services.AddScoped<IBidRepository, EFBidRepository>();
+            services.AddScoped<ICategoryRepository, EFCategoryRepository>();
             services.AddScoped<ITagRepository, EFTagRepository>();
             services.AddScoped<IUserRepository, EFUserRepository>();
             return services;
