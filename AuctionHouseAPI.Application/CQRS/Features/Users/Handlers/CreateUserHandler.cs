@@ -1,5 +1,4 @@
 ﻿using AuctionHouseAPI.Application.CQRS.Features.Users.Commands;
-using AuctionHouseAPI.Application.DTOs.Update;
 using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using AutoMapper;

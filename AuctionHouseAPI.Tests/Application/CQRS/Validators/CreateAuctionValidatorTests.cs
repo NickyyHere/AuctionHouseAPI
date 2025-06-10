@@ -1,8 +1,6 @@
 ﻿using AuctionHouseAPI.Application.CQRS.Features.Auctions.Commands;
 using AuctionHouseAPI.Application.CQRS.Validators;
 using AuctionHouseAPI.Application.DTOs.Create;
-using AuctionHouseAPI.Domain.Models;
-using System.Xml.Linq;
 
 namespace AuctionHouseAPI.Tests.Application.CQRS.Validators
 {
@@ -140,7 +138,7 @@ namespace AuctionHouseAPI.Tests.Application.CQRS.Validators
 
             var result = auctionValidator.Validate(new CreateAuctionCommand(auction, 1));
 
-            Assert.False(result.IsValid);
+            ClassicAssert.False(result.IsValid);
         }
         public void ShouldBeInvalidOnNullOptions()
         {

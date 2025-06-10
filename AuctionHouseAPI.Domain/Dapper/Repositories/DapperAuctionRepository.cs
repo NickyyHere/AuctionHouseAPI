@@ -1,7 +1,6 @@
 ﻿using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using Dapper;
-using System;
 using System.Data;
 
 namespace AuctionHouseAPI.Domain.Dapper.Repositories

@@ -16,10 +16,10 @@ namespace AuctionHouseAPI.Tests.Application.CQRS.Validators
 
             var validator = new CreateUserValidator();
 
-            Assert.False(validator.Validate(new CreateUserCommand(shortUsernameDTO)).IsValid);
-            Assert.False(validator.Validate(new CreateUserCommand(noUsernameDTO)).IsValid);
-            Assert.False(validator.Validate(new CreateUserCommand(longUsernameDTO)).IsValid);
-            Assert.True(validator.Validate(new CreateUserCommand(correctUsernameDTO)).IsValid);
+            ClassicAssert.False(validator.Validate(new CreateUserCommand(shortUsernameDTO)).IsValid);
+            ClassicAssert.False(validator.Validate(new CreateUserCommand(noUsernameDTO)).IsValid);
+            ClassicAssert.False(validator.Validate(new CreateUserCommand(longUsernameDTO)).IsValid);
+            ClassicAssert.True(validator.Validate(new CreateUserCommand(correctUsernameDTO)).IsValid);
         }
         [Test]
         public void PasswordShouldBeBetween10and100CharactersLong()
@@ -31,10 +31,10 @@ namespace AuctionHouseAPI.Tests.Application.CQRS.Validators
 
             var validator = new CreateUserValidator();
 
-            Assert.False(validator.Validate(new CreateUserCommand(shortPasswordDTO)).IsValid);
-            Assert.False(validator.Validate(new CreateUserCommand(noPasswordDTO)).IsValid);
-            Assert.False(validator.Validate(new CreateUserCommand(longPasswordDTO)).IsValid);
-            Assert.True(validator.Validate(new CreateUserCommand(correctPasswordDTO)).IsValid);
+            ClassicAssert.False(validator.Validate(new CreateUserCommand(shortPasswordDTO)).IsValid);
+            ClassicAssert.False(validator.Validate(new CreateUserCommand(noPasswordDTO)).IsValid);
+            ClassicAssert.False(validator.Validate(new CreateUserCommand(longPasswordDTO)).IsValid);
+            ClassicAssert.True(validator.Validate(new CreateUserCommand(correctPasswordDTO)).IsValid);
         }
         [Test]
         public void EmailShouldHaveCorrectStructure()
@@ -45,9 +45,9 @@ namespace AuctionHouseAPI.Tests.Application.CQRS.Validators
 
             var validator = new CreateUserValidator();
 
-            Assert.False(validator.Validate(new CreateUserCommand(incorrectEmailDTO)).IsValid);
-            Assert.False(validator.Validate(new CreateUserCommand(noEmailDTO)).IsValid);
-            Assert.True(validator.Validate(new CreateUserCommand(correctEmailDTO)).IsValid);
+            ClassicAssert.False(validator.Validate(new CreateUserCommand(incorrectEmailDTO)).IsValid);
+            ClassicAssert.False(validator.Validate(new CreateUserCommand(noEmailDTO)).IsValid);
+            ClassicAssert.True(validator.Validate(new CreateUserCommand(correctEmailDTO)).IsValid);
         }
         [Test]
         public void FirstNameShouldBeBetween2and100CharactersLong()
@@ -59,10 +59,10 @@ namespace AuctionHouseAPI.Tests.Application.CQRS.Validators
 
             var validator = new CreateUserValidator();
 
-            Assert.False(validator.Validate(new CreateUserCommand(shortFirstNameDTO)).IsValid);
-            Assert.False(validator.Validate(new CreateUserCommand(noFirstNameDTO)).IsValid);
-            Assert.False(validator.Validate(new CreateUserCommand(longFirstNamedDTO)).IsValid);
-            Assert.True(validator.Validate(new CreateUserCommand(correctFirstNameDTO)).IsValid);
+            ClassicAssert.False(validator.Validate(new CreateUserCommand(shortFirstNameDTO)).IsValid);
+            ClassicAssert.False(validator.Validate(new CreateUserCommand(noFirstNameDTO)).IsValid);
+            ClassicAssert.False(validator.Validate(new CreateUserCommand(longFirstNamedDTO)).IsValid);
+            ClassicAssert.True(validator.Validate(new CreateUserCommand(correctFirstNameDTO)).IsValid);
         }
         [Test]
         public void LastNameShouldBeBetween2and100CharactersLong()
@@ -74,10 +74,10 @@ namespace AuctionHouseAPI.Tests.Application.CQRS.Validators
 
             var validator = new CreateUserValidator();
 
-            Assert.False(validator.Validate(new CreateUserCommand(shortLastNameDTO)).IsValid);
-            Assert.False(validator.Validate(new CreateUserCommand(noLastNameDTO)).IsValid);
-            Assert.False(validator.Validate(new CreateUserCommand(longLastNamedDTO)).IsValid);
-            Assert.True(validator.Validate(new CreateUserCommand(correctLastNameDTO)).IsValid);
+            ClassicAssert.False(validator.Validate(new CreateUserCommand(shortLastNameDTO)).IsValid);
+            ClassicAssert.False(validator.Validate(new CreateUserCommand(noLastNameDTO)).IsValid);
+            ClassicAssert.False(validator.Validate(new CreateUserCommand(longLastNamedDTO)).IsValid);
+            ClassicAssert.True(validator.Validate(new CreateUserCommand(correctLastNameDTO)).IsValid);
         }
     }
 }

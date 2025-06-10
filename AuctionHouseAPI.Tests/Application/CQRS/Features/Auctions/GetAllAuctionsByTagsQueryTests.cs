@@ -34,11 +34,11 @@ namespace AuctionHouseAPI.Tests.Application.CQRS.Features.Auctions
             repository.Setup(r => r.GetByTagAsync(It.IsAny<string>())).ReturnsAsync(auctions);
             mapper.Setup(m => m.Map<AuctionDTO>(It.IsAny<Auction>())).Returns(dto);
 
-            var handler = new GetAllAuctionsByTagsHandler(repository.Object, mapper.Object);    
+            var handler = new GetAllAuctionsByTagsHandler(repository.Object, mapper.Object);
 
             var result = await handler.Handle(query, default);
 
-            Assert.True(result.All(r => r == dto));
+            ClassicAssert.True(result.All(r => r == dto));
             Assert.That(result.Count, Is.EqualTo(1));
             repository.Verify(r => r.GetByTagAsync(It.IsAny<string>()), Times.Exactly(2));
         }

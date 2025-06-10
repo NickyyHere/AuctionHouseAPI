@@ -52,7 +52,7 @@ namespace AuctionHouseAPI.Tests.Application.Services
 
             var result = await service.EnsureTagsExistAsync(tags.Select(t => t.Name).ToList());
 
-            CollectionAssert.AreEquivalent(tags, result);
+            Assert.That(result, Is.EquivalentTo(tags));
             repository.Verify(r => r.BeginTransactionAsync(), Times.Once);
             repository.Verify(r => r.CommitTransactionAsync(), Times.Once);
             repository.Verify(r => r.CreateAsync(It.IsAny<Tag>()), Times.Exactly(3));
@@ -76,7 +76,7 @@ namespace AuctionHouseAPI.Tests.Application.Services
 
             var result = await service.EnsureTagsExistAsync(tags.Select(t => t.Name).ToList());
 
-            CollectionAssert.AreEquivalent(tags, result);
+            Assert.That(result, Is.EquivalentTo(tags));
             repository.Verify(r => r.BeginTransactionAsync(), Times.Once);
             repository.Verify(r => r.CommitTransactionAsync(), Times.Once);
             repository.Verify(r => r.CreateAsync(It.IsAny<Tag>()), Times.Never);

@@ -18,7 +18,7 @@ namespace AuctionHouseAPI.Tests.Application.CQRS.Features.Auth
         private Mock<ILogger<GetAuthTokenHandler>> logger;
         private GetAuthTokenHandler handler;
         [SetUp]
-        public void Setup() 
+        public void Setup()
         {
             configuration = new Mock<IConfiguration>();
             userRepository = new Mock<IUserRepository>();
@@ -44,10 +44,10 @@ namespace AuctionHouseAPI.Tests.Application.CQRS.Features.Auth
 
             var result = await handler.Handle(query, default);
 
-            Assert.Multiple(() => 
+            Assert.Multiple(() =>
             {
-                Assert.NotNull(result);
-                StringAssert.StartsWith("Bearer", result);
+                ClassicAssert.NotNull(result);
+                Assert.That(result, Does.StartWith("Bearer"));
             });
             userRepository.Verify(r => r.GetByUsernameAsync("test"), Times.Once);
         }

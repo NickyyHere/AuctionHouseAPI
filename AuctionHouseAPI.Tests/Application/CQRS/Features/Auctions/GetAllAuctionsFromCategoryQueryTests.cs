@@ -5,7 +5,6 @@ using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using AutoMapper;
 using Moq;
-using System.Threading.Tasks;
 
 namespace AuctionHouseAPI.Tests.Application.CQRS.Features.Auctions
 {
@@ -38,7 +37,7 @@ namespace AuctionHouseAPI.Tests.Application.CQRS.Features.Auctions
 
             var result = await handler.Handle(query, default);
 
-            CollectionAssert.AreEquivalent(auctionsDtos, result);
+            Assert.That(result, Is.EquivalentTo(auctionsDtos));
 
             repository.Verify(r => r.GetByCategoryIdAsync(1), Times.Once);
             mapper.Verify(m => m.Map<List<AuctionDTO>>(auctions), Times.Once);

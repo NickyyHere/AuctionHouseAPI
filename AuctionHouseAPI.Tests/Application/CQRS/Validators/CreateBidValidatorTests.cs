@@ -1,8 +1,6 @@
 ﻿using AuctionHouseAPI.Application.CQRS.Features.Bids.Commands;
 using AuctionHouseAPI.Application.CQRS.Validators;
 using AuctionHouseAPI.Application.DTOs.Create;
-using AuctionHouseAPI.Domain.Models;
-using static MongoDB.Driver.WriteConcern;
 
 namespace AuctionHouseAPI.Tests.Application.CQRS.Validators
 {

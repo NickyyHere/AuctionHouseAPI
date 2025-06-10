@@ -1,7 +1,6 @@
 ﻿using AuctionHouseAPI.Application.CQRS.Features.Auctions.Commands;
 using AuctionHouseAPI.Application.CQRS.Validators;
 using AuctionHouseAPI.Application.DTOs.Update;
-using System.Xml.Linq;
 
 namespace AuctionHouseAPI.Tests.Application.CQRS.Validators
 {

@@ -42,7 +42,7 @@ namespace AuctionHouseAPI.Tests.Application.CQRS.Features.Auctions
 
             var result = await handler.Handle(query, default);
 
-            CollectionAssert.AreEquivalent(result, itemDtos);
+            Assert.That(itemDtos, Is.EquivalentTo(result));
         }
     }
 }

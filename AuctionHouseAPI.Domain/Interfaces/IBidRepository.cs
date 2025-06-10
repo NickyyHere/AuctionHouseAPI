@@ -1,5 +1,4 @@
 ﻿using AuctionHouseAPI.Domain.Models;
-using System.Runtime.CompilerServices;
 
 namespace AuctionHouseAPI.Domain.Interfaces
 {

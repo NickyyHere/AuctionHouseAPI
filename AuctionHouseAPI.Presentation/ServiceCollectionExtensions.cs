@@ -59,7 +59,7 @@ namespace AuctionHouseAPI.Presentation
         {
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CQRSAssemblyReference).Assembly));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-            services.AddValidatorsFromAssembly(typeof(CQRSAssemblyReference).Assembly);
+            services.AddValidatorsFromAssemblyContaining(typeof(CQRSAssemblyReference));
             return services;
         }
     }

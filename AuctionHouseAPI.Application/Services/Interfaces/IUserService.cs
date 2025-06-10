@@ -1,6 +1,4 @@
-﻿using AuctionHouseAPI.Application.DTOs.Create;
-using AuctionHouseAPI.Application.DTOs.Read;
-using AuctionHouseAPI.Application.DTOs.Update;
+﻿using AuctionHouseAPI.Application.DTOs.Update;
 using AuctionHouseAPI.Domain.Models;
 
 namespace AuctionHouseAPI.Application.Services.Interfaces

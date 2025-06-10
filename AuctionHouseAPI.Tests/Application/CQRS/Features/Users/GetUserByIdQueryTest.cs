@@ -6,7 +6,6 @@ using AuctionHouseAPI.Domain.Models;
 using AuctionHouseAPI.Shared.Exceptions;
 using AutoMapper;
 using Moq;
-using System.Threading.Tasks;
 
 namespace AuctionHouseAPI.Tests.Application.CQRS.Features.Users
 {

@@ -33,7 +33,7 @@ namespace AuctionHouseAPI.Tests.Application.CQRS.Features.Bids
 
             var result = await handler.Handle(query, default);
 
-            CollectionAssert.AreEquivalent(bidsDtos, result);
+            Assert.That(result, Is.EquivalentTo(bidsDtos));
 
             repository.Verify(r => r.GetByUserAsync(1), Times.Once);
             mapper.Verify(m => m.Map<List<BidDTO>>(bids), Times.Once);

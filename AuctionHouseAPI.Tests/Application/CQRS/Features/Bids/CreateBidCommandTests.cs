@@ -9,7 +9,6 @@ using AuctionHouseAPI.Shared.Exceptions;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System.Threading.Tasks;
 
 namespace AuctionHouseAPI.Tests.Application.CQRS.Features.Bids
 {

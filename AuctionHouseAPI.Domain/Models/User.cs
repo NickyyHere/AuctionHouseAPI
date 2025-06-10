@@ -1,5 +1,4 @@
 ﻿using AuctionHouseAPI.Domain.Enums;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AuctionHouseAPI.Domain.Models
 {

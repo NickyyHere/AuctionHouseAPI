@@ -53,7 +53,7 @@ namespace AuctionHouseAPI.Tests.Application.Services
             var addedTags = auction.Item.Tags.Select(t => t.TagId).ToList();
             var tagIds = tags.Select(t => t.Id).ToList();
 
-            CollectionAssert.AreEquivalent(tagIds, addedTags);
+            Assert.That(addedTags, Is.EquivalentTo(tagIds));
         }
         [Test]
         public async Task DeleteAuctionShouldDeleteAuctionIfUserIsOwnerAndAuctionIsInactive()

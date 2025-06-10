@@ -1,5 +1,4 @@
 ﻿using AuctionHouseAPI.Application.CQRS.Features.Auth.Queries;
-using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Shared.Exceptions;
 using MediatR;

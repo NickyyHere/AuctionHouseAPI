@@ -1,6 +1,5 @@
 ﻿using AuctionHouseAPI.Application.CQRS.Features.Users.Commands;
 using AuctionHouseAPI.Application.CQRS.Features.Users.Handlers;
-using AuctionHouseAPI.Application.CQRS.Validators;
 using AuctionHouseAPI.Application.DTOs.Create;
 using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Domain.Models;

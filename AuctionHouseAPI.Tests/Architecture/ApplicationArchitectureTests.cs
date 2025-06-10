@@ -15,7 +15,7 @@ namespace AuctionHouseAPI.Tests.Architecture
                 .HaveDependencyOn("AuctionHouseAPI.Domain")
                 .GetTypes();
 
-            Assert.IsTrue(result.Any());
+            ClassicAssert.IsTrue(result.Any());
         }
         [Test]
         public void ApplicationShouldDependOnSharedLayer()
@@ -26,7 +26,7 @@ namespace AuctionHouseAPI.Tests.Architecture
                 .HaveDependencyOn("AuctionHouseAPI.Shared")
                 .GetTypes();
 
-            Assert.IsTrue(result.Any());
+            ClassicAssert.IsTrue(result.Any());
         }
         [Test]
         public void ApplicationShouldNotDependOnPresentationLayer()
@@ -37,7 +37,7 @@ namespace AuctionHouseAPI.Tests.Architecture
                 .HaveDependencyOn("AuctionHouseAPI.Presentation")
                 .GetTypes();
 
-            Assert.IsFalse(result.Any());
+            ClassicAssert.IsFalse(result.Any());
         }
         [Test]
         public void ApplicationShouldNotDependOnMigrationLayer()
@@ -48,7 +48,7 @@ namespace AuctionHouseAPI.Tests.Architecture
                 .HaveDependencyOn("AuctionHouseAPI.Migration")
                 .GetTypes();
 
-            Assert.IsFalse(result.Any());
+            ClassicAssert.IsFalse(result.Any());
         }
     }
 }

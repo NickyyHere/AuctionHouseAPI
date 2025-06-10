@@ -35,7 +35,7 @@ namespace AuctionHouseAPI.Tests.Application.CQRS.Features.Categories
 
             var result = await handler.Handle(query, default);
 
-            CollectionAssert.AreEquivalent(result, categoriesDtos);
+            Assert.That(categoriesDtos, Is.EquivalentTo(result));
 
             repository.Verify(r => r.GetAllAsync(), Times.Once);
             mapper.Verify(r => r.Map<List<CategoryDTO>>(categories), Times.Once);
