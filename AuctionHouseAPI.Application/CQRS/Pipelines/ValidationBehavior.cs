@@ -22,7 +22,9 @@ namespace AuctionHouseAPI.Application.CQRS.Pipelines
                 .Where(f => f != null)
                 .ToList();
             if (failures.Any())
+            {
                 throw new ValidationException(failures);
+            }
             return await next();
         }
     }

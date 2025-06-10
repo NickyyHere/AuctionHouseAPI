@@ -1,5 +1,4 @@
 ﻿using AuctionHouseAPI.Application.CQRS.Features.Auctions.Commands;
-using AuctionHouseAPI.Application.DTOs.Create;
 using FluentValidation;
 
 namespace AuctionHouseAPI.Application.CQRS.Validators

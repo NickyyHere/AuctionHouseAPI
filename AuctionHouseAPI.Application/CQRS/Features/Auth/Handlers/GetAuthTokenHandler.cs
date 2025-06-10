@@ -1,9 +1,9 @@
 ﻿using AuctionHouseAPI.Application.CQRS.Features.Auth.Queries;
-using AuctionHouseAPI.Application.DTOs.Read;
 using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Shared.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -17,13 +17,15 @@ namespace AuctionHouseAPI.Application.CQRS.Features.Auth.Handlers
         private readonly string _issuer;
         private readonly string _audience;
         private readonly IUserRepository _userRepository;
+        private readonly ILogger<GetAuthTokenHandler> _logger;
 
-        public GetAuthTokenHandler(IConfiguration configuration, IUserRepository userRepository)
+        public GetAuthTokenHandler(IConfiguration configuration, IUserRepository userRepository, ILogger<GetAuthTokenHandler> logger)
         {
             _key = configuration["JwtSettings:Key"]!;
             _issuer = configuration["JwtSettings:Issuer"]!;
             _audience = configuration["JwtSettings:Audience"]!;
             _userRepository = userRepository;
+            _logger = logger;
         }
 
         public async Task<string> Handle(GetAuthTokenQuery request, CancellationToken cancellationToken)
@@ -51,6 +53,7 @@ namespace AuctionHouseAPI.Application.CQRS.Features.Auth.Handlers
                 expires: DateTime.Now.AddHours(1),
                 signingCredentials: creds
                 );
+            _logger.LogInformation("User {UserId} has logged in", user.Id);
             return "Bearer " + new JwtSecurityTokenHandler().WriteToken(token);
         }
     }

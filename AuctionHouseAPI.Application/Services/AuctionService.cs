@@ -1,11 +1,8 @@
-﻿using AuctionHouseAPI.Application.DTOs.Create;
-using AuctionHouseAPI.Application.DTOs.Read;
-using AuctionHouseAPI.Application.DTOs.Update;
+﻿using AuctionHouseAPI.Application.DTOs.Update;
 using AuctionHouseAPI.Application.Services.Interfaces;
 using AuctionHouseAPI.Domain.Interfaces;
 using AuctionHouseAPI.Domain.Models;
 using AuctionHouseAPI.Shared.Exceptions;
-using AutoMapper;
 
 namespace AuctionHouseAPI.Application.Services
 {

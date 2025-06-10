@@ -53,16 +53,16 @@ namespace AuctionHouseAPI.Tests.Application.Services
             var addedTags = auction.Item.Tags.Select(t => t.TagId).ToList();
             var tagIds = tags.Select(t => t.Id).ToList();
 
-            CollectionAssert.AreEquivalent(tagIds, addedTags);
+            Assert.That(addedTags, Is.EquivalentTo(tagIds));
         }
         [Test]
         public async Task DeleteAuctionShouldDeleteAuctionIfUserIsOwnerAndAuctionIsInactive()
         {
             var userId = 1;
             var auction = new Auction { Options = new AuctionOptions() };
-            auction.Options.IsActive = false;
             auction.OwnerId = userId;
-            auction.Options.FinishDateTime = DateTime.UtcNow.AddDays(1);
+            auction.Options.StartDateTime = DateTime.UtcNow.AddDays(1);
+            auction.Options.FinishDateTime = DateTime.UtcNow.AddDays(2);
 
             auctionRepository.Setup(r => r.DeleteAsync(auction)).Returns(Task.CompletedTask);
 
@@ -78,7 +78,6 @@ namespace AuctionHouseAPI.Tests.Application.Services
         {
             var userId = 1;
             var auction = new Auction { Options = new AuctionOptions() };
-            auction.Options.IsActive = false;
             auction.OwnerId = 2;
 
             auctionRepository.Setup(r => r.DeleteAsync(auction)).Returns(Task.CompletedTask);
@@ -94,7 +93,8 @@ namespace AuctionHouseAPI.Tests.Application.Services
         {
             var userId = 1;
             var auction = new Auction { Options = new AuctionOptions() };
-            auction.Options.IsActive = true;
+            auction.Options.StartDateTime = DateTime.UtcNow.AddDays(-1);
+            auction.Options.FinishDateTime = DateTime.UtcNow.AddDays(1);
             auction.OwnerId = userId;
 
             auctionRepository.Setup(r => r.DeleteAsync(auction)).Returns(Task.CompletedTask);
@@ -110,7 +110,6 @@ namespace AuctionHouseAPI.Tests.Application.Services
         {
             var userId = 1;
             var auction = new Auction { Options = new AuctionOptions() };
-            auction.Options.IsActive = false;
             auction.OwnerId = userId;
             auction.Options.FinishDateTime = DateTime.UtcNow.AddDays(-1);
 
@@ -128,8 +127,8 @@ namespace AuctionHouseAPI.Tests.Application.Services
             int userId = 1;
             var auction = new Auction { Options = new AuctionOptions(), Item = new AuctionItem() };
             auction.OwnerId = userId;
-            auction.Options.IsActive = false;
-            auction.Options.FinishDateTime = DateTime.UtcNow.AddDays(1);
+            auction.Options.StartDateTime = DateTime.UtcNow.AddDays(1);
+            auction.Options.FinishDateTime = DateTime.UtcNow.AddDays(2);
             var updatedAuctionItem = new UpdateAuctionItemDTO("test", null, null, []);
 
             auctionRepository.Setup(r => r.UpdateAuctionItemAsync(auction.Item)).Returns(Task.CompletedTask);
@@ -148,7 +147,6 @@ namespace AuctionHouseAPI.Tests.Application.Services
             int userId = 1;
             var auction = new Auction { Options = new AuctionOptions(), Item = new AuctionItem() };
             auction.OwnerId = 2;
-            auction.Options.IsActive = false;
             auction.Options.FinishDateTime = DateTime.UtcNow.AddDays(1);
             var updatedAuctionItem = new UpdateAuctionItemDTO("test", null, null, []);
 
@@ -168,7 +166,6 @@ namespace AuctionHouseAPI.Tests.Application.Services
             int userId = 1;
             var auction = new Auction { Options = new AuctionOptions(), Item = new AuctionItem() };
             auction.OwnerId = userId;
-            auction.Options.IsActive = true;
             auction.Options.FinishDateTime = DateTime.UtcNow.AddDays(1);
             var updatedAuctionItem = new UpdateAuctionItemDTO("test", null, null, []);
 
@@ -188,7 +185,6 @@ namespace AuctionHouseAPI.Tests.Application.Services
             int userId = 1;
             var auction = new Auction { Options = new AuctionOptions(), Item = new AuctionItem() };
             auction.OwnerId = userId;
-            auction.Options.IsActive = false;
             auction.Options.FinishDateTime = DateTime.UtcNow.AddDays(-1);
             var updatedAuctionItem = new UpdateAuctionItemDTO("test", null, null, []);
 
@@ -208,8 +204,8 @@ namespace AuctionHouseAPI.Tests.Application.Services
             int userId = 1;
             var auction = new Auction { Options = new AuctionOptions(), Item = new AuctionItem() };
             auction.OwnerId = userId;
-            auction.Options.IsActive = false;
-            auction.Options.FinishDateTime = DateTime.UtcNow.AddDays(1);
+            auction.Options.StartDateTime = DateTime.UtcNow.AddDays(1);
+            auction.Options.FinishDateTime = DateTime.UtcNow.AddDays(2);
             var updatedAuctionOptions = new UpdateAuctionOptionsDTO(29.99M, null, null, null, null, null, null, null);
 
             auctionRepository.Setup(r => r.UpdateAuctionOptionsAsync(auction.Options)).Returns(Task.CompletedTask);
@@ -228,7 +224,6 @@ namespace AuctionHouseAPI.Tests.Application.Services
             int userId = 1;
             var auction = new Auction { Options = new AuctionOptions(), Item = new AuctionItem() };
             auction.OwnerId = 2;
-            auction.Options.IsActive = false;
             auction.Options.FinishDateTime = DateTime.UtcNow.AddDays(1);
             var updatedAuctionOptions = new UpdateAuctionOptionsDTO(29.99M, null, null, null, null, null, null, null);
 
@@ -248,7 +243,6 @@ namespace AuctionHouseAPI.Tests.Application.Services
             int userId = 1;
             var auction = new Auction { Options = new AuctionOptions(), Item = new AuctionItem() };
             auction.OwnerId = userId;
-            auction.Options.IsActive = true;
             auction.Options.FinishDateTime = DateTime.UtcNow.AddDays(1);
             var updatedAuctionOptions = new UpdateAuctionOptionsDTO(29.99M, null, null, null, null, null, null, null);
 
@@ -265,7 +259,6 @@ namespace AuctionHouseAPI.Tests.Application.Services
             int userId = 1;
             var auction = new Auction { Options = new AuctionOptions(), Item = new AuctionItem() };
             auction.OwnerId = userId;
-            auction.Options.IsActive = false;
             auction.Options.FinishDateTime = DateTime.UtcNow.AddDays(-1);
             var updatedAuctionOptions = new UpdateAuctionOptionsDTO(29.99M, null, null, null, null, null, null, null);
 

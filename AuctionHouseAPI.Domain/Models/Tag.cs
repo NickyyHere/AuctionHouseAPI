@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace AuctionHouseAPI.Domain.Models
+﻿namespace AuctionHouseAPI.Domain.Models
 {
     public class Tag
     {

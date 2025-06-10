@@ -8,7 +8,7 @@ namespace AuctionHouseAPI.Application.CQRS.Validators
         public CreateBidValidator()
         {
             RuleFor(x => x.CreateBidDTO.AuctionId).NotEmpty();
-            RuleFor(x => x.CreateBidDTO.Amount).NotEmpty().GreaterThanOrEqualTo(1);
+            RuleFor(x => x.CreateBidDTO.Amount).GreaterThanOrEqualTo(1);
             RuleFor(x => x.userId).NotEmpty();
         }
     }

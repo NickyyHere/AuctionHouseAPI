@@ -33,9 +33,11 @@ dotnet restore
 ```
 ## Requirements
   PGSQL_CONNECTION_STRING enviorment variable<br>
+  MONGO_CONNECTION_STRING enviorment variable<br>
   Windows:
 ```bash
-set PGSQL_CONNECTION_STRING="Host={HostAddress};Port={PortNumber};Username={Username};Password={Password};Database={DatabaseName};"
+set PGSQL_CONNECTION_STRING=Host={HostAddress};Port={PortNumber};Username={Username};Password={Password};Database={DatabaseName};
+set MONGO_CONNECTION_STRING=mongodb://{HostAddress}:{PortNumber}/{DatabaseName}
 ```
 ## Running the project
 ```bash
